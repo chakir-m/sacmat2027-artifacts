@@ -1,0 +1,4 @@
+all SAT 1440 REALISED 1440 MISSING 0 SPURIOUS 0
+api SAT 864 REALISED 864 MISSING 0 SPURIOUS 0
+all missing by (same_dept,u_div_none,same_div_raw): {}
+api missing by (same_dept,u_div_none,same_div_raw): {}

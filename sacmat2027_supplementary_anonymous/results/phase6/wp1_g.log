@@ -1,0 +1,68 @@
+{
+ "occurrences": 96,
+ "by_sort_and_class": {
+  "Risk": {
+   "SINK": 7,
+   "OBS": 1
+  },
+  "Dept": {
+   "SINK": 2,
+   "OBS": 16
+  },
+  "Div": {
+   "SINK": 2,
+   "OBS": 8
+  },
+  "Act": {
+   "SINK": 7,
+   "OBS": 5
+  },
+  "ActSet": {
+   "SINK": 4,
+   "OBS": 10,
+   "FLOW": 6
+  },
+  "Rank": {
+   "OBS": 2,
+   "SINK": 7
+  },
+  "Id": {
+   "OBS": 19
+  }
+ },
+ "escapes": [
+  {
+   "func": "_evaluate",
+   "line": 190,
+   "callee": "compute_risk_score",
+   "entities": [
+    "subject"
+   ],
+   "allowed": true
+  },
+  {
+   "func": "_evaluate",
+   "line": 146,
+   "callee": "_build_context",
+   "entities": [
+    "subject",
+    "resource",
+    "request"
+   ],
+   "allowed": true
+  },
+  {
+   "func": "_evaluate",
+   "line": 176,
+   "callee": "_obligations_for",
+   "entities": [
+    "resource",
+    "subject"
+   ],
+   "allowed": true
+  }
+ ],
+ "helper_open_sort_reads": [],
+ "closed_value_violations": [],
+ "criterion_G_holds": true
+}

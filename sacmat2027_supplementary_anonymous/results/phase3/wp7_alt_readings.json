@@ -1,0 +1,162 @@
+{
+  "api_reachable_worlds": 53760,
+  "violations_api_reachable": {
+    "M_IMPL(seed prio)": {
+      "R6_risk_denies": 8454,
+      "R4_delegation_suffices": 90
+    },
+    "M_IMPL(README prio)": {
+      "R6_risk_denies": 8454,
+      "R4_delegation_suffices": 90
+    },
+    "C9_FIX": {
+      "R4alt_P5_literal_no_assignment_deny": 90
+    }
+  },
+  "z3": {
+    "M_IMPL(seed prio)|api|R4_delegation_suffices": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.029,
+      "witness": {
+        "role": "analyst",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "True",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "False",
+        "del(a)": "True",
+        "has_asg": "False",
+        "has_del": "True",
+        "a==READ": "True",
+        "risk_high": "False"
+      }
+    },
+    "M_IMPL(seed prio)|api|R4alt_P5_literal_no_assignment_deny": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "M_IMPL(seed prio)|api|R6_risk_denies": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.006,
+      "witness": {
+        "role": "director",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "False",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "False",
+        "del(a)": "False",
+        "has_asg": "False",
+        "has_del": "False",
+        "a==READ": "True",
+        "risk_high": "True"
+      }
+    },
+    "M_IMPL(seed prio)|api|R6alt_risk_denies_only_undecided": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "M_IMPL(seed prio)|api|Pctx_inert": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "M_IMPL(README prio)|api|R4_delegation_suffices": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.004,
+      "witness": {
+        "role": "analyst",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "True",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "False",
+        "del(a)": "True",
+        "has_asg": "False",
+        "has_del": "True",
+        "a==READ": "True",
+        "risk_high": "False"
+      }
+    },
+    "M_IMPL(README prio)|api|R4alt_P5_literal_no_assignment_deny": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "M_IMPL(README prio)|api|R6_risk_denies": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.003,
+      "witness": {
+        "role": "director",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "False",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "False",
+        "del(a)": "True",
+        "has_asg": "False",
+        "has_del": "True",
+        "a==READ": "True",
+        "risk_high": "True"
+      }
+    },
+    "M_IMPL(README prio)|api|R6alt_risk_denies_only_undecided": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "M_IMPL(README prio)|api|Pctx_inert": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "C9_FIX|api|R4_delegation_suffices": {
+      "result": "PROVED",
+      "time_s": 0.002
+    },
+    "C9_FIX|api|R4alt_P5_literal_no_assignment_deny": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.004,
+      "witness": {
+        "role": "analyst",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "True",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "False",
+        "del(a)": "True",
+        "has_asg": "False",
+        "has_del": "True",
+        "a==READ": "True",
+        "risk_high": "False"
+      }
+    },
+    "C9_FIX|api|R6_risk_denies": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "C9_FIX|api|R6alt_risk_denies_only_undecided": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "C9_FIX|api|Pctx_inert": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.003,
+      "witness": {
+        "role": "dm",
+        "same_dept": "True",
+        "same_div": "True",
+        "same_div_raw": "True",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "True",
+        "del(a)": "True",
+        "has_asg": "True",
+        "has_del": "True",
+        "a==READ": "True",
+        "risk_high": "True"
+      }
+    }
+  }
+}

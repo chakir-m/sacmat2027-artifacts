@@ -1,0 +1,111 @@
+{
+ "server": "/home/claude/paper-work/forks/eval-fork-fb7f20d1/hocuspocus/server.mjs",
+ "backend": "/home/claude/paper-work/forks/eval-fork-fb7f20d1/backend",
+ "trials": [
+  {
+   "doc": "960545bf-7e11-46a5-9ff6-462287c685be",
+   "synced": true,
+   "remove_http": 204,
+   "doc_api_read_after_removal": 403,
+   "session_closed": true,
+   "window_s": 1.86,
+   "close_code": 4403,
+   "observed_for_s": 30.0
+  },
+  {
+   "doc": "fb3e4643-98c6-4506-af6e-62424567ad4d",
+   "synced": true,
+   "remove_http": 204,
+   "doc_api_read_after_removal": 403,
+   "session_closed": true,
+   "window_s": 4.79,
+   "close_code": 4403,
+   "observed_for_s": 30.0
+  },
+  {
+   "doc": "f53519a7-b3fa-4593-bda9-500bfa88c87f",
+   "synced": true,
+   "remove_http": 204,
+   "doc_api_read_after_removal": 403,
+   "session_closed": true,
+   "window_s": 4.76,
+   "close_code": 4403,
+   "observed_for_s": 30.0
+  },
+  {
+   "doc": "19772b35-42dc-41a2-8acf-59a7583e5cfe",
+   "synced": true,
+   "remove_http": 204,
+   "doc_api_read_after_removal": 403,
+   "session_closed": true,
+   "window_s": 4.77,
+   "close_code": 4403,
+   "observed_for_s": 30.0
+  },
+  {
+   "doc": "0408950e-6533-43c1-93fa-7cf91c5d9c06",
+   "synced": true,
+   "remove_http": 204,
+   "doc_api_read_after_removal": 403,
+   "session_closed": true,
+   "window_s": 4.76,
+   "close_code": 4403,
+   "observed_for_s": 30.0
+  },
+  {
+   "doc": "32d4e284-c260-4cd6-9321-264f42301d15",
+   "synced": true,
+   "remove_http": 204,
+   "doc_api_read_after_removal": 403,
+   "session_closed": true,
+   "window_s": 4.76,
+   "close_code": 4403,
+   "observed_for_s": 30.0
+  },
+  {
+   "doc": "53803fa9-6f01-4d13-b447-8767d98b3cbf",
+   "synced": true,
+   "remove_http": 204,
+   "doc_api_read_after_removal": 403,
+   "session_closed": true,
+   "window_s": 4.77,
+   "close_code": 4403,
+   "observed_for_s": 30.0
+  },
+  {
+   "doc": "2712bf92-a1a3-4b06-b655-5995fee776ab",
+   "synced": true,
+   "remove_http": 204,
+   "doc_api_read_after_removal": 403,
+   "session_closed": true,
+   "window_s": 4.74,
+   "close_code": 4403,
+   "observed_for_s": 30.0
+  },
+  {
+   "doc": "d0c0deab-a210-4665-9e12-5a880c3f9089",
+   "synced": true,
+   "remove_http": 204,
+   "doc_api_read_after_removal": 403,
+   "session_closed": true,
+   "window_s": 4.71,
+   "close_code": 4403,
+   "observed_for_s": 30.0
+  },
+  {
+   "doc": "5aea9653-c11c-4fed-a71c-9846aa3336f6",
+   "synced": true,
+   "remove_http": 204,
+   "doc_api_read_after_removal": 403,
+   "session_closed": true,
+   "window_s": 4.77,
+   "close_code": 4403,
+   "observed_for_s": 30.0
+  }
+ ],
+ "n": 10,
+ "closed": 10,
+ "window_min_s": 1.86,
+ "window_max_s": 4.79,
+ "reauth_ms": "5000 (server default)"
+}

@@ -1,0 +1,820 @@
+% Build: `pdflatex main` gives the working draft (system named OpenZTAC);
+%        `pdflatex main_anon` (which defines \ANON) gives the double-blind submission.
+\ifdefined\ANON
+  \documentclass[sigconf,review,anonymous]{acmart}
+\else
+  \documentclass[sigconf,review]{acmart}
+\fi
+
+\settopmatter{printacmref=false}
+\setcopyright{none}
+\renewcommand\footnotetextcopyrightpermission[1]{}
+\acmConference[SACMAT '27]{The 32nd ACM Symposium on Access Control Models and Technologies}{July 19--21, 2027}{Durham, UK}
+
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit,backgrounds,arrows.meta,calc,shapes.multipart,shapes.geometric,decorations.pathreplacing}
+\usepackage[ruled,linesnumbered,vlined]{algorithm2e}
+\SetAlFnt{\small}
+\SetAlCapFnt{\small}
+\usepackage{xspace}
+\usepackage{enumitem}
+\usepackage{pifont}
+
+\setlength{\emergencystretch}{2em}
+\newif\ifanon
+\ifdefined\ANON \anontrue \else \anonfalse \fi
+% Name of our system: anonymised in the submission build only.
+\ifanon
+  \newcommand{\sysname}{\textsc{Atrium}\xspace}
+\else
+  \newcommand{\sysname}{\textsc{OpenZTAC}\xspace}
+\fi
+\newcommand{\chain}{\textsc{Chain-9}\xspace}
+\newcommand{\Pc}{P_{\mathrm{class}}}
+\newcommand{\Px}{P_{\mathrm{ctx}}}
+\newcommand{\Po}{P_{\mathrm{own}}}
+\newcommand{\ow}{\mathsf{ow}}
+\newcommand{\Gasg}{G^{\mathrm{asg}}}
+\newcommand{\Gdel}{G^{\mathrm{del}}}
+\newcommand{\sameDept}{\mathsf{sameDept}}
+\newcommand{\sameDiv}{\mathsf{sameDiv}}
+\newcommand{\role}{\mathsf{role}}
+\newcommand{\decide}{\mathsf{decide}}
+\newcommand{\obs}{\mathsf{obs}}
+\newcommand{\allowv}{\mathtt{allow}}
+\newcommand{\denyv}{\mathtt{deny}}
+\newcommand{\emp}{\mathrm{emp}}
+\newcommand{\ev}[1]{\mathsf{#1}}
+\newcommand{\Routes}{\mathcal{R}}
+\newcommand{\ok}{\ding{51}}
+\newcommand{\no}{\ding{55}}
+\newcommand{\RQ}[1]{\textbf{RQ#1}}
+\newcommand{\answer}[2]{\par\smallskip\noindent\fbox{\parbox{\dimexpr\columnwidth-2\fboxsep-2\fboxrule\relax}{%
+\textbf{Answer to RQ#1.} #2}}\par\smallskip}
+% Notes for the authors: shown in the working draft, removed from the submission build.
+\ifanon \newcommand{\TODO}[1]{} \else \newcommand{\TODO}[1]{\textcolor{red}{[#1]}} \fi
+
+\begin{document}
+
+\title[Beyond the Decision Point]{Beyond the Decision Point:\\
+Layered Conformance Checking of a Zero-Trust ABAC System\\ (Extended Version)}
+
+\ifanon
+\author{Anonymous Author(s)}
+\affiliation{\institution{Anonymous Institution}\country{}}
+\else
+\author{\TODO{Author names}}
+\affiliation{\institution{\TODO{Affiliation}}\country{\TODO{Country}}}
+\fi
+
+\begin{abstract}
+We designed, built and deployed \sysname, a zero-trust system for attribute-based access control (ABAC). Its
+decision point applies a chain of nine rules, and the first rule that matches a request decides. We proved
+five properties of this chain and tested the decision point thoroughly. Yet when we examined the running
+system as a whole, on isolated local deployments, several of these guarantees did not hold. This paper explains why and turns the lesson
+into a method. We check a deployment at three levels: the rules (L1), the stored state that the rules read
+(L2), and every path that enforces a decision (L3). We prove that, under assumptions we state in one place,
+the three levels together guarantee that every effect is authorized by a committed state at most $\Delta$ old,
+and that no two of them are enough. At L1, a syntactic condition on the decision code
+and a query to a satisfiability modulo theories (SMT) solver make testing on a finite set of cases complete.
+At L2, a theorem predicts how long a revoked or expired permission keeps working when grants are cached. At
+L3, probes exercise every request path of an inventory generated from the web framework's routing table, and
+check its audit record. In \sysname v1, the decision point matched
+its model on all 368{,}640 test cases and provably keeps departments apart. The system around it did not
+behave as well: the risk rule never took effect, revoked permissions kept working for up to the cache lifetime
+(and a race re-admitted them in 44--53\,\% of our trials), denials were never logged,
+and several request paths skipped the decision point; four of our eighteen findings appeared only once we
+generated the route inventory from the routing table. The repaired \sysname v2 passes all 57 enforcement checks;
+in median latency it is 47\,\% slower on document reads and 32\,\% slower on denied file requests, while for
+decisions the difference stays within the noise of our runs.
+As a preliminary transfer, we also applied parts of the method to OpenFGA (an open implementation of Google's
+Zanzibar model), Cedar's TinyTodo and Backstage RBAC. All three agreed with their documented rules on every case
+we sampled; in each, the state level exposed a documented behaviour by which a change of permission takes
+effect late or not at all, and our theorem predicts OpenFGA's cache window to within 50\,ms.
+\end{abstract}
+
+\ccsdesc[500]{Security and privacy~Access control}
+\ccsdesc[300]{Security and privacy~Logic and verification}
+\ccsdesc[300]{Security and privacy~Software security engineering}
+
+\keywords{attribute-based access control, zero trust, conformance testing, data independence,
+differential testing, SMT, authorization caching, revocation, complete mediation, threat model}
+
+\maketitle
+
+% =====================================================================================
+\section{Introduction}
+% =====================================================================================
+
+Zero Trust Architecture (ZTA) asks a policy decision point (PDP) to evaluate every request against the
+current state of subjects, resources and context \cite{rose2020zta,chandramouli2023sp800207a,kerman2025sp180035}.
+Attribute-based access control (ABAC) is the usual policy model \cite{hu2014sp800162,jin2012abac}. There is a
+long tradition of verifying such policies: change-impact analysis \cite{fisler2005margrave}, encodings of XACML
+and cloud policies for satisfiability modulo theories (SMT) solvers \cite{turkmen2017xacmlsmt,backes2018zelkova},
+and anomaly detection \cite{hu2011anomaly}. Most recently, Cedar's authorizer was proved correct in Lean and
+tested against its production implementation \cite{cutler2024cedar,disselkoen2024vgd}.
+
+All of these results are about a function, $\decide(q)$. Nobody deploys a function. A deployed system reads
+attributes and grants from a database, caches them, enforces decisions at several endpoints, and writes an
+audit trail. A property of $\decide$ becomes a property of the system only if three more things hold: the
+PDP sees the state that the specification talks about; every path to a protected object goes through the PDP,
+which is Saltzer and Schroeder's complete mediation \cite{saltzer1975protection}; and the record of each
+decision survives. Everyone assumes these. Few check them, and almost never together.
+
+We learned this on our own system. We designed and built \sysname, an open-source ZTA/ABAC system with a
+Python backend of about 16.8\,kLOC (FastAPI, PostgreSQL, Redis), a document service with real-time
+collaboration, and a decision point that evaluates a first-applicable chain we call \chain: an administrator rule followed by nine
+policies ($P_1$, $\Pc$, $P_2$--$P_6$, $\Px$, $P_7$). We
+wrote down seven security invariants, proved five properties of the chain on paper, wrote 140 tests that
+cover 95\,\% of the PDP, and deployed it. When we finally checked the running system as a whole, the PDP was
+exactly right, and the system was not.
+
+\paragraph{What we propose.} This paper describes the method we ended up with and what it found, in
+\sysname and elsewhere. We model a deployment by its runs, that is, by the sequences of requests,
+decisions, effects, records and commits it can produce (\S\ref{sec:system}), state a threat model over that system (\S\ref{sec:threat}),
+and define conformance at three levels (\S\ref{sec:levels}). At \textbf{L1}, the decision function must agree
+with its model and satisfy the requirements. At \textbf{L2$_\Delta$}, it must decide on committed state at
+most $\Delta$ old. At \textbf{L3}, every effect on a protected object must be preceded by an allow decision
+for the right action, its obligations must be met, and the decision must be recorded durably. We write the
+policy chain once, as executable code, and interpret it three ways: as Python booleans for differential
+testing, as z3 terms for proofs, and as Cedar policies (Figure~\ref{fig:method}).
+Put simply, each level asks one question about the deployment:
+\begin{itemize}
+\item \textbf{L1, rules:} does the decision code match the rule model, and do the rules satisfy the security
+requirements?
+\item \textbf{L2, state:} does the decision use up-to-date data, or stale data from the cache?
+\item \textbf{L3, enforcement:} does every request path actually ask the decision point, and is every decision
+logged?
+\end{itemize}
+For each level we build an \emph{oracle}, a procedure that decides whether the observed behaviour of the system
+is correct.
+
+\paragraph{Questions.} We ask five questions. \RQ1: Can rule-level conformance be established
+\emph{completely} by bounded checking, and what does it find in \sysname? \RQ2: What goes wrong between stored
+state and decisions, and does our staleness bound predict it? \RQ3: Which enforcement failures escape L1 and
+L2? \RQ4: Do our existing tests, and each level's oracle, catch faults at that level? \RQ5: Do the fixes the
+method suggests work, what do they cost, and how does \sysname, before and after repair, compare with other
+authorization systems: OpenFGA, an open implementation of Google's Zanzibar model, Cedar, and Backstage RBAC?
+We state all five questions here and answer each in its own section: \RQ1 in \S\ref{sec:l1}, \RQ2 in
+\S\ref{sec:l2}, \RQ3 in \S\ref{sec:l3}, \RQ4 in \S\ref{sec:adequacy} and \RQ5 in \S\ref{sec:rq5}.
+
+\paragraph{What is new.} The ingredients have precedents. Cedar proves an authorizer against a model and tests
+the implementation against it \cite{cutler2024cedar,disselkoen2024vgd}; model-based security testing checks
+that an application enforces a policy \cite{mouelhi2008models}; ACtest checks what a configuration change does to
+an application's access decisions \cite{xiang2025actest}; data independence is classical
+\cite{wolper1986,lazic2003semantic}. What we add is, first, a \emph{checked} finite abstraction for ordinary PDP
+code: a syntactic criterion that a tool verifies on the code and a coverage query that an SMT solver answers,
+which together turn a finite differential test of the real decision code into a complete one. Second, a
+layered workflow with contracts for state and enforcement, stated over runs, that compose with the rule level
+into an end-to-end guarantee and can each be tested on a running deployment. Third, evidence from a system we
+built and then repaired in several rounds, each re-checked by the same oracles, that the failures that matter lie where a verified or exhaustively tested PDP
+cannot see them. The data-independence argument itself is classical; our contribution there is to make its
+premise checkable on ordinary decision code, not a new theory. Our aim also differs from that of
+broken-access-control scanners such as BACScan and BACFuzz \cite{liu2025bacscan,dharmaadi2025bacfuzz}, which
+find vulnerabilities without a specification: we check a deployment against stated requirements, and report
+both what holds and under which assumptions.
+
+\paragraph{Contributions.}
+\begin{itemize}
+\item A formal model of \sysname as a labelled transition system, a threat model with seven adversary classes
+derived from it, and a running example that we follow through every level (\S\ref{sec:system},
+\S\ref{sec:threat}).
+\item Definitions of L1, L2$_\Delta$ and L3 conformance over runs, with a composition theorem (the three levels
+together give end-to-end conformance) and an independence result (no two give the third)
+(\S\ref{sec:levels}, \S\ref{sec:discussion}).
+\item Two results that make bounded checking sound rather than merely plausible: a data-independence lemma
+under a syntactic criterion that a tool checks on the decision code, and a completeness theorem whose premise
+an SMT query checks (\S\ref{sec:method}). The coverage check found two holes in the world space we had been
+using.
+\item A tight staleness theorem for TTL-cached grants (\S\ref{sec:method}), whose prediction the measured windows
+match to within 0.63\,s over 100 trials (\S\ref{sec:l2}), and a freshness result for the versioned cache of v2.
+\item An L3 check whose route inventory is generated from the web framework's routing table and swept with
+subjects who must be refused; it found four failures that our hand-built inventory had missed (\S\ref{sec:l3}).
+\item Eighteen findings on \sysname v1, each backed by a proof, an exhaustive count or a reproduction, and
+mutation evidence that the faults that matter most are invisible to rule-level oracles and to our own tests
+(\S\ref{sec:l1}--\S\ref{sec:adequacy}).
+\item \sysname v2, which passes every oracle and keeps all requirements provable at a measured latency cost, an
+exact compilation of first-applicable chains to Cedar, and a comparison of \sysname with OpenFGA, Cedar's
+TinyTodo, Backstage RBAC and, from the literature, Zanzibar (\S\ref{sec:rq5}).
+\end{itemize}
+Every experiment ran on isolated local deployments of frozen versions of \sysname; we make no claim about any
+other installation. This is one deep case study of a system we built, with preliminary transfer to three
+independent systems (\S\ref{sec:compare}). The artifact, with every script, raw result and survivor
+classification, is described in Appendix~\ref{app:artifact}.
+
+% =====================================================================================
+\section{Background and Related Work}
+\label{sec:related}
+% =====================================================================================
+
+\paragraph{ABAC and zero trust.} ABAC decides on subject, object and environment attributes
+\cite{hu2014sp800162,jin2012abac}; XACML and NGAC are its standards \cite{oasis2013xacml,ferraiolo2016sp800178}.
+ZTA adds per-request evaluation by a PDP and enforcement by policy enforcement points (PEPs)
+\cite{rose2020zta,chandramouli2023sp800207a,kerman2025sp180035}. Risk-adaptive models feed a risk estimate
+into the decision \cite{cheng2007fuzzymls,ameer2022bluesky}. Temporal models and usage control
+\cite{bertino2001trbac,park2004ucon} make validity intervals and \emph{ongoing} authorization first-class. The
+second is what breaks at our state level.
+
+\paragraph{Analysing policies and authorizers.} Margrave \cite{fisler2005margrave}, SMT-based XACML analysis
+\cite{turkmen2017xacmlsmt}, Zelkova \cite{backes2018zelkova} and anomaly detection \cite{hu2011anomaly} reason
+about policies. Cedar \cite{cutler2024cedar,disselkoen2024vgd} goes further and proves its authorizer correct,
+then tests the Rust code against the Lean model. That is the closest work to our L1. Its guarantees are,
+quite reasonably, relative to the entities the application passes in; how fresh those entities are, and
+whether every endpoint asks, is left to the integrator. Work on synthesizing policies with LLMs
+\cite{vatsa2025synth,vatsa2026autocedar} also targets the policy itself.
+
+\paragraph{Testing access control.} Policy mutation \cite{martin2007mutation} and model-based security testing
+\cite{mouelhi2008models} test policies, or applications against policies. RoleCast \cite{son2011rolecast} and
+MACE \cite{monshizadeh2014mace} find missing or inconsistent checks without a specification, and ACtest
+\cite{xiang2025actest} tests configuration changes in web applications. The three closest pieces of work differ
+from ours in what they take and what they give. Cedar's verification-guided development takes a formal model of
+the authorizer and its production code, and differential random testing yields confidence that the two agree on
+the entities the application passes in; our L1 takes arbitrary PDP code and a rule model, and yields agreement
+on every world once criterion G and coverage hold, plus proofs of the requirements, but it says nothing about a
+language implementation as Cedar's proofs do. Model-based security testing derives tests of an application from
+a security model and qualifies them by mutating the policy; it treats the application's state as given. ACtest
+runs a trimmed copy of a production system before and after a configuration change, reports the requests whose
+decision flips, and leaves it to a person to say which flips are wanted; it needs no requirements, but it judges
+changes, not a deployment. None of the three addresses the freshness of the state a decision reads, which is our
+L2. Closest to our L3 are scanners for broken access control. BACScan \cite{liu2025bacscan} crawls a running web
+application as several users, links pages that change data to pages that show it, and replays changes as the
+wrong user, judging success by the data the application later shows; BACFuzz \cite{dharmaadi2025bacfuzz} fuzzes
+PHP applications with parameters chosen by a language model and judges success by the SQL statements they
+cause. Both find routes and fixtures automatically and need no specification, which our L3 does not do; in
+return, they report vulnerabilities, while our L3 checks each inventoried route against the decision of a
+specified PDP and checks liveness and the audit record as well. The two are complementary: a scanner's findings
+are candidate routes and fixtures for our inventory. Our L1 oracle builds on differential
+and property-based testing \cite{claessen2000quickcheck,maciver2019hypothesis}. Bounded checking is usually
+justified by the small-scope hypothesis \cite{jackson2012alloy}; we replace the hypothesis with a
+data-independence argument \cite{wolper1986,lazic2003semantic} that we can check.
+
+\paragraph{Authorization state and its freshness.} SAAM and authorization recycling
+\cite{crampton2006saam,wei2008recycling} reuse cached or inferred decisions. Zanzibar \cite{pang2019zanzibar}
+stores relation tuples, evaluates them through namespace configurations with userset rewrites, and avoids
+the ``new enemy'' problem with snapshot reads at the timestamps carried by consistency tokens (zookies).
+OpenFGA \cite{openfga} is an open implementation of that model. We bound staleness for the plain TTL cache that
+most applications actually use, show which code paths break the bound, evaluate a versioned-key fix in
+Zanzibar's spirit, and measure OpenFGA's own check cache against the bound. Table~\ref{tab:related} compares
+what each line of work takes and gives; Table~\ref{tab:compare} in \S\ref{sec:compare} compares the systems.
+
+\begin{table*}[t]
+\caption{What each line of work takes, what it inspects and what it gives, by conformance level (L1 rule, L2
+state, L3 enforcement). ``--'' means the work does not address the column.}
+\label{tab:related}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.3cm}@{\;\;}>{\raggedright\arraybackslash}X@{\;\;}>{\raggedright\arraybackslash}X@{\;\;}>{\raggedright\arraybackslash}X@{\;\;}>{\raggedright\arraybackslash}X@{\;\;}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Work & Takes & Inspects & State freshness (L2) & Paths to objects (L3) & Gives; completeness \\
+\midrule
+Margrave \cite{fisler2005margrave}, XACML-SMT \cite{turkmen2017xacmlsmt}, Zelkova \cite{backes2018zelkova} & policies & the policy, not the code that runs it & -- & -- & properties of the policy; complete for the policy language \\
+Cedar with VGD \cite{cutler2024cedar,disselkoen2024vgd} & a formal model and the production authorizer & the authorizer & entities supplied by the application & -- & proofs about the model; sampled agreement of code and model \\
+Policy mutation \cite{martin2007mutation} & a policy and its tests & the policy & -- & -- & adequacy of the tests \\
+Model-based security testing \cite{mouelhi2008models} & a security model & the application, through generated tests & taken as given & derived from the model & tests qualified by mutation \\
+RoleCast \cite{son2011rolecast}, MACE \cite{monshizadeh2014mace} & application source; no specification & source code, statically & -- & static analysis & candidate missing or inconsistent checks \\
+ACtest \cite{xiang2025actest} & a trimmed production copy and a configuration change & the running application & -- & production requests & decisions that flip, for a person to judge \\
+BACScan \cite{liu2025bacscan}, BACFuzz \cite{dharmaadi2025bacfuzz} & a running application and test accounts; no specification & HTTP responses (BACScan); SQL statements (BACFuzz) & -- & crawling; fuzzing & vulnerabilities \\
+Zanzibar \cite{pang2019zanzibar} & its own design & -- & snapshot reads at token timestamps & clients call \texttt{Check} & a consistency guarantee by design \\
+\textbf{This work} & requirements, a rule model, the PDP code and a running deployment & PDP code (criterion G); the running system & bound $\Delta$ proved and measured & routing-table inventory, manual for non-HTTP paths & proofs and counterexamples; L1 complete under G and coverage; L3 relative to the inventory \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+% =====================================================================================
+\section{\sysname: Design and Formal Model}
+\label{sec:system}
+% =====================================================================================
+
+\paragraph{Architecture.} Figure~\ref{fig:system} shows the parts of \sysname that matter for authorization.
+An administration interface (PAP) manages subjects, objects, grants and the policy chain. The PDP loads
+subject and object attributes from PostgreSQL on every decision and reads assignment and delegation grants
+through a Redis cache keyed by (subject, object), with lifetimes of 120\,s and 60\,s. Three PEP endpoints serve
+files. A document service and a real-time collaboration server have their own entry points. Decisions go to
+an append-intended ledger. We analyse version~1 as frozen at the start of the study. \sysname~v2 is the
+repaired version that we built from the findings and describe in \S\ref{sec:rq5}. So that each result can be
+read in one place, the running example and the result tables and figures of \S\ref{sec:l1}--\S\ref{sec:adequacy}
+show v2 next to v1; the reader can ignore the v2 columns until \S\ref{sec:rq5}.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[
+  font=\scriptsize, node distance=2mm,
+  box/.style={draw, rounded corners=1.5pt, align=center, inner sep=2pt, minimum height=5mm},
+  pep/.style={box, fill=blue!6, text width=19mm},
+  dp/.style={box, fill=green!8, text width=17mm},
+  st/.style={box, fill=orange!10, text width=17mm},
+  bad/.style={box, fill=red!8, text width=17mm},
+  arr/.style={-{Stealth[length=1.5mm]}, semithick}]
+  \node[pep] (a1) {\texttt{/access/decide}};
+  \node[pep, below=of a1] (a2) {\texttt{/pep/access}\\(+owner bypass)};
+  \node[pep, below=of a2] (a3) {\texttt{/pep/preview}, \texttt{/download}};
+  \node[pep, below=of a3] (a4) {\texttt{/documents/\{id\}}};
+  \node[pep, below=of a4] (a5) {collab.\ WebSocket};
+  \node[dp, right=9mm of a2] (pdp) {\chain PDP};
+  \node[box, fill=gray!10, text width=17mm, above=3mm of pdp] (pap) {PAP\\(policies, grants)};
+  \node[bad, right=9mm of a4] (dr) {document rules};
+  \node[bad, right=9mm of a5] (cr) {connect-time check};
+  \node[st, right=7mm of pdp, yshift=4mm] (redis) {Redis grant cache\\$\tau_{\mathrm{asg}}{=}120$\,s, $\tau_{\mathrm{del}}{=}60$\,s};
+  \node[st, below=4mm of redis] (pg) {PostgreSQL\\subjects, objects, grants};
+  \node[st, below=4mm of pg] (log) {decision ledger};
+  \draw[arr] (a1) -- (pdp); \draw[arr] (a2) -- (pdp); \draw[arr] (a3.east) -- (pdp.south west);
+  \draw[arr] (a4) -- (dr); \draw[arr] (a5) -- (cr);
+  \draw[arr] (pdp) -- (redis); \draw[arr] (redis) -- node[right]{miss} (pg); \draw[arr] (pdp) -- (pg);
+  \draw[arr] (pap.east) -| (pg.north west);
+  \draw[arr, dashed] (pdp.south east) -- (log);
+  \draw[arr] (dr) -- (pg); \draw[arr] (cr.east) -- (pg.south west);
+  \begin{scope}[on background layer]
+    \node[draw=gray, dashed, inner sep=2pt, fit=(pdp)] (L1) {};
+    \node[draw=gray, dashed, inner sep=3pt, fit=(redis)(pg)] (L2) {};
+    \node[draw=gray, dashed, inner sep=3pt, fit=(a1)(a5)(dr)(cr)(log)] (L3) {};
+  \end{scope}
+  \node[anchor=south west, gray] at (L1.south east) {L1};
+  \node[anchor=south, gray] at (L2.north) {L2};
+  \node[anchor=north east, gray] at (L3.south east) {L3};
+\end{tikzpicture}
+\caption{\sysname~v1: request paths, decision procedures (green: the \chain PDP; red: hand-written rules) and
+state. The document API and the collaboration channel never reach the PDP, and the file endpoints skip it for
+object owners.}
+\label{fig:system}
+\end{figure}
+
+\paragraph{Notation.} $\mathbb{T}$ is the set of time instants (non-negative reals, in seconds), $\mathbb{B}=\{\mathit{true},\mathit{false}\}$
+the Booleans, $\mathbb{N}$ the natural numbers, and $2^X$ the set of all subsets of a set $X$. $\bot$ marks an
+undefined value and is used for nothing else. $[\varphi]$ is 1 if the condition $\varphi$ holds and 0 otherwise.
+
+\paragraph{Entities and state.} Let $U$, $O$, $A$, $D$ and $V$ be the sets of subjects, objects, actions,
+departments and divisions, with $\{\mathit{read},\mathit{write},\mathit{download},\mathit{delete}\}\subseteq A$,
+and let $\mathit{IP}$ be the set of network addresses. A delegation request has a status in
+\[
+\mathit{St}=\{\mathit{pending},\mathit{approved},\mathit{rejected},\mathit{expired},\mathit{revoked}\}.
+\]
+Clearances and sensitivities are totally ordered,
+$C=\{\mathit{normal}\prec\mathit{elevated}\prec\mathit{delegated}\}$ and
+$S=\{\mathit{public}\prec\mathit{internal}\prec\mathit{sensitive}\prec\mathit{top\_secret}\}$, and are compared
+through the ranks $\kappa_C:C\to\{1,2,3\}$ and $\kappa_S:S\to\{0,1,2,3\}$ of the implementation.
+
+\begin{definition}[State]\label{def:state}
+A state $\sigma\in\Sigma$ consists of the attribute functions
+$\role:U\to\{\mathrm{adm},\mathrm{dir},\mathrm{dm},\emp,\mathrm{cust}\}$, $\mathsf{dept}:U\cup O\to D$,
+$\mathsf{div}:U\cup O\to V\cup\{\bot\}$, $\mathsf{clr}:U\to C$, $\mathsf{sens}:O\to S$, $\mathsf{own}:O\to U$, the
+risk inputs $\mathsf{fl}:U\to\mathbb{N}$ (failed logins) and $\mathsf{ip}:U\to\mathit{IP}\cup\{\bot\}$ (last known
+address), and two grant relations: assignments $\mathit{Asg}\subseteq U\times O\times 2^A\times\mathbb{T}\times
+(\mathbb{T}\cup\{\infty\})\times\mathbb{B}$, whose elements $(u,o,B,t_f,t_u,b)$ give the granted action
+set $B\subseteq A$, the validity interval $[t_f,t_u)$ and an active flag $b$; and
+delegations $\mathit{Del}\subseteq U\times O\times 2^A\times\mathit{St}\times\mathbb{T}$, whose elements
+$(u,o,B,s,t_e)$ give the action set, the status and the expiry $t_e$. It further contains the parts that only
+procedures other than the PDP read: the policy store $\mathit{Pol}$, which records for each rule whether the PAP
+shows it as active; the document workflow, a status
+$\mathsf{wf}:O_{\mathrm{doc}}\to\{\mathit{draft},\mathit{review},\mathit{pending},\mathit{approved},
+\mathit{published},\mathit{archived}\}$ and collaborators $\mathit{Col}\subseteq U\times O_{\mathrm{doc}}$ for the
+objects $O_{\mathrm{doc}}\subseteq O$ that are documents; the open collaboration sessions
+$\mathit{Ses}\subseteq U\times O_{\mathrm{doc}}$; and the ledger $\mathit{Led}$, a sequence of decision records.
+\end{definition}
+
+The roles are administrator, director, division manager, employee, and $\mathrm{cust}$ for any custom role
+that an administrator created. Grants become sets of actions at time $t$:
+\begin{align*}
+\Gasg_t(u,o) &= \textstyle\bigcup\{B \mid (u,o,B,t_f,t_u,\mathit{true})\in\mathit{Asg},\ t_f\le t<t_u\},\\
+\Gdel_t(u,o) &= \textstyle\bigcup\{B \mid (u,o,B,\mathit{approved},t_e)\in\mathit{Del},\ t<t_e\}.
+\end{align*}
+The delegation workflow always sets $B=\{\mathit{read}\}$. A request is $q=(u,o,a,c)\in Q=U\times O\times A\times
+\mathit{Ctx}$, where the context $c\in\mathit{Ctx}$ carries the hour of day $h(c)$ and the source address
+$\mathit{ip}(c)\in\mathit{IP}$. The risk score is
+\begin{align*}
+\rho(u,c)=\min\bigl(100,\;&30\,[h(c)\notin[7,19)]+40\,[\mathsf{fl}(u)\ge5]\\
+&+15\,[2\le\mathsf{fl}(u)\le4]+25\,[\bot\neq\mathsf{ip}(u)\neq\mathit{ip}(c)]\bigr),
+\end{align*}
+and the threshold is $\theta=70$. We write $\sameDept(u,o)$ for
+$\mathsf{dept}(u)=\mathsf{dept}(o)$, $\sameDiv(u,o)$ for $\mathsf{div}(u)\neq\bot\wedge\mathsf{div}(u)=\mathsf{div}(o)$,
+and $\sameDiv^\circ$ for plain equality of divisions, under which $\bot=\bot$.
+
+\begin{definition}[Rule chain]\label{def:chain}
+A chain is a sequence
+\[
+\Pi=\langle(r_1,e_1,\gamma_1),\dots,(r_n,e_n,\gamma_n)\rangle
+\]
+of rule names $r_i$, effects $e_i\in\{\allowv,\denyv\}$ and guards $\gamma_i:\Sigma\times\mathbb{T}\times Q\to\mathbb{B}$,
+with $\gamma_n\equiv\mathit{true}$ so that some rule always applies.
+Its first-applicable semantics is
+\[
+\decide^\Pi_{\sigma,t}(q)=\bigl(e_k,r_k\bigr)\quad\text{where}\quad k=\min\{i\mid\gamma_i(\sigma,t,q)\}.
+\]
+\end{definition}
+
+\chain is the chain of Table~\ref{tab:chain}. The administrator rule has no documented priority; it is
+implemented as a bypass before the chain, which is the same thing as a first rule.
+
+\begin{table}[t]
+\caption{\chain as implemented in v1, first-applicable from top to bottom. $\pi$ is the documented priority.}
+\label{tab:chain}
+\small
+\begin{tabular}{@{}l@{\;}r@{\;}l@{\;}l@{}}
+\toprule
+Rule & $\pi$ & Eff. & Guard (for $q=(u,o,a,c)$ at time $t$) \\
+\midrule
+Admin & -- & allow & $\role(u)=\mathrm{adm}$ \\
+$P_1$ & 10 & deny & $\neg\sameDept\wedge\Gdel_t(u,o)=\emptyset$ \\
+$\Pc$ & 15 & deny & $\kappa_S(\mathsf{sens}(o))>0\wedge\kappa_C(\mathsf{clr}(u))<\kappa_S(\mathsf{sens}(o))$ \\
+ & & & $\;\wedge\neg(\mathrm{dir}\wedge\sameDept)\wedge\neg(\mathrm{dm}\wedge\sameDept\wedge\sameDiv^\circ)$ \\
+$P_2$ & 20 & allow & $\role(u)=\mathrm{dir}\wedge\sameDept$ \\
+$P_3$ & 30 & allow & $\role(u)=\mathrm{dm}\wedge\sameDept\wedge\sameDiv^\circ$ \\
+$P_4$ & 40 & allow & $\role(u)\in\{\emp,\mathrm{dm}\}\wedge a\in\Gasg_t(u,o)$ \\
+$P_5$ & 45 & deny & $\role(u)=\emp\wedge\Gasg_t(u,o)=\emptyset$ \\
+$P_6$ & 50 & allow & $a\in\Gdel_t(u,o)$ \\
+$\Px$ & 60 & deny & $\rho(u,c)\ge\theta$ \\
+$P_7$ & 99 & deny & $\mathit{true}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Routes and runs.} The PDP is one of several components that decide. We therefore model the
+whole deployment as a labelled transition system: a system state is the committed state together with the
+requests in progress, and each transition is labelled by one event. We only need the sequences of labels,
+which we call runs. Figure~\ref{fig:run} shows a run and what each conformance level of \S\ref{sec:levels}
+will constrain in it.
+
+\begin{definition}[Routes]\label{def:routes}
+A route $r\in\Routes$ is an externally reachable operation, given by a decision procedure
+$D_r:\Sigma\times\mathbb{T}\times Q\to\{\allowv,\denyv\}$; an action map $\alpha_r:A\cup\{\bot\}\to A$ that gives
+the action the procedure evaluates, from the route and possibly from an action $a_c$ sent by the client ($\bot$
+if none); a set of obligations $\mathit{Ob}_r$ (such as multi-factor authentication); and an effect: returning
+content of $o$ or changing $\sigma$.
+\end{definition}
+
+\begin{definition}[Runs]\label{def:runs}
+A run is a finite sequence of timestamped events of six kinds, each tagged with the identifier $k$ of the request
+it belongs to: $\ev{req}_k(r,u,o,a_c,c)$, a client request on route $r$ by an authenticated principal $u$;
+$\ev{dec}_k(u,o,a,d)$, a decision $d$ by some decision procedure;
+$\ev{eff}_k(r,u,o,a)$, an effect (content returned, or state changed) on behalf of $u$;
+$\ev{rec}(e)$, the durable commit of a record of decision event $e$;
+$\ev{com}_k(\Delta\sigma)$, the commit of a state change made by request $k$; and
+$\ev{resp}_k$, the response that ends request $k$. Expiry needs no event: it is a function of time. The
+committed state $\sigma_t$ is the result of applying, in order, every $\ev{com}$ event with timestamp at most $t$
+to an initial state $\sigma_0$. A run is \emph{complete} if every request in it has a response. A run is
+\emph{well-formed} if (W1) each request identifier $k$ has exactly one $\ev{req}_k$, which precedes every other
+event tagged $k$, and at most one $\ev{resp}_k$, which follows every $\ev{dec}_k$, $\ev{eff}_k$ and $\ev{com}_k$;
+(W2) every $\ev{com}_k$ that changes state is preceded, in request $k$, by an $\ev{eff}_k$ for that change, so a
+state change, including a change of grants, is an effect that takes hold at its commit; and (W3) every $\ev{rec}(e)$ follows the decision event $e$ it
+records. We consider well-formed runs only; the event logs of a web server with one transaction per request,
+such as \sysname, have this shape.
+\end{definition}
+
+In v1, $D_r$ is the \chain PDP for the decision API and for non-owners on the file endpoints. For owners it
+is a constant $\allowv$; for the document API it is a set of hand-written workflow rules; and for the
+collaboration channel it is a connect-time check. Figure~\ref{fig:system} draws these four procedures.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[font=\scriptsize, >={Stealth[length=1.4mm]}, x=0.86cm,
+  ev/.style={circle, draw, inner sep=1.4pt},
+  br/.style={decorate, decoration={brace, amplitude=3pt, mirror}, semithick}]
+  \node[anchor=east, align=right] at (0,1.1) {admin};
+  \node[anchor=east, align=right] at (0,0) {request\\of $u$};
+  \draw[gray!60] (0,1.1) -- (7.7,1.1);
+  \draw[gray!60] (0,0) -- (7.7,0);
+  \node[ev, fill=orange!50] (c1) at (0.7,1.1) {}; \node[above=1pt] at (c1) {$\ev{com}(\Delta\sigma_1)$};
+  \node[ev, fill=orange!50] (c2) at (4.9,1.1) {}; \node[above=1pt] at (c2) {$\ev{com}(\Delta\sigma_2)$};
+  \node[ev, fill=blue!40] (rq) at (1.2,0) {}; \node[below=1pt] at (rq) {$\ev{req}(r,u,o,a_c,c)$};
+  \node[ev, fill=green!50] (dc) at (3.3,0) {}; \node[below=1pt] at (dc) {$\ev{dec}(u,o,a,d)$};
+  \node[ev, fill=red!50] (ef) at (5.5,0) {}; \node[below=1pt] at (ef) {$\ev{eff}(r,u,o,a)$};
+  \node[ev, fill=gray!50] (rc) at (7.3,0) {}; \node[below=1pt] at (rc) {$\ev{rec}(e)$};
+  \draw[->, dashed, green!40!black] (dc) -- (2.3,1.03);
+  \node[font=\tiny, green!40!black, anchor=east] at (2.62,0.55) {reads $\sigma_{t'}$};
+  \node[font=\tiny, green!40!black, align=left, anchor=west] at (3.2,0.55) {L1: $d=\mathcal{M}(\sigma_{t'},t',q)$\\L2$_\Delta$: $t'\ge t-\Delta$};
+  \draw[br] (3.3,-0.42) -- node[below=3pt, font=\tiny]{L3: an allow for $\alpha_r$ and its obligations come first} (5.5,-0.42);
+  \draw[br] (3.3,-0.95) -- node[below=3pt, font=\tiny]{L3: the decision is recorded, whatever the outcome} (7.3,-0.95);
+  \draw[->, gray] (0,-1.55) -- (7.8,-1.55) node[right]{time};
+\end{tikzpicture}
+\caption{A run: one request (lower line) interleaved with administrative commits (upper line). The decision
+at time $t$ reads the committed state $\sigma_{t'}$. Each level of \S\ref{sec:levels} constrains a different part
+of the run: L1 the value of the decision, L2$_\Delta$ how old the state it reads may be, and L3 what must
+precede the effect and follow the decision.}
+\label{fig:run}
+\end{figure}
+
+\subsection{Running Example}
+\label{sec:example}
+
+Figure~\ref{fig:example} shows a small organisation that we use throughout. Department \emph{Finance} has the
+divisions \emph{Accounting} and \emph{Audit}; department \emph{Legal} has \emph{Compliance}. Ana is an
+employee in Accounting with \emph{normal} clearance, Dan manages Audit, and Lea directs Legal. Object $r$ is
+an \emph{internal} Accounting report and $o$ an \emph{internal} Legal contract.
+\begin{itemize}
+\item[(a)] Ana is assigned $\{\mathit{read}\}$ on $r$ and reads it. $P_4$ allows, in v1 and in v2.
+\item[(b$_1$)] Dan asks to write $o$. $P_1$ denies, since he is in another department and holds no delegation.
+\item[(b$_2$)] Lea now assigns Dan $\{\mathit{read},\mathit{write}\}$ on $o$ and approves his request for a
+read-only delegation. In v1 the write passes $P_1$, because a delegation now exists, then $\Pc$, $P_2$ and
+$P_3$, and is allowed by $P_4$; \S\ref{sec:l1} shows that this happens in general. In v2, $P_4$ also requires $\sameDept$, the
+delegation does not contain \emph{write}, and $P_7$ denies.
+\item[(c$_1$)] Ana, unassigned, requests $r$ at 02:00 after five failed logins, so
+$\rho=30+40=70\ge\theta$. In v1, $P_5$ denies.
+\item[(c$_2$)] Had she been assigned, v1 would have allowed her through $P_4$, and the risk rule would never
+have been consulted; \S\ref{sec:l1} proves that this is always so. In v2, $\Px$ is evaluated first and denies both (c$_1$) and
+(c$_2$).
+\end{itemize}
+The v2 column previews the repaired chain $\mathcal{F}$ of \S\ref{sec:rq5}. We computed the traces in
+Figure~\ref{fig:example} by evaluating both chains with the reference semantics described in \S\ref{sec:method};
+\S\ref{sec:l1} shows that this semantics agrees with the PDP code on every world.
+
+\begin{figure*}[t]
+\centering
+\begin{minipage}[c]{0.43\textwidth}
+\centering
+\begin{tikzpicture}[font=\scriptsize, node distance=3mm,
+  dept/.style={draw, rounded corners=2pt, fill=blue!8, minimum width=15mm, align=center, inner sep=2pt},
+  div/.style={draw, rounded corners=2pt, fill=gray!10, minimum width=15mm, align=center, inner sep=2pt},
+  subj/.style={draw, circle, fill=yellow!20, inner sep=0.5pt, minimum size=8mm, align=center},
+  obj/.style={draw, fill=orange!12, align=center, inner sep=2pt},
+  arr/.style={-{Stealth[length=1.4mm]}, semithick}]
+  \node[dept] (fin) at (0,0) {Finance};
+  \node[dept] (leg) at (4.6,0) {Legal};
+  \node[div] (acc) at (-0.9,-1.0) {Accounting};
+  \node[div] (aud) at (1.0,-1.0) {Audit};
+  \node[div] (com) at (4.6,-1.0) {Compliance};
+  \draw (fin) -- (acc); \draw (fin) -- (aud); \draw (leg) -- (com);
+  \node[subj] (ana) at (-1.4,-2.3) {Ana\\$\emp$};
+  \node[subj] (dan) at (1.0,-2.3) {Dan\\dm};
+  \node[subj] (lea) at (4.0,-2.3) {Lea\\dir};
+  \node[obj] (r) at (-0.2,-3.6) {$r$: report\\internal};
+  \node[obj] (o) at (3.0,-3.6) {$o$: contract\\internal};
+  \draw[gray] (acc) -- (ana); \draw[gray] (aud) -- (dan); \draw[gray] (com) -- (lea);
+  \draw[gray] (acc) -- (r); \draw[gray] (com) -- (o);
+  \draw[arr, teal] (ana) -- node[left, pos=0.4]{asg \{read\} (a)} (r);
+  \draw[arr, purple] (dan) -- node[above, sloped, pos=0.5]{asg \{read, write\}} (o);
+  \draw[arr, purple, dashed] (dan.south east) to[bend right=25] node[below, sloped, pos=0.55]{del \{read\}} (o.west);
+  \draw[arr, gray, dotted] (lea) -- node[right, pos=0.3]{grants (b$_2$)} (o);
+  \node[align=left, anchor=north west, text width=66mm] at (-1.9,-4.3)
+    {Ana: \emph{normal} clearance. (c): 02:00, five failed logins, $\rho=70$.};
+\end{tikzpicture}
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.55\textwidth}
+\centering\scriptsize
+\input{figs/runex_trace.tex}
+\end{minipage}
+\caption{Running example. Left: organisation, subjects (role), objects (sensitivity) and grants. Right: rule-by-rule
+evaluation of each case in v1 (\chain) and v2 (the repaired chain $\mathcal{F}$); $\cdot$ marks a guard that is
+false, the coloured cell the first applicable rule, and blank cells rules that are never reached. Cases:
+(a) Ana reads $r$; (b$_1$) Dan writes $o$; (b$_2$) the same after Lea's grants; (c$_1$) Ana, unassigned, reads $r$
+under high risk; (c$_2$) the same with an assignment.}
+\label{fig:example}
+\end{figure*}
+
+\paragraph{Our design specification.} Before this study we had formalized the chain in a design document,
+with three differences from the code that define $\mathcal{S}_{\mathrm{doc}}$: (D1) $P_4$ requires
+$a=\mathit{read}\wedge\Gasg_t\neq\emptyset$; (D2) $P_3$ and $\Pc$ use $\sameDiv$; (D3) clearance is typed as a
+sensitivity, which we resolve with the implementation's ranks. The document proves five properties, among them
+an employee least-privilege theorem (LP in Table~\ref{tab:req}).
+
+\paragraph{Requirements.} Table~\ref{tab:req} lists eight requirements, each a predicate $\phi(\sigma,t,q,d)$
+over a state, a request and a decision. Since we audit our own system, a reader may reasonably worry that we
+chose requirements it fails. To guard against that, we took every requirement word for word from text we had
+written before the study: the ``hard invariants'' in our developer guide, the policy descriptions the PAP
+displays, and the design document. Appendix~\ref{app:prov} quotes each source. Our own documents disagree in
+four places, and as the system's designers we resolved each disagreement ourselves; no separate policy owner
+exists for \sysname. We give the reason for each choice and, where it matters, the verdicts under the other
+reading. (C1) The invariant ``[employee] access $\leftrightarrow$ assigned or delegated'' gives R4, but $P_5$'s
+description denies every unassigned employee. (C2) $\Px$'s description says it ``denies access when the
+computed risk score \ldots{} meets or exceeds the configured threshold'' (R6), but the design document places it
+after every allow rule. (C3) The developer guide gives the order in which access is decided as ``Admin $\to$
+Owner $\to$ Cross-dept+no-delegation $\to$ \ldots'', so an owner may open her own object, yet the invariant on
+employee access and $\Pc$'s description name no owner. We follow the statements we had labelled as invariants,
+and \S\ref{sec:l1} reports the other readings of C1 and C2. For C3 we keep both statements and read the owner
+rule as a narrow exception: an owner may read and download her object, which is what ``opening'' it means,
+and only inside her department, because the isolation invariant (R1) has no exception at all. (C4) The
+developer guide gives $P_4$ as ``\ldots{} $\wedge$ action=read $\Rightarrow$ allow'' and describes employees as
+``read-only on assigned resources within their division'', and the design document says that ``assignments grant read access only,
+never write''; $P_4$'s description in the PAP grants access ``only for actions included in the assignment''.
+Two documents, one of them the guide, against one: we read assignments as granting read only, which makes the
+design document's least-privilege theorem (LP) a requirement, with the owner exception of C3.
+
+\begin{table}[t]
+\caption{Requirements, for $\role(u)\neq\mathrm{adm}$, and the documents they come from, all written before the
+study (G: developer guide; S: policy descriptions shown by the PAP; M: design document). Appendix~\ref{app:prov}
+quotes each source; \S\ref{sec:l1} gives the verdicts. $\ow$ is the owner exception of C3. LP comes from the
+design document's theorem, which has no owner exception; with C4 it is a requirement.}
+\label{tab:req}
+\small
+\begin{tabularx}{\columnwidth}{@{}l@{\;}>{\raggedright\arraybackslash}X@{\;}l@{}}
+\toprule
+ & Requirement & Source \\
+\midrule
+R1 & $\neg\sameDept\wedge\Gdel_t=\emptyset\Rightarrow\denyv$ (isolation) & G, S \\
+R2 & $\mathsf{cls}(u,o)\wedge\neg\ow\Rightarrow\denyv$ (classification) & S, G \\
+R3 & $\emp\wedge\allowv\Rightarrow a\in\Gasg_t\cup\Gdel_t\vee\ow$ (need-to-know) & G, S \\
+R4 & $\emp\wedge a\in\Gdel_t\wedge\rho<\theta\wedge\neg\mathsf{cls}\Rightarrow\allowv$ (delegation suffices) & G \\
+R5 & $\neg\sameDept\wedge\allowv\Rightarrow a\in\Gdel_t$ (cross-dept.\ only via delegation) & G \\
+R6 & $\rho\ge\theta\Rightarrow\denyv$ (risk) & S \\
+R7 & $\allowv\Rightarrow(\mathrm{dir}\wedge\sameDept)\vee(\mathrm{dm}\wedge\sameDept\wedge\sameDiv)\vee((\emp\vee\mathrm{dm})\wedge a\in\Gasg_t)\vee a\in\Gdel_t\vee\ow$ (every allow within an allow rule's scope) & S, G \\
+\midrule
+LP & $\emp\wedge\sameDept\wedge\Gdel_t=\emptyset\wedge\allowv\Rightarrow(a=\mathit{read}\wedge\Gasg_t\neq\emptyset)\vee\ow$ (employee least privilege) & M, G \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Here $\mathsf{cls}(u,o)$ is $\Pc$'s guard with $\sameDiv$ in place of $\sameDiv^\circ$, and
+\[
+\ow(u,o,a)\equiv\mathsf{own}(o)=u\wedge\sameDept(u,o)\wedge a\in\{\mathit{read},\mathit{download}\}
+\]
+is the owner exception of C3. We write $R$ for the set $\{\mathrm{R1},\dots,\mathrm{R7},\mathrm{LP}\}$, and $\mathcal{M}$ for
+\chain read as a reference model. The v1 PDP never reads $\mathsf{own}$ (its owner rule sits outside it,
+\S\ref{sec:system}), so the exception changes none of its verdicts; we checked this by repeating every L1 run.
+
+% =====================================================================================
+\section{Threat Model}
+\label{sec:threat}
+% =====================================================================================
+
+A zero-trust system is supposed to hold up against its own users. We therefore model an insider, and we
+state precisely what the adversary can do and what counts as a successful attack, because the three
+conformance levels are defined against exactly these goals.
+
+\paragraph{Assets.} The protected assets are (i) the content of objects, including documents in every
+workflow state; (ii) the grant relations $\mathit{Asg}$ and $\mathit{Del}$, since whoever can change them can
+change future decisions; and (iii) the decision ledger, which an investigator needs in order to reconstruct who
+was allowed and who was refused.
+
+\paragraph{Trusted base.} We trust the administrators (role $\mathrm{adm}$) and the PAP they use, the database,
+the cache, the deployed server code and its configuration, and the transport (TLS). Trusting the code means
+we assume the server executes what is in the repository; it does not mean we assume the code is correct,
+which is what the three levels test. A compromised administrator or database can grant anything, and no
+check on the decision logic can detect that.
+
+\begin{definition}[Adversary]\label{def:adv}
+The adversary $\mathcal{A}$ controls a set $U_{\mathcal{A}}\subseteq U$ of principals with
+$\role(u)\neq\mathrm{adm}$, and holds valid credentials (tokens and sessions) for them. $\mathcal{A}$ has four
+capabilities.
+\begin{description}
+\item[Cap1, requests.] For any $r\in\Routes$, $u\in U_{\mathcal{A}}$, $o\in O$ and $a_c\in A\cup\{\bot\}$,
+$\mathcal{A}$ can emit $\ev{req}(r,u,o,a_c,c)$, choosing every field of $c$ that the client controls (body,
+headers, query parameters). Server-derived context (time, failed-login count) is not under its control.
+\item[Cap2, scheduling.] $\mathcal{A}$ chooses when its requests are sent, including concurrently with any other
+principal's requests and transactions, such as an administrator's revocation. It does not control the server's
+scheduler.
+\item[Cap3, persistence.] Credentials and open sessions issued to $u\in U_{\mathcal{A}}$ stay with $\mathcal{A}$
+until they expire. Revoking a grant does not revoke them.
+\item[Cap4, workflow.] $\mathcal{A}$ can use every legitimate workflow open to $u$: request delegations, create
+and own objects, edit drafts, accept collaboration invitations. Changes that only administrators make, such as
+moving $u$ to another department, are not under its control, but it benefits from them.
+\end{description}
+\end{definition}
+
+\begin{definition}[Attack goals]\label{def:goals}
+Let $\Delta^\ast\ge0$ be the staleness that the operator tolerates. A run is an \emph{attack} if it contains
+one of the following.
+\begin{description}
+\item[G1, unjustified effect.] An event $\ev{eff}(r,u,o,a)$ at $t$ with $u\in U_{\mathcal{A}}$ such that
+$\mathcal{M}$ denies $(u,o,a,c)$ in $\sigma_{t'}$ for every $t'\in[t-\Delta^\ast,t]$.
+\item[G2, requirement violation.] An $\allowv$ for a request $q$ of $u\in U_{\mathcal{A}}$ at $t$ and some
+$\phi\in R$ with $\neg\phi(\sigma_{t'},t',q,\allowv)$ for every $t'\in[t-\Delta^\ast,t]$.
+\item[G3, unrecorded decision.] A decision event $e$ of request $k$ of some $u\in U_{\mathcal{A}}$ such that
+$\ev{resp}_k$ occurs and is not preceded by $\ev{rec}(e)$.
+\item[G4, lingering access.] A G1 effect whose only justification in $\mathcal{M}$ was a grant that ended (by
+revocation or expiry) before $t-\Delta^\ast$.
+\item[G5, unauthorised administration.] A $\ev{com}$ that changes $\mathit{Asg}$ or $\mathit{Del}$ on behalf
+of $u\in U_{\mathcal{A}}$ when the administrative policy $\Pi_{\mathrm{adm}}$ (approver, owner, the object's
+director, or an administrator) does not authorise $u$.
+\end{description}
+\end{definition}
+
+G1 and G2 are \emph{historical}: a request is attacked only if no committed state of the last $\Delta^\ast$
+justifies it. With caching, no $\Delta^\ast>0$ can promise more, since a grant may end between the state a
+decision reads and the decision itself; a current-state guarantee needs synchronous reads. G2 differs from G1
+because the model itself may allow the request, and the fault lies in the model. G2 concerns allows only;
+R4, which demands an allow, is checked at L1 but is a matter of availability, not an attack goal. G3 matters
+because a silently refused prober leaves nothing for an investigator to find.
+
+\paragraph{Out of scope.} Compromise of the trusted base; injection and cross-site attacks on the web
+front end; denial of service; side channels; and social engineering. The collaboration server's protocol is in
+scope only through its authorization check.
+
+\paragraph{Adversary classes.} Table~\ref{tab:adv} groups the attacks open to $\mathcal{A}$ into seven classes,
+according to what the adversary exploits. Each class uses a subset of Cap1--Cap4, reaches one of G1--G5, and has a
+\emph{primary} level, the one whose oracle observes it on its own; attacks can combine classes, as a lingering
+grant used through a bypass does (Figure~\ref{fig:threat}). We arrived at these classes while analysing v1; the evaluation (\S\ref{sec:eval}) gives a
+concrete instance of each, and Table~\ref{tab:findings} at the end of \S\ref{sec:l3} maps every finding to its
+class. Figure~\ref{fig:threat} shows where each class enters the system. The mapping already contains our main point:
+only A1 is visible to an oracle that tests the decision function.
+
+\begin{table}[t]
+\caption{Adversary classes, with the capabilities they use, the goal they reach, and their primary level, whose
+oracle observes them on its own.}
+\label{tab:adv}
+\small
+\begin{tabularx}{\columnwidth}{@{}l@{\;}X@{\;}l@{\;}l@{\;}l@{}}
+\toprule
+ & Class & Cap. & Goal & Lvl \\
+\midrule
+A1 & over-privileged insider: the chain itself allows too much & Cap1, Cap4 & G2 & L1 \\
+A2 & lingering grantee: keeps using a revoked or expired grant & Cap1, Cap3 & G4 & L2 \\
+A3 & racer: decides concurrently with a revocation & Cap2 & G4 & L2 \\
+A4 & path shopper: picks a route or action the PDP does not see & Cap1 & G1 & L3 \\
+A5 & owner and mover: uses ownership, also after leaving the department & Cap1, Cap4 & G1 & L3 \\
+A6 & silent prober: probes objects, denials leave no record & Cap1 & G3 & L3 \\
+A7 & unauthorised revoker: removes other people's grants & Cap1 & G5 & L3 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[font=\scriptsize, node distance=2mm,
+  box/.style={draw, rounded corners=1.5pt, align=center, inner sep=1.5pt, minimum height=4.6mm},
+  rt/.style={box, fill=blue!6, text width=18mm},
+  tb/.style={box, fill=green!8, text width=15mm},
+  adv/.style={draw, fill=red!10, rounded corners=2pt, align=center, text width=10mm, minimum height=26mm},
+  att/.style={-{Stealth[length=1.4mm]}, red!70!black, semithick},
+  lv/.style={font=\tiny\bfseries, fill=white, inner sep=0.6pt}]
+  \node[adv] (A) at (0,0) {$\mathcal{A}$\\$U_{\mathcal{A}}$\\(Cap1--Cap4)};
+  \node[rt] (r1) at (2.4,1.45) {decision API};
+  \node[rt, below=of r1] (r2) {file endpoints};
+  \node[rt, below=of r2] (r3) {document API};
+  \node[rt, below=of r3] (r4) {collab.\ channel};
+  \node[rt, below=of r4] (r5) {grant routes};
+  \node[tb] (pdp) at (5.2,0.9) {PDP (\chain)};
+  \node[tb, below=3mm of pdp] (cache) {grant cache};
+  \node[tb, below=3mm of cache] (db) {database};
+  \node[tb, below=3mm of db] (led) {ledger};
+  \node[tb, above=3mm of pdp] (adm) {administrators, PAP};
+  \begin{scope}[on background layer]
+    \node[draw=green!50!black, dashed, thick, rounded corners=3pt, inner sep=2.5pt, fit=(adm)(pdp)(cache)(db)(led), label={[font=\tiny, green!40!black]below:trusted base}] (T) {};
+  \end{scope}
+  \foreach \i in {1,...,5} \draw[att] (A.east) -- (r\i.west);
+  \draw[-{Stealth[length=1.2mm]}, gray] (r1.east) -- (pdp.west);
+  \draw[-{Stealth[length=1.2mm]}, gray] (r2.east) -- (pdp.west);
+  \draw[-{Stealth[length=1.2mm]}, gray] (pdp) -- (cache); \draw[-{Stealth[length=1.2mm]}, gray] (cache) -- (db);
+  \node[lv, text=red!60!black] at ($(r1.east)!0.45!(pdp.west)+(0,0.17)$) {A1 (L1)};
+  \node[lv, text=red!60!black] at ($(cache.east)+(0.72,0)$) {A2, A3 (L2)};
+  \node[lv, text=red!60!black] at ($(r2.east)+(0.55,-0.16)$) {A4, A5 (L3)};
+  \node[lv, text=red!60!black] at ($(r3.east)+(0.42,0)$) {A4 (L3)};
+  \node[lv, text=red!60!black] at ($(r4.east)+(0.62,0)$) {A2 (L2), A4 (L3)};
+  \node[lv, text=red!60!black] at ($(r5.east)+(0.42,0)$) {A7 (L3)};
+  \node[lv, text=red!60!black] at ($(led.east)+(0.5,0)$) {A6 (L3)};
+\end{tikzpicture}
+\caption{Threat model. The adversary $\mathcal{A}$ uses only its own credentials and the five kinds of route;
+everything inside the dashed boundary is trusted. Labels show where each adversary class of
+Table~\ref{tab:adv} acts and which level's oracle observes it.}
+\label{fig:threat}
+\end{figure}
+
+% =====================================================================================
+\section{Layered Conformance}
+\label{sec:levels}
+% =====================================================================================
+
+We now define conformance against the model of \S\ref{sec:system}. A \emph{world} $w=(\sigma,t,q)$ is a state, a
+time and a request. Let $\mathcal{I}$ be the decision procedure implemented by the PDP code, read as a function
+of the world.
+
+\begin{definition}[Conformance levels]\label{def:levels}
+A deployment is
+\begin{itemize}
+\item \emph{L1-conformant} if for every world $w$, $\mathcal{I}(w)=\mathcal{M}(w)$, for the decision and the
+deciding rule, and $\phi(w,\mathcal{M}(w))$ holds for every $\phi\in R$;
+\item \emph{L2$_\Delta$-conformant} if in every run, every event $\ev{dec}(u,o,a,d)$ at time $t$ made by the PDP
+satisfies $d=\mathcal{I}(\sigma_{t'},t',q)$ for some $t'\in[t-\Delta,t]$; L2 means L2$_0$. We write L2$^+_\Delta$ when
+this is required of allow decisions only, and L2$^{c}_\Delta$ (\emph{componentwise}) when the decision equals
+$\mathcal{I}$ applied to a \emph{view} that takes the attributes from $\sigma_t$ and each grant set $G^g$ from some
+$\sigma_{t_g}$ with $t_g\in[t-\Delta,t]$;
+\item \emph{L3-conformant} if in every run, (i) every $\ev{eff}_k(r,u,o,a)$ at $t$ belongs to a request
+$\ev{req}_k(r,u,o,a_c,c)$ and is preceded in it by a PDP event $\ev{dec}_k(u,o,a,\allowv)$ for the request's own
+principal, object and context, where $a=\alpha_r(a_c)$ and $\alpha_r$ is constant in $a_c$ on every route that
+returns content or changes state, and every obligation of that decision is discharged before $t$; (ii) for routes
+that change grants, the same holds with $\Pi_{\mathrm{adm}}$ in place of the PDP; and (iii) every $\ev{dec}_k$
+event $e$ is followed by $\ev{rec}(e)$ before $\ev{resp}_k$, whatever the outcome of the request.
+\end{itemize}
+\end{definition}
+
+The first level is a property of a function, the second of a function and its state, the third of the runs.
+L3 is a safety property in the sense of Schneider's execution monitoring \cite{schneider2000enforceable}: every
+violation of (i)--(iii) is visible in a finite prefix of a run (for (iii), once the response has been sent), so a
+monitor, or a probe that observes runs, can detect it.
+L2$_\Delta$ implies L2$^+_\Delta$ and L2$^c_\Delta$, but L2$^c_\Delta$ implies neither (\S\ref{sec:method}): a view may
+combine grant sets that never held together. The levels compose.
+
+\begin{theorem}[Composition]\label{thm:compose}
+If a deployment is L1-, L2$^+_\Delta$- and L3-conformant, then in every run (a) every effect $\ev{eff}(r,u,o,a)$ is
+justified: $\mathcal{M}(\sigma_{t'},t',(u,o,\alpha_r,c))=\allowv$ and all $\phi\in R$ hold there, for some $t'$
+at most $\Delta$ before the decision that preceded the effect; and (b) every decision is recorded. Hence no run
+reaches G1 or G2 with $\Delta^\ast\ge\Delta+\mathit{d}$, where $\mathit{d}$ bounds the time from a decision to its
+effect, and no run reaches G3 or G5.
+\end{theorem}
+\begin{proof}
+Take $\ev{eff}_k(r,u,o,a)$ at $t$. By L3(i) it is preceded in request $k$ by $\ev{dec}_k(u,o,a,\allowv)$ at some
+$t_d\le t$, with $a=\alpha_r(a_c)$, $q=(u,o,a,c)$ and $t-t_d\le\mathit{d}$. By L2$^+_\Delta$,
+$\mathcal{I}(\sigma_{t'},t',q)=\allowv$ for some $t'\in[t_d-\Delta,t_d]$. By L1, $\mathcal{M}$ returns the same
+decision in that world, and every $\phi\in R$ holds there. Since $t'\in[t-\Delta-\mathit{d},t]$, the effect is not a
+G1 event for $\Delta^\ast\ge\Delta+\mathit{d}$, and the same witness $t'$ shows that the allow is not a G2 event
+(every PDP allow is justified in this way, whether or not an effect follows). L3(iii) excludes G3, since a
+response is never preceded by a missing record, and L3(ii) excludes G5.
+\end{proof}
+
+G4 is a special case of G1, so it is excluded too. The converse question is whether one could test fewer
+levels. We return to it in \S\ref{sec:discussion}, once the results have supplied the examples, and show that one
+cannot: for each level there is a deployment that conforms at the other two and not at it.
+
+

@@ -1,0 +1,27 @@
+{
+  "E2e_race_forced_interleaving": [
+    {
+      "window_s": 0.02,
+      "allows_after_revoke": 0,
+      "final_policy": "P5 \u2013 Intra-Division Zero Trust"
+    },
+    {
+      "window_s": 0.02,
+      "allows_after_revoke": 0,
+      "final_policy": "P5 \u2013 Intra-Division Zero Trust"
+    },
+    {
+      "window_s": 0.02,
+      "allows_after_revoke": 0,
+      "final_policy": "P5 \u2013 Intra-Division Zero Trust"
+    }
+  ],
+  "E2e_race_unforced": {
+    "trials": 60,
+    "concurrent_decisions_per_trial": 8,
+    "trials_with_stale_grant_cached_after_commit": 0
+  },
+  "_runtime_s": {
+    "race": 10.8
+  }
+}

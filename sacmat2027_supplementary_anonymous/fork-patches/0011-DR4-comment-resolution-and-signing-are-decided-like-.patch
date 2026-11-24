@@ -1,0 +1,62 @@
+From e590e08eafe9cf6819016eff2cb979b06dd738fc Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Sat, 21 Nov 2026 22:13:41 +0000
+Subject: [PATCH 11/13] DR4: comment resolution and signing are decided like
+ reading the document
+
+Found by the route inventory generated from the routing table: PATCH
+/documents/{id}/comments/{cid}/resolve and POST /documents/{id}/sign called
+no decision procedure, so any authenticated subject could resolve any
+comment (committed before the route failed) and sign any document that
+requires a signature. Both now call _assert_can_read, as listing and adding
+comments and listing signatures already do. The resolve route also failed
+with HTTP 500 for every caller (updated_at expired by its onupdate default
+and read lazily outside the async context); it now refreshes the row.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+ backend/app/api/documents.py | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/backend/app/api/documents.py b/backend/app/api/documents.py
+index 7198f8a..5e4cbd2 100644
+--- a/backend/app/api/documents.py
++++ b/backend/app/api/documents.py
+@@ -2269,6 +2269,13 @@ async def resolve_comment(
+     current: Subject = Depends(get_current_subject),
+     db: AsyncSession = Depends(get_db),
+ ):
++    # [eval-fork DR4, route inventory] resolving a comment is decided like reading the document,
++    # as listing and adding comments are
++    doc = (await db.execute(select(Document).where(Document.id == doc_id))).scalar_one_or_none()
++    if not doc:
++        raise HTTPException(404, "Document not found")
++    builtin = await _get_role_builtin(db, current)
++    await _assert_can_read(db, doc, current, builtin)
+     comment = (await db.execute(
+         select(DocumentComment)
+         .options(selectinload(DocumentComment.author))
+@@ -2279,6 +2286,9 @@ async def resolve_comment(
+     comment.is_resolved = True
+     comment.resolved_by_id = current.id
+     await db.commit()
++    # [eval-fork, route inventory] refresh every column: updated_at is expired by its onupdate default, and
++    # reading it lazily outside the async context made this route fail with HTTP 500 for every caller
++    await db.refresh(comment)
+     await db.refresh(comment, ["author"])
+     return CommentResponse(
+         id=comment.id, document_id=comment.document_id,
+@@ -2336,6 +2346,10 @@ async def sign_document(
+     doc = (await db.execute(select(Document).where(Document.id == doc_id))).scalar_one_or_none()
+     if not doc:
+         raise HTTPException(404, "Document not found")
++    # [eval-fork DR4, route inventory] only a subject who may read the document may sign it,
++    # as listing signatures requires
++    builtin = await _get_role_builtin(db, current)
++    await _assert_can_read(db, doc, current, builtin)
+     if not doc.requires_signature:
+         raise HTTPException(409, "This document does not require a signature")
+     if doc.status not in (DocumentStatus.APPROVED, DocumentStatus.PUBLISHED):
+-- 
+2.43.0
+

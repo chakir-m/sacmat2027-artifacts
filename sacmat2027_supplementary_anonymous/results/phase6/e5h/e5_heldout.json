@@ -1,0 +1,1126 @@
+{
+ "baseline": {
+  "T": [
+   0,
+   21.9,
+   "137 passed, 2 skipped, 1 deselected, 103 warnings in 20.00s"
+  ],
+  "P": [
+   0,
+   8.2,
+   "E5_PROBE PASS []"
+  ]
+ },
+ "results": [
+  {
+   "file": "app/api/pep.py",
+   "id": 0,
+   "op": "SDL",
+   "line": 77,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 18.33s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 1,
+   "op": "SDL",
+   "line": 78,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 18.02s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 2,
+   "op": "SDL",
+   "line": 79,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 17.47s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 3,
+   "op": "ARG",
+   "line": 79,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 20.06s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 4,
+   "op": "SDL",
+   "line": 81,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 20.52s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 5,
+   "op": "RSW",
+   "line": 81,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 21.04s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 6,
+   "op": "SDL",
+   "line": 83,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 18.16s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 7,
+   "op": "SDL",
+   "line": 84,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 18.51s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 8,
+   "op": "ARG",
+   "line": 84,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 20.00s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 9,
+   "op": "SDL",
+   "line": 89,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 17.86s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 10,
+   "op": "SDL",
+   "line": 92,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 17.79s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 11,
+   "op": "SDL",
+   "line": 93,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 16.95s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 12,
+   "op": "SDL",
+   "line": 94,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 17.71s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 13,
+   "op": "ARG",
+   "line": 94,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 16.85s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 14,
+   "op": "SDL",
+   "line": 95,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 17.80s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 15,
+   "op": "SDL",
+   "line": 96,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 17.70s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 16,
+   "op": "SDL",
+   "line": 106,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 20.01s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 17,
+   "op": "SDL",
+   "line": 107,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 21.04s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 18,
+   "op": "SDL",
+   "line": 109,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S5_denials_persisted', 'S17_audit_outcome_matches_decision']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 20.00s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 19,
+   "op": "SDL",
+   "line": 111,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S3_owner_cross_dept_denied', 'S4_download_needs_download_action', 'S28_assignment_grants_read_only', 'S22_high_risk_owner_denied_at_gate', 'S24_ip_change_counts_at_gate', 'S25_ip_change_counts_on_document']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.63s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 20,
+   "op": "RSW",
+   "line": 111,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 20.20s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 21,
+   "op": "SDL",
+   "line": 117,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S2_mfa_obligation_all_endpoints']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.75s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 22,
+   "op": "RSW",
+   "line": 117,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.47s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 0,
+   "op": "SDL",
+   "line": 422,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "1 failed, 71 passed, 2 skipped, 1 deselected, 41 warnings in 10.57s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 1,
+   "op": "ARG",
+   "line": 424,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "1 failed, 71 passed, 2 skipped, 1 deselected, 41 warnings in 10.59s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 2,
+   "op": "SDL",
+   "line": 430,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 20.41s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 3,
+   "op": "SDL",
+   "line": 436,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.48s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 4,
+   "op": "SDL",
+   "line": 442,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "1 failed, 71 passed, 2 skipped, 1 deselected, 41 warnings in 10.74s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 0,
+   "op": "SDL",
+   "line": 595,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.70s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 1,
+   "op": "SDL",
+   "line": 599,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.79s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 2,
+   "op": "SDL",
+   "line": 601,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.00s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 3,
+   "op": "RSW",
+   "line": 601,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.53s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 4,
+   "op": "SDL",
+   "line": 604,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 20.36s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 5,
+   "op": "RSW",
+   "line": 604,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.19s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 6,
+   "op": "SDL",
+   "line": 609,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.45s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 7,
+   "op": "SDL",
+   "line": 610,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.07s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 8,
+   "op": "SDL",
+   "line": 612,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.30s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 9,
+   "op": "SDL",
+   "line": 617,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revoke_delegation', 'L11_resource_owner_revokes_delegation']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.53s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 10,
+   "op": "RSW",
+   "line": 617,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.08s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 11,
+   "op": "SDL",
+   "line": 619,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S7_delegation_revocation_immediate']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.13s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 12,
+   "op": "SDL",
+   "line": 620,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.76s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 13,
+   "op": "SDL",
+   "line": 621,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.54s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 14,
+   "op": "SDL",
+   "line": 623,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.82s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 15,
+   "op": "SDL",
+   "line": 632,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.98s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 16,
+   "op": "SDL",
+   "line": 633,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.09s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 17,
+   "op": "ARG",
+   "line": 634,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.03s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 18,
+   "op": "SDL",
+   "line": 641,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.03s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 19,
+   "op": "SDL",
+   "line": 643,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.34s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 20,
+   "op": "SDL",
+   "line": 644,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.18s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 0,
+   "op": "SDL",
+   "line": 476,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.54s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 1,
+   "op": "ARG",
+   "line": 477,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.69s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 2,
+   "op": "SDL",
+   "line": 482,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.61s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 3,
+   "op": "SDL",
+   "line": 484,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.29s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 4,
+   "op": "RSW",
+   "line": 484,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 18.96s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 5,
+   "op": "SDL",
+   "line": 488,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.25s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 6,
+   "op": "SDL",
+   "line": 489,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.04s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 7,
+   "op": "SDL",
+   "line": 490,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.51s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 8,
+   "op": "SDL",
+   "line": 491,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.72s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 9,
+   "op": "SDL",
+   "line": 492,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.40s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 10,
+   "op": "SDL",
+   "line": 497,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S16_other_division_manager_cannot_revoke']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.58s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 11,
+   "op": "RSW",
+   "line": 497,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S16_other_division_manager_cannot_revoke']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.49s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 12,
+   "op": "SDL",
+   "line": 499,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S8_assignment_revocation_immediate', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.32s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 13,
+   "op": "SDL",
+   "line": 500,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.67s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 14,
+   "op": "SDL",
+   "line": 501,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.11s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 15,
+   "op": "SDL",
+   "line": 502,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.57s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 0,
+   "op": "SDL",
+   "line": 167,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', '_crash']",
+   "tests_out": "1 failed, 49 passed, 1 deselected, 17 warnings in 4.69s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 1,
+   "op": "SDL",
+   "line": 171,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', '_crash']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 16.24s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 2,
+   "op": "ARG",
+   "line": 171,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.02s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 3,
+   "op": "ARG",
+   "line": 171,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S7_delegation_revocation_immediate', 'S8_assignment_revocation_immediate', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.20s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 4,
+   "op": "SDL",
+   "line": 175,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', '_crash']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 16.59s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 5,
+   "op": "SDL",
+   "line": 177,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', '_crash']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 17.43s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 6,
+   "op": "SDL",
+   "line": 178,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.61s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 7,
+   "op": "SDL",
+   "line": 179,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.98s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 8,
+   "op": "SDL",
+   "line": 183,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L19_reader_resolves_comment', 'L2_mfa_director_allowed', 'L4_assigned_read_allowed', 'L6_cross_dept_read_via_delegation', 'S28_assignment_grants_read_only', 'S10_assignment_expiry_honoured', 'S17_audit_outcome_matches_decision']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.02s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 9,
+   "op": "SDL",
+   "line": 186,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L19_reader_resolves_comment', 'L2_mfa_director_allowed', 'L4_assigned_read_allowed', 'L6_cross_dept_read_via_delegation', 'S28_assignment_grants_read_only', 'S10_assignment_expiry_honoured', 'S17_audit_outcome_matches_decision']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.04s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 10,
+   "op": "ARG",
+   "line": 189,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L19_reader_resolves_comment', 'L2_mfa_director_allowed', 'L4_assigned_read_allowed', 'L6_cross_dept_read_via_delegation', 'S28_assignment_grants_read_only', 'S10_assignment_expiry_honoured', 'S17_audit_outcome_matches_decision']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 18.98s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 11,
+   "op": "SDL",
+   "line": 192,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', '_crash']",
+   "tests_out": "1 failed, 49 passed, 1 deselected, 17 warnings in 4.56s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 12,
+   "op": "SDL",
+   "line": 193,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', '_crash']",
+   "tests_out": "1 failed, 49 passed, 1 deselected, 17 warnings in 4.53s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 13,
+   "op": "ARG",
+   "line": 193,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.07s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 14,
+   "op": "SDL",
+   "line": 196,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', '_crash']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 17.39s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 15,
+   "op": "SDL",
+   "line": 199,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L5_delegation_approved_and_usable', 'S9_no_cross_dept_write_via_delegation', 'L6_cross_dept_read_via_delegation', 'S10_assignment_expiry_honoured']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.79s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 16,
+   "op": "SDL",
+   "line": 200,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.77s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 17,
+   "op": "SDL",
+   "line": 202,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L5_delegation_approved_and_usable', 'S9_no_cross_dept_write_via_delegation', 'L6_cross_dept_read_via_delegation', 'S10_assignment_expiry_honoured']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.68s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 18,
+   "op": "SDL",
+   "line": 203,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L5_delegation_approved_and_usable', 'S9_no_cross_dept_write_via_delegation', 'L6_cross_dept_read_via_delegation', 'S10_assignment_expiry_honoured']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 20.04s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 19,
+   "op": "SDL",
+   "line": 204,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.38s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 20,
+   "op": "ARG",
+   "line": 204,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.04s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 21,
+   "op": "SDL",
+   "line": 208,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.56s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 22,
+   "op": "ARG",
+   "line": 208,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.92s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 0,
+   "op": "SDL",
+   "line": 37,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "41 passed, 1 deselected, 12 warnings, 1 error in 3.15s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 1,
+   "op": "ARG",
+   "line": 37,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "",
+   "tests_out": "41 passed, 1 deselected, 12 warnings, 1 error in 1.93s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 2,
+   "op": "ARG",
+   "line": 39,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "",
+   "tests_out": "41 passed, 1 deselected, 12 warnings, 1 error in 1.99s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 3,
+   "op": "SDL",
+   "line": 40,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.94s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 4,
+   "op": "SDL",
+   "line": 40,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.68s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 5,
+   "op": "ARG",
+   "line": 41,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "",
+   "tests_out": "41 passed, 1 deselected, 12 warnings, 1 error in 1.89s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 6,
+   "op": "SDL",
+   "line": 42,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.67s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 7,
+   "op": "SDL",
+   "line": 42,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.94s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 8,
+   "op": "ARG",
+   "line": 35,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "",
+   "tests_out": "1 error in 0.52s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 9,
+   "op": "SDL",
+   "line": 48,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "1 failed, 41 passed, 1 deselected, 12 warnings in 3.20s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 10,
+   "op": "ARG",
+   "line": 48,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "1 failed, 41 passed, 1 deselected, 12 warnings in 3.38s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 11,
+   "op": "SDL",
+   "line": 50,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S21_bulk_grant_update_takes_effect']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.70s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 12,
+   "op": "ARG",
+   "line": 50,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.38s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 13,
+   "op": "ARG",
+   "line": 45,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "",
+   "tests_out": "1 error in 0.67s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 14,
+   "op": "SDL",
+   "line": 55,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "",
+   "tests_out": "41 passed, 1 deselected, 12 warnings, 1 error in 3.18s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 15,
+   "op": "ARG",
+   "line": 55,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S7_delegation_revocation_immediate', 'S8_assignment_revocation_immediate', 'S21_bulk_grant_update_takes_effect', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.27s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 16,
+   "op": "SDL",
+   "line": 59,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S7_delegation_revocation_immediate', 'S8_assignment_revocation_immediate', 'S21_bulk_grant_update_takes_effect', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 18.88s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 17,
+   "op": "SDL",
+   "line": 61,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S7_delegation_revocation_immediate', 'S8_assignment_revocation_immediate', 'S21_bulk_grant_update_takes_effect', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.36s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 18,
+   "op": "SDL",
+   "line": 62,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S7_delegation_revocation_immediate', 'S8_assignment_revocation_immediate', 'S21_bulk_grant_update_takes_effect', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.79s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 19,
+   "op": "ARG",
+   "line": 53,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "",
+   "tests_out": "1 error in 0.61s"
+  },
+  {
+   "file": "app/main.py",
+   "id": 0,
+   "op": "SDL",
+   "line": 193,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "1 failed, 41 passed, 1 deselected, 12 warnings in 2.89s"
+  },
+  {
+   "file": "app/main.py",
+   "id": 1,
+   "op": "SDL",
+   "line": 194,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "1 failed, 41 passed, 1 deselected, 12 warnings in 3.22s"
+  },
+  {
+   "file": "app/main.py",
+   "id": 2,
+   "op": "SDL",
+   "line": 198,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 19.65s"
+  }
+ ]
+}

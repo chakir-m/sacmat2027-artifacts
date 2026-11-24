@@ -1,0 +1,7 @@
+[final1w_r3] decide_hit   n=3000 median=112.81ms p95=182.14ms thr=132.5/s status={200: 3000}
+[final1w_r3] decide_miss  n=3000 median=133.51ms p95=203.89ms thr=117.9/s status={200: 3000}
+[final1w_r3] pep_allow    n=3000 median=162.46ms p95=248.92ms thr=99.6/s status={200: 3000}
+[final1w_r3] pep_deny     n=3000 median=134.00ms p95=213.02ms thr=122.0/s status={403: 3000}
+[final1w_r3] doc_read     n=3000 median=156.58ms p95=252.11ms thr=93.8/s status={200: 3000}
+[final1w_r3] asg_create   n=3000 median=104.41ms p95=165.53ms thr=138.1/s status={201: 3000}
+[final1w_r3] race {'trials': 200, 'concurrent_decisions': 8, 'workers': 1, 'stale_entry_after_commit': 0, 'allow_after_commit': 0}

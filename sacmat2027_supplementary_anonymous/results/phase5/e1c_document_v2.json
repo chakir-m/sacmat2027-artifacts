@@ -1,0 +1,85 @@
+{
+ "worlds": 604800,
+ "agreement_with_M_DOC": 604800,
+ "non_403_errors": 0,
+ "mismatch_examples": [],
+ "requirement_violations": {},
+ "violation_witness": {},
+ "runtime_s": 113.4,
+ "theta_used": 40,
+ "domain": {
+  "roles": [
+   "admin",
+   "director",
+   "division_manager",
+   "analyst",
+   "custom"
+  ],
+  "subj_div": [
+   "D1",
+   "None"
+  ],
+  "dept_div": [
+   [
+    "True",
+    "D1"
+   ],
+   [
+    "True",
+    "D2"
+   ],
+   [
+    "True",
+    "None"
+   ],
+   [
+    "False",
+    "D3"
+   ],
+   [
+    "False",
+    "None"
+   ]
+  ],
+  "status": [
+   "draft",
+   "review",
+   "pending_approval",
+   "approved",
+   "published",
+   "archived",
+   "rejected"
+  ],
+  "clearance": [
+   "normal",
+   "elevated",
+   "delegated"
+  ],
+  "sensitivity": [
+   "public",
+   "internal",
+   "sensitive",
+   "top_secret"
+  ],
+  "linked": [
+   "none",
+   "active",
+   "inactive"
+  ],
+  "asg": [
+   [],
+   [
+    "read"
+   ],
+   [
+    "write"
+   ]
+  ],
+  "del": [
+   [],
+   [
+    "read"
+   ]
+  ]
+ }
+}

@@ -1,0 +1,10 @@
+{
+ "validation_passed": true,
+ "policies": 12,
+ "lines": 35,
+ "differential_vs_C9_FIX": {
+  "requests": 737280,
+  "agree": 737280,
+  "mismatch_examples": []
+ }
+}

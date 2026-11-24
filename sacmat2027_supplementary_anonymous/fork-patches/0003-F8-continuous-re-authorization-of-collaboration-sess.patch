@@ -1,0 +1,70 @@
+From e9ba4c31ae6b1ee91ecd126fe2e737a4e5907120 Mon Sep 17 00:00:00 2001
+From: eval <eval@local>
+Date: Fri, 30 Oct 2026 18:34:57 +0000
+Subject: [PATCH 03/13] F8: continuous re-authorization of collaboration
+ sessions
+
+---
+ hocuspocus/server.mjs | 39 ++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 38 insertions(+), 1 deletion(-)
+
+diff --git a/hocuspocus/server.mjs b/hocuspocus/server.mjs
+index c0cf717..8ea6a8c 100644
+--- a/hocuspocus/server.mjs
++++ b/hocuspocus/server.mjs
+@@ -149,7 +149,8 @@ const server = Server.configure({
+     const canWrite = isEdm ? await edmCheck(id, token, 'write') : await pepCheck(id, token, 'write')
+ 
+     console.log(`[hocuspocus] auth OK doc=${documentName} isEdm=${isEdm} canWrite=${canWrite}`)
+-    return { permission: canWrite ? 'write' : 'read', isEdm, id }
++    // [eval-fork F8] keep the credential so the session can be re-authorized while open
++    return { permission: canWrite ? 'write' : 'read', isEdm, id, token, checkedAt: Date.now() }
+   },
+ 
+   async onLoadDocument({ documentName, document, context }) {
+@@ -190,6 +191,42 @@ const server = Server.configure({
+   },
+ })
+ 
++// [eval-fork F8] Continuous authorization: every REAUTH_MS each open connection is
++// re-checked with the same decision procedure as at connect. A connection that lost read
++// access is closed; one that lost write access becomes read-only. Bound on a revoked
++// session's lifetime: REAUTH_MS + one decision round trip (+ the backend's own staleness).
++const REAUTH_MS = parseInt(process.env.HOCUSPOCUS_REAUTH_MS || '5000', 10)
++
++async function reauthorize(conn) {
++  const c = conn.context ?? {}
++  if (!c.token) return
++  const check = c.isEdm ? edmCheck : pepCheck
++  const target = c.isEdm ? c.id : conn.document?.name
++  const canRead = await check(target, c.token, 'read')
++  if (!canRead) {
++    console.log(`[hocuspocus] reauth DENY read doc=${conn.document?.name} -> closing`)
++    conn.close({ code: 4403, reason: 'Access revoked' })
++    return
++  }
++  if (!conn.readOnly) {
++    const canWrite = await check(target, c.token, 'write')
++    if (!canWrite) {
++      console.log(`[hocuspocus] reauth DENY write doc=${conn.document?.name} -> read-only`)
++      conn.readOnly = true
++    }
++  }
++  c.checkedAt = Date.now()
++}
++
++setInterval(async () => {
++  const docs = server.hocuspocus?.documents ?? new Map()
++  const conns = []
++  for (const doc of docs.values()) {
++    for (const conn of doc.getConnections()) conns.push(conn)
++  }
++  await Promise.allSettled(conns.map(reauthorize))
++}, REAUTH_MS)
++
+ server.listen().then(() => {
+   console.log(`[hocuspocus] Collaboration server running on port ${PORT}`)
+   console.log(`[hocuspocus] Backend: ${BACKEND_URL}`)
+-- 
+2.43.0
+

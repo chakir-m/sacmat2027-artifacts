@@ -1,0 +1,162 @@
+{
+ "worlds": 604800,
+ "agreement_with_M_DOC": 604800,
+ "non_403_errors": 0,
+ "mismatch_examples": [],
+ "requirement_violations": {
+  "R1|linked=inactive|status=published": 1344,
+  "DR4|linked=inactive|status=published": 2253,
+  "R2|linked=inactive|status=published": 480,
+  "R3|linked=none|status=published": 216,
+  "R3|linked=inactive|status=published": 384
+ },
+ "violation_witness": {
+  "R1": {
+   "role": "director",
+   "subj_div": "D1",
+   "same_dept": false,
+   "doc_div": "D3",
+   "status": "published",
+   "clearance": "normal",
+   "sensitivity": "public",
+   "owner": false,
+   "collaborator": false,
+   "linked": "inactive",
+   "A_asg": [
+    "read"
+   ],
+   "A_del": [],
+   "risk_high": false,
+   "decision": true
+  },
+  "DR4": {
+   "role": "director",
+   "subj_div": "D1",
+   "same_dept": false,
+   "doc_div": "D3",
+   "status": "published",
+   "clearance": "normal",
+   "sensitivity": "public",
+   "owner": false,
+   "collaborator": false,
+   "linked": "inactive",
+   "A_asg": [
+    "read"
+   ],
+   "A_del": [],
+   "risk_high": false,
+   "decision": true
+  },
+  "R2": {
+   "role": "director",
+   "subj_div": "D1",
+   "same_dept": false,
+   "doc_div": "D3",
+   "status": "published",
+   "clearance": "normal",
+   "sensitivity": "sensitive",
+   "owner": true,
+   "collaborator": false,
+   "linked": "inactive",
+   "A_asg": [],
+   "A_del": [
+    "read"
+   ],
+   "risk_high": false,
+   "decision": true
+  },
+  "R3": {
+   "role": "analyst",
+   "subj_div": "D1",
+   "same_dept": true,
+   "doc_div": "D1",
+   "status": "published",
+   "clearance": "normal",
+   "sensitivity": "public",
+   "owner": false,
+   "collaborator": false,
+   "linked": "none",
+   "A_asg": [],
+   "A_del": [],
+   "risk_high": false,
+   "decision": true
+  }
+ },
+ "runtime_s": 114.8,
+ "theta_used": 40,
+ "domain": {
+  "roles": [
+   "admin",
+   "director",
+   "division_manager",
+   "analyst",
+   "custom"
+  ],
+  "subj_div": [
+   "D1",
+   "None"
+  ],
+  "dept_div": [
+   [
+    "True",
+    "D1"
+   ],
+   [
+    "True",
+    "D2"
+   ],
+   [
+    "True",
+    "None"
+   ],
+   [
+    "False",
+    "D3"
+   ],
+   [
+    "False",
+    "None"
+   ]
+  ],
+  "status": [
+   "draft",
+   "review",
+   "pending_approval",
+   "approved",
+   "published",
+   "archived",
+   "rejected"
+  ],
+  "clearance": [
+   "normal",
+   "elevated",
+   "delegated"
+  ],
+  "sensitivity": [
+   "public",
+   "internal",
+   "sensitive",
+   "top_secret"
+  ],
+  "linked": [
+   "none",
+   "active",
+   "inactive"
+  ],
+  "asg": [
+   [],
+   [
+    "read"
+   ],
+   [
+    "write"
+   ]
+  ],
+  "del": [
+   [],
+   [
+    "read"
+   ]
+  ]
+ }
+}

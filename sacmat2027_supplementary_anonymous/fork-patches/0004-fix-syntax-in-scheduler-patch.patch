@@ -1,0 +1,25 @@
+From 1fd900f0a2b0e8118d6c0a1d391e1eb02f5aa3cb Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Fri, 30 Oct 2026 18:42:43 +0000
+Subject: [PATCH 04/13] fix syntax in scheduler patch
+
+---
+ backend/app/services/scheduler.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/backend/app/services/scheduler.py b/backend/app/services/scheduler.py
+index 7174cfc..f2d9a67 100644
+--- a/backend/app/services/scheduler.py
++++ b/backend/app/services/scheduler.py
+@@ -86,7 +86,7 @@ async def _prune_audit_logs() -> None:
+ 
+     async with AsyncSessionLocal() as db:
+         try:
+-            r1 = await db.execute(delete(AuditLog).where(AuditLog.occurred_at < cutoff)  # [eval-fork F9] existing column)
++            r1 = await db.execute(delete(AuditLog).where(AuditLog.occurred_at < cutoff))  # [eval-fork F9] existing column
+             r2 = await db.execute(delete(AccessDecision).where(AccessDecision.decided_at < cutoff))
+             await db.commit()
+             logger.info(
+-- 
+2.43.0
+

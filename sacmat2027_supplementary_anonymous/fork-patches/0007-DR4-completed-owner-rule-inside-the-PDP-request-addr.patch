@@ -1,0 +1,390 @@
+From 223f98dfd00604f68483a2445213865035823b45 Mon Sep 17 00:00:00 2001
+From: eval-fork <eval-fork@localhost>
+Date: Thu, 19 Nov 2026 17:21:24 +0000
+Subject: [PATCH 07/13] DR4 completed: owner rule inside the PDP; request
+ address on document reads
+
+Owner rule. The owner rule is now the rule P_own of the PDP chain instead of a
+constant allow in the PEP gate. It follows P_ctx and P1, is confined to the
+owner's department, covers the actions the file endpoints serve (read,
+download), and is exempt from P_class like the director and division-manager
+rules (the developer guide gives the owner rule priority: Admin -> Owner -> ...).
+P_own is placed after P3, so directors and managers keep their rule labels. The
+gate, the admin tester and the resource listing no longer decide for owners
+themselves, and published documents no longer have an owner shortcut before the
+PDP. The integration test for owner decision logging now checks the PDP's
+decision row.
+
+Request context. A middleware stores the client address of each request in a
+context variable; the document read procedure passes it to the risk helper and
+to the PDP, so the ip_change signal of P_ctx is evaluated on document reads as
+on the file endpoints. Internal (collaboration-server) calls keep the address
+unknown.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+ backend/app/api/documents.py        |  21 +++--
+ backend/app/api/pep.py              | 116 ++++++----------------------
+ backend/app/core/request_context.py |   8 ++
+ backend/app/main.py                 |  16 ++++
+ backend/app/services/pdp.py         |  24 +++++-
+ backend/tests/test_integration.py   |  14 ++--
+ 6 files changed, 85 insertions(+), 114 deletions(-)
+ create mode 100644 backend/app/core/request_context.py
+
+diff --git a/backend/app/api/documents.py b/backend/app/api/documents.py
+index 0e3ff3a..899a66d 100644
+--- a/backend/app/api/documents.py
++++ b/backend/app/api/documents.py
+@@ -406,8 +406,8 @@ async def _doc_read_allowed(
+     """[eval-fork DR4] One decision procedure for document reads.
+ 
+     Published documents with a linked Resource are decided by the PDP on that resource
+-    (classification, assignment/delegation, risk), exactly as /pep/access would decide.
+-    The owner keeps read access only inside the resource's department.
++    (risk, classification, owner rule P_own, assignment/delegation), exactly as /pep/access
++    would decide.
+     For other documents the workflow rules below apply, plus the classification barrier.
+     Returns True/False when decided here, None to fall through to the workflow rules.
+     """
+@@ -415,11 +415,13 @@ async def _doc_read_allowed(
+                                   _clearance_rank, _sensitivity_rank)
+     if current.is_platform_admin:
+         return True
+-    # [eval-fork DR1] P_ctx precedes every allow rule, including the owner rule and the workflow
+-    # rules for unpublished documents (no request IP is available on this path).
++    # [eval-fork DR1] P_ctx precedes every allow rule, including the workflow rules for
++    # unpublished documents. [eval-fork DR4, request context] with the request address, as on the file endpoints.
+     from app.services.risk import compute_risk_score
+-    if compute_risk_score(current, {"timestamp": datetime.now(timezone.utc).isoformat()}).score \
+-            >= settings.RISK_DENY_THRESHOLD:
++    from app.core.request_context import client_ip
++    ctx = {"request_ip": client_ip.get(), "surface": "documents",
++           "timestamp": datetime.now(timezone.utc).isoformat()}
++    if compute_risk_score(current, ctx).score >= settings.RISK_DENY_THRESHOLD:
+         return False
+     if doc.status == DocumentStatus.PUBLISHED:
+         linked = (await db.execute(
+@@ -427,13 +429,10 @@ async def _doc_read_allowed(
+                                    Resource.is_active == True)  # noqa: E712
+         )).scalars().first()
+         if linked is not None:
+-            if doc.owner_id == current.id and linked.department_id == current.department_id:
+-                return True
++            # [eval-fork DR4, owner rule] the owner rule is P_own inside the PDP
+             dec = await PolicyDecisionPoint(db).decide(AccessRequest(
+                 subject_id=current.id, resource_id=linked.id, action="read",
+-                context={"surface": "documents",
+-                         "timestamp": datetime.now(timezone.utc).isoformat()},
+-                _resource=linked))
++                context=dict(ctx), _resource=linked))
+             return dec.result == DecisionResult.ALLOW
+     # Unpublished (workflow) documents: classification barrier, with the same role
+     # exemptions as P_class (director in dept, division manager in own division, owner).
+diff --git a/backend/app/api/pep.py b/backend/app/api/pep.py
+index c654a99..0e05cd6 100644
+--- a/backend/app/api/pep.py
++++ b/backend/app/api/pep.py
+@@ -53,44 +53,6 @@ def _h(value: str | None) -> str:
+     return value.encode("ascii", "replace").decode("ascii")
+ 
+ 
+-def _owner_decision() -> AccessDecisionResult:
+-    """ALLOW decision for resource owners — bypasses PDP."""
+-    return AccessDecisionResult(
+-        result=DecisionResult.ALLOW,
+-        applied_policy_id=None,
+-        applied_policy_name="Owner Access",
+-        reason="Resource owner — implicit access granted",
+-        decision_time_ms=0,
+-        trace=[],
+-    )
+-
+-
+-async def _log_owner_access(
+-    db: AsyncSession,
+-    subject_id: str,
+-    resource_id: str,
+-    action: str,
+-    elapsed_ms: int,
+-    surface: str,
+-) -> None:
+-    """Persist an AccessDecision row for owner-bypass paths so compliance
+-    queries on the decision log don't miss owner self-access events."""
+-    db.add(AccessDecision(
+-        subject_id=subject_id,
+-        resource_id=resource_id,
+-        action=action,
+-        result=DecisionResult.ALLOW,
+-        applied_policy_id=None,
+-        applied_policy_name="Owner Access",
+-        context_snapshot={
+-            "owner_bypass": True,
+-            "surface": surface,
+-            "timestamp": datetime.now(timezone.utc).isoformat(),
+-        },
+-        decision_time_ms=elapsed_ms,
+-    ))
+-
+-
+ # ══════════════════════════════════════════════════════════════
+ # [eval-fork DR4/DR5] single enforcement gate for every file-serving endpoint
+ # ══════════════════════════════════════════════════════════════
+@@ -112,7 +74,6 @@ async def _persist_independently(*rows) -> None:
+ async def _pep_gate(db, current, resource, requested_action, request, surface):
+     """Decide, record, and enforce (including obligations) for one file-serving request.
+     The action is fixed by the endpoint; a different requested action is rejected (400)."""
+-    from app.services.pdp import _obligations_for
+     start = time.monotonic()
+     action = _ENDPOINT_ACTION[surface]
+     req_val = getattr(requested_action, "value", requested_action)
+@@ -123,25 +84,11 @@ async def _pep_gate(db, current, resource, requested_action, request, surface):
+     ctx = {"request_ip": ip, "user_agent": request.headers.get("user-agent", ""),
+            "pep_enforced": True, "surface": surface,
+            "timestamp": datetime.now(timezone.utc).isoformat()}
+-    # Owner access only inside the resource's department (no bypass after a move)
+-    owner = (resource.owner_id == current.id and resource.department_id == current.department_id)
+-    if owner:
+-        # [eval-fork DR1 at the gate] P_ctx precedes the owner rule, as it precedes every allow rule
+-        risk = compute_risk_score(current, ctx)
+-        if risk.score >= settings.RISK_DENY_THRESHOLD:
+-            decision = AccessDecisionResult(
+-                result=DecisionResult.DENY, applied_policy_id=None,
+-                applied_policy_name="P_ctx – Risk Context Deny",
+-                reason=f"Access denied: risk score {risk.score}/100 exceeds threshold "
+-                       f"({settings.RISK_DENY_THRESHOLD}). Flags: {', '.join(risk.flags)}",
+-                decision_time_ms=0, trace=[])
+-        else:
+-            decision = _owner_decision()
+-            decision.obligations = _obligations_for(resource, current)
+-    else:
+-        decision = await PolicyDecisionPoint(db).decide(AccessRequest(
+-            subject_id=current.id, resource_id=resource.id, action=action,
+-            context=ctx, _resource=resource))
++    # [eval-fork DR4, owner rule] the owner rule is P_own inside the PDP (after P_ctx, P1 and P_class);
++    # the gate no longer decides for owners itself.
++    decision = await PolicyDecisionPoint(db).decide(AccessRequest(
++        subject_id=current.id, resource_id=resource.id, action=action,
++        context=ctx, _resource=resource))
+     elapsed_ms = int((time.monotonic() - start) * 1000)
+     allowed = decision.result == DecisionResult.ALLOW
+     obligations = list(getattr(decision, "obligations", []) or []) if allowed else []
+@@ -154,13 +101,6 @@ async def _pep_gate(db, current, resource, requested_action, request, surface):
+                  "pep_enforced": True, "obligation_block": "mfa_required" if mfa_block else None,
+                  "subject_email": current.email, "resource_name": resource.name},
+         outcome="allow" if (allowed and not mfa_block) else "deny", ip_address=ip)]
+-    if owner:
+-        rows.append(AccessDecision(
+-            subject_id=current.id, resource_id=resource.id, action=action,
+-            result=decision.result, applied_policy_id=None, applied_policy_name=decision.applied_policy_name,
+-            context_snapshot={"owner_bypass": True, "surface": surface,
+-                              "timestamp": datetime.now(timezone.utc).isoformat()},
+-            decision_time_ms=elapsed_ms))
+     if os.environ.get("EVAL_ABLATE_DR5") == "1":    # cost-study ablation only: rows in the request tx
+         for r in rows:
+             db.add(r)
+@@ -578,30 +518,22 @@ async def test_access(
+         v_res = await db.execute(select(Division).where(Division.id == test_subject.division_id))
+         div_obj = v_res.scalar_one_or_none()
+ 
+-    # Decide — owner-bypass mirrors /access/{id} behaviour
++    # [eval-fork DR4, owner rule] owners are decided by the PDP (P_own), as on the file endpoints
+     is_owner = resource.owner_id == test_subject.id
+     start = time.monotonic()
+-    if is_owner:
+-        decision = _owner_decision()
+-        # Audit as the admin caller, not the impersonated subject — the
+-        # admin is the one performing the test action.
+-        await _log_owner_access(
+-            db, test_subject.id, resource_id, action.value, 0, surface="tester"
+-        )
+-    else:
+-        pdp = PolicyDecisionPoint(db)
+-        decision = await pdp.decide(AccessRequest(
+-            subject_id=test_subject.id,
+-            resource_id=resource_id,
+-            action=action,
+-            context={
+-                "tester": True,
+-                "surface": "tester",
+-                **({"impersonated_by": current.id} if impersonating else {}),
+-            },
+-            _subject=test_subject,
+-            _resource=resource,
+-        ))
++    pdp = PolicyDecisionPoint(db)
++    decision = await pdp.decide(AccessRequest(
++        subject_id=test_subject.id,
++        resource_id=resource_id,
++        action=action,
++        context={
++            "tester": True,
++            "surface": "tester",
++            **({"impersonated_by": current.id} if impersonating else {}),
++        },
++        _subject=test_subject,
++        _resource=resource,
++    ))
+     elapsed_ms = int((time.monotonic() - start) * 1000)
+ 
+     # Explicit audit entry under the admin's own ID — ensures impersonation
+@@ -811,7 +743,7 @@ async def list_accessible_resources(
+ ):
+     """Resource list with PEP decisions evaluated in parallel.
+ 
+-    - Honours owner-bypass: owners always see their own resources as accessible.
++    - Owners are decided by the PDP (P_own), as on the file endpoints.
+     - Skips audit logging (`_no_audit=True`) — this is a preview, not a real access.
+     - Filters: search by name, sensitivity, accessible_only.
+     - Platform admins may pass `subject_id` to evaluate the whole list as a
+@@ -867,8 +799,8 @@ async def list_accessible_resources(
+     all_resources = result.scalars().all()
+ 
+     # Split owner-bypass from PDP evaluations — based on test_subject
+-    owner_resources = [r for r in all_resources if r.owner_id == test_subject.id]
+-    pdp_resources   = [r for r in all_resources if r.owner_id != test_subject.id]
++    # [eval-fork DR4, owner rule] owners are decided by the PDP (P_own), as on the file endpoints
++    pdp_resources = list(all_resources)
+ 
+     pdp = PolicyDecisionPoint(db)
+ 
+@@ -902,9 +834,7 @@ async def list_accessible_resources(
+             "owner_bypass": owner_bypass,
+         }
+ 
+-    owner_rows = [_row(r, _owner_decision(), True) for r in owner_resources]
+-    pdp_rows   = [_row(r, d, False) for r, d in decided]
+-    evaluated  = owner_rows + pdp_rows
++    evaluated = [_row(r, d, r.owner_id == test_subject.id) for r, d in decided]
+ 
+     if accessible_only:
+         evaluated = [r for r in evaluated if r["accessible"]]
+diff --git a/backend/app/core/request_context.py b/backend/app/core/request_context.py
+new file mode 100644
+index 0000000..9cb9708
+--- /dev/null
++++ b/backend/app/core/request_context.py
+@@ -0,0 +1,8 @@
++"""[eval-fork DR4, request context] Request-scoped values that decision procedures need but whose callers
++do not pass them explicitly (the document read helpers are called from about twenty
++endpoints). Set by a middleware in app.main."""
++from contextvars import ContextVar
++
++# Client address of the current HTTP request; "unknown" when there is none, and for the
++# Hocuspocus-only internal endpoints, whose caller is the collaboration server, not the user.
++client_ip: ContextVar[str] = ContextVar("client_ip", default="unknown")
+diff --git a/backend/app/main.py b/backend/app/main.py
+index b0ba695..54fc1d3 100644
+--- a/backend/app/main.py
++++ b/backend/app/main.py
+@@ -182,6 +182,22 @@ async def _csrf_middleware(request: Request, call_next):
+     return await call_next(request)
+ 
+ 
++# ─── [eval-fork DR4, request context] client address for decision procedures ─────
++# The document read procedure evaluates P_ctx, whose ip_change signal needs the request
++# address. Internal (Hocuspocus-only) calls come from the collaboration server, so the
++# address is left "unknown" there and the signal is not evaluated.
++
++@app.middleware("http")
++async def _client_ip_middleware(request: Request, call_next):
++    from app.core.request_context import client_ip
++    internal = "/internal/" in request.url.path
++    token = client_ip.set("unknown" if internal or not request.client else request.client.host)
++    try:
++        return await call_next(request)
++    finally:
++        client_ip.reset(token)
++
++
+ # ─── Metrics middleware ──────────────────────────────────────
+ # Tracks every HTTP request. Uses the route template (e.g. /resources/{id})
+ # as the `path` label so cardinality stays bounded.
+diff --git a/backend/app/services/pdp.py b/backend/app/services/pdp.py
+index c0ce46e..0db8bc1 100644
+--- a/backend/app/services/pdp.py
++++ b/backend/app/services/pdp.py
+@@ -220,7 +220,14 @@ class PolicyDecisionPoint:
+                            and subject.department_id == resource.department_id
+                            and subject.division_id is not None          # [eval-fork DR2]
+                            and subject.division_id == resource.division_id)
+-        if sens_rank > 0 and not director_same_dept and not divmgr_same_div:
++        # [eval-fork DR4, owner rule] the owner rule P_own (below) is part of the chain; like the director and
++        # division-manager rules it is exempt from the barrier, keeping the documented priority of
++        # the owner rule (developer guide: Admin -> Owner -> ...). Confined to the owner's
++        # department and to the actions the file endpoints serve (read, download).
++        owner_in_dept = (resource.owner_id is not None and resource.owner_id == subject.id
++                         and subject.department_id == resource.department_id
++                         and (request.action == "read" or request.action == "download"))
++        if sens_rank > 0 and not director_same_dept and not divmgr_same_div and not owner_in_dept:
+             if _clearance_rank(subject.clearance) < sens_rank:
+                 tr("P_class", "P_class – Classification Barrier", 15, "deny", True,
+                    f"clearance={subject.clearance} (rank {_clearance_rank(subject.clearance)}) "
+@@ -229,9 +236,10 @@ class PolicyDecisionPoint:
+                             f"Access denied: your clearance level '{subject.clearance}' is insufficient "
+                             f"for resource sensitivity '{resource.sensitivity}' "
+                             f"(required: {list(_CLEARANCE_RANK.keys())[sens_rank - 1]})")
+-        if director_same_dept or divmgr_same_div:
++        if director_same_dept or divmgr_same_div or owner_in_dept:
+             tr("P_class", "P_class", 15, "deny", False,
+-               f"Exempted: {'Director' if director_same_dept else 'Div Manager'} role grants full access in scope")
++               f"Exempted: {'Director' if director_same_dept else 'Div Manager' if divmgr_same_div else 'Owner'} "
++               f"rule grants access in scope")
+         else:
+             tr("P_class", "P_class", 15, "deny", False,
+                f"Clearance sufficient or resource is PUBLIC (sensitivity rank={sens_rank})")
+@@ -253,6 +261,16 @@ class PolicyDecisionPoint:
+                          "Access granted: Division Manager has access within their division")
+         tr("P3","P3",30,"allow",False,"Not div manager or div mismatch")
+ 
++        # [eval-fork DR4, owner rule] P_own – owner rule, moved from the PEP gate into the PDP. It follows P_ctx
++        # (DR1) and P1, is confined to the owner's department (so a move ends it), and covers the
++        # actions the file endpoints serve (read, download); other actions fall through.
++        if owner_in_dept:
++            tr("P_own", "P_own – Owner Access", 35, "allow", True,
++               f"Owner in own department, action '{request.action}'")
++            return allow("P_own", "P_own – Owner Access",
++                         f"Access granted: resource owner may '{request.action}' within their department")
++        tr("P_own", "P_own", 35, "allow", False, "Not owner, owner outside department, or action not read/download")
++
+         # P4 – Assignment grants access for actions in assignment.actions list
+         if (ctx["has_assignment"] and request.action in ctx["assignment_actions"]
+                 and (ctx["is_analyst"] or ctx["is_div_manager"])
+diff --git a/backend/tests/test_integration.py b/backend/tests/test_integration.py
+index c720091..0cb5761 100644
+--- a/backend/tests/test_integration.py
++++ b/backend/tests/test_integration.py
+@@ -908,10 +908,11 @@ from sqlalchemy import select as sa_select
+ # ─── 1. Owner-bypass writes AccessDecision row ────────────────
+ 
+ async def test_owner_bypass_logs_access_decision(ac, seeded_db):
+-    """Owner accessing their own resource must produce an AccessDecision row tagged
+-    `owner_bypass=true, surface=access` — closes the compliance gap where owner
+-    self-accesses weren't visible in the decision log."""
+-    from app.models.models import AccessDecision
++    """Owner accessing their own resource must produce an AccessDecision row
++    — closes the compliance gap where owner self-accesses weren't visible in the
++    decision log. [eval-fork DR4, owner rule] owners are decided by the PDP (alice, a director, by P2;
++    an owner without a role rule by P_own), so the row is the PDP's own decision row."""
++    from app.models.models import AccessDecision, DecisionResult
+ 
+     token = await tok(ac, "alice@test.local")  # alice is owner of fin_doc
+     resp = await ac.get(
+@@ -927,12 +928,11 @@ async def test_owner_bypass_logs_access_decision(ac, seeded_db):
+             sa_select(AccessDecision).where(
+                 AccessDecision.subject_id == seeded_db["director_id"],
+                 AccessDecision.resource_id == seeded_db["fin_doc_id"],
+-                AccessDecision.applied_policy_name == "Owner Access",
++                AccessDecision.result == DecisionResult.ALLOW,
+             )
+         )).scalars().all()
+-    assert len(rows) >= 1, "Owner bypass must log an AccessDecision row"
++    assert len(rows) >= 1, "Owner access must log an AccessDecision row"
+     snap = rows[-1].context_snapshot or {}
+-    assert snap.get("owner_bypass") is True
+     assert snap.get("surface") == "access"
+ 
+ 
+-- 
+2.43.0
+

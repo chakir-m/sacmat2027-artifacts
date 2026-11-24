@@ -1,0 +1,189 @@
+{
+  "E2c_delegation_expiry": [
+    {
+      "delta_s": 10,
+      "warm": [
+        "allow",
+        "P6 \u2013 Delegated Access Exception"
+      ],
+      "window_after_expiry_s": 0.02,
+      "allows_after_expiry": 0,
+      "final_policy": "P1 \u2013 Inter-Department Segmentation"
+    },
+    {
+      "delta_s": 10,
+      "warm": [
+        "allow",
+        "P6 \u2013 Delegated Access Exception"
+      ],
+      "window_after_expiry_s": 0.12,
+      "allows_after_expiry": 0,
+      "final_policy": "P1 \u2013 Inter-Department Segmentation"
+    },
+    {
+      "delta_s": 10,
+      "warm": [
+        "allow",
+        "P6 \u2013 Delegated Access Exception"
+      ],
+      "window_after_expiry_s": 0.11,
+      "allows_after_expiry": 0,
+      "final_policy": "P1 \u2013 Inter-Department Segmentation"
+    },
+    {
+      "delta_s": 30,
+      "warm": [
+        "allow",
+        "P6 \u2013 Delegated Access Exception"
+      ],
+      "window_after_expiry_s": 0.1,
+      "allows_after_expiry": 0,
+      "final_policy": "P1 \u2013 Inter-Department Segmentation"
+    },
+    {
+      "delta_s": 30,
+      "warm": [
+        "allow",
+        "P6 \u2013 Delegated Access Exception"
+      ],
+      "window_after_expiry_s": 0.11,
+      "allows_after_expiry": 0,
+      "final_policy": "P1 \u2013 Inter-Department Segmentation"
+    },
+    {
+      "delta_s": 30,
+      "warm": [
+        "allow",
+        "P6 \u2013 Delegated Access Exception"
+      ],
+      "window_after_expiry_s": 0.1,
+      "allows_after_expiry": 0,
+      "final_policy": "P1 \u2013 Inter-Department Segmentation"
+    },
+    {
+      "delta_s": 50,
+      "warm": [
+        "allow",
+        "P6 \u2013 Delegated Access Exception"
+      ],
+      "window_after_expiry_s": 0.1,
+      "allows_after_expiry": 0,
+      "final_policy": "P1 \u2013 Inter-Department Segmentation"
+    },
+    {
+      "delta_s": 50,
+      "warm": [
+        "allow",
+        "P6 \u2013 Delegated Access Exception"
+      ],
+      "window_after_expiry_s": 0.12,
+      "allows_after_expiry": 0,
+      "final_policy": "P1 \u2013 Inter-Department Segmentation"
+    },
+    {
+      "delta_s": 50,
+      "warm": [
+        "allow",
+        "P6 \u2013 Delegated Access Exception"
+      ],
+      "window_after_expiry_s": 0.12,
+      "allows_after_expiry": 0,
+      "final_policy": "P1 \u2013 Inter-Department Segmentation"
+    }
+  ],
+  "E2d_assignment_expiry": [
+    {
+      "delta_s": 20,
+      "warm": [
+        "allow",
+        "P4 \u2013 Assignment Authorization"
+      ],
+      "window_after_expiry_s": 0.1,
+      "allows_after_expiry": 0,
+      "final_policy": "P5 \u2013 Intra-Division Zero Trust"
+    },
+    {
+      "delta_s": 20,
+      "warm": [
+        "allow",
+        "P4 \u2013 Assignment Authorization"
+      ],
+      "window_after_expiry_s": 0.1,
+      "allows_after_expiry": 0,
+      "final_policy": "P5 \u2013 Intra-Division Zero Trust"
+    },
+    {
+      "delta_s": 20,
+      "warm": [
+        "allow",
+        "P4 \u2013 Assignment Authorization"
+      ],
+      "window_after_expiry_s": 0.12,
+      "allows_after_expiry": 0,
+      "final_policy": "P5 \u2013 Intra-Division Zero Trust"
+    },
+    {
+      "delta_s": 60,
+      "warm": [
+        "allow",
+        "P4 \u2013 Assignment Authorization"
+      ],
+      "window_after_expiry_s": 0.13,
+      "allows_after_expiry": 0,
+      "final_policy": "P5 \u2013 Intra-Division Zero Trust"
+    },
+    {
+      "delta_s": 60,
+      "warm": [
+        "allow",
+        "P4 \u2013 Assignment Authorization"
+      ],
+      "window_after_expiry_s": 0.07,
+      "allows_after_expiry": 0,
+      "final_policy": "P5 \u2013 Intra-Division Zero Trust"
+    },
+    {
+      "delta_s": 60,
+      "warm": [
+        "allow",
+        "P4 \u2013 Assignment Authorization"
+      ],
+      "window_after_expiry_s": 0.13,
+      "allows_after_expiry": 0,
+      "final_policy": "P5 \u2013 Intra-Division Zero Trust"
+    },
+    {
+      "delta_s": 100,
+      "warm": [
+        "allow",
+        "P4 \u2013 Assignment Authorization"
+      ],
+      "window_after_expiry_s": 0.14,
+      "allows_after_expiry": 0,
+      "final_policy": "P5 \u2013 Intra-Division Zero Trust"
+    },
+    {
+      "delta_s": 100,
+      "warm": [
+        "allow",
+        "P4 \u2013 Assignment Authorization"
+      ],
+      "window_after_expiry_s": 0.12,
+      "allows_after_expiry": 0,
+      "final_policy": "P5 \u2013 Intra-Division Zero Trust"
+    },
+    {
+      "delta_s": 100,
+      "warm": [
+        "allow",
+        "P4 \u2013 Assignment Authorization"
+      ],
+      "window_after_expiry_s": 0.13,
+      "allows_after_expiry": 0,
+      "final_policy": "P5 \u2013 Intra-Division Zero Trust"
+    }
+  ],
+  "_runtime_s": {
+    "expiry": 110.4
+  }
+}

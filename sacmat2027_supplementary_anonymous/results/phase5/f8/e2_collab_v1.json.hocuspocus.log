@@ -1,0 +1,67 @@
+
+  Hocuspocus v2.13.7 running at:
+
+  > HTTP: http://0.0.0.0:1240
+  > WebSocket: ws://0.0.0.0:1240
+[hocuspocus] Collaboration server running on port 1240
+[hocuspocus] Backend: http://127.0.0.1:8010
+[hocuspocus] connect edm-9989c7cb-bfaf-4182-b221-25fd1f327393 total=?
+[hocuspocus] auth OK doc=edm-9989c7cb-bfaf-4182-b221-25fd1f327393 isEdm=true canWrite=true
+[hocuspocus] awareness edm-9989c7cb-bfaf-4182-b221-25fd1f327393 +1 ~0 -0 total=1
+[hocuspocus] awareness edm-9989c7cb-bfaf-4182-b221-25fd1f327393 +0 ~1 -0 total=1
+[hocuspocus] disconnect edm-9989c7cb-bfaf-4182-b221-25fd1f327393 remaining=?
+[hocuspocus] awareness edm-9989c7cb-bfaf-4182-b221-25fd1f327393 +0 ~0 -1 total=1
+[hocuspocus] connect edm-c43817d3-70e1-41a1-aee7-6867f4e682a5 total=?
+[hocuspocus] auth OK doc=edm-c43817d3-70e1-41a1-aee7-6867f4e682a5 isEdm=true canWrite=true
+[hocuspocus] awareness edm-c43817d3-70e1-41a1-aee7-6867f4e682a5 +1 ~0 -0 total=1
+[hocuspocus] awareness edm-c43817d3-70e1-41a1-aee7-6867f4e682a5 +0 ~1 -0 total=1
+[hocuspocus] disconnect edm-c43817d3-70e1-41a1-aee7-6867f4e682a5 remaining=?
+[hocuspocus] awareness edm-c43817d3-70e1-41a1-aee7-6867f4e682a5 +0 ~0 -1 total=1
+[hocuspocus] connect edm-687d2f9d-fb79-49f9-b99a-93b90134b93c total=?
+[hocuspocus] auth OK doc=edm-687d2f9d-fb79-49f9-b99a-93b90134b93c isEdm=true canWrite=true
+[hocuspocus] awareness edm-687d2f9d-fb79-49f9-b99a-93b90134b93c +1 ~0 -0 total=1
+[hocuspocus] awareness edm-687d2f9d-fb79-49f9-b99a-93b90134b93c +0 ~1 -0 total=1
+[hocuspocus] disconnect edm-687d2f9d-fb79-49f9-b99a-93b90134b93c remaining=?
+[hocuspocus] awareness edm-687d2f9d-fb79-49f9-b99a-93b90134b93c +0 ~0 -1 total=1
+[hocuspocus] connect edm-7e49f5f7-a26e-46d3-a033-9d4338faa60a total=?
+[hocuspocus] auth OK doc=edm-7e49f5f7-a26e-46d3-a033-9d4338faa60a isEdm=true canWrite=true
+[hocuspocus] awareness edm-7e49f5f7-a26e-46d3-a033-9d4338faa60a +1 ~0 -0 total=1
+[hocuspocus] awareness edm-7e49f5f7-a26e-46d3-a033-9d4338faa60a +0 ~1 -0 total=1
+[hocuspocus] disconnect edm-7e49f5f7-a26e-46d3-a033-9d4338faa60a remaining=?
+[hocuspocus] awareness edm-7e49f5f7-a26e-46d3-a033-9d4338faa60a +0 ~0 -1 total=1
+[hocuspocus] connect edm-4ff6172e-a056-4203-b19e-918210f039dc total=?
+[hocuspocus] auth OK doc=edm-4ff6172e-a056-4203-b19e-918210f039dc isEdm=true canWrite=true
+[hocuspocus] awareness edm-4ff6172e-a056-4203-b19e-918210f039dc +1 ~0 -0 total=1
+[hocuspocus] awareness edm-4ff6172e-a056-4203-b19e-918210f039dc +0 ~1 -0 total=1
+[hocuspocus] disconnect edm-4ff6172e-a056-4203-b19e-918210f039dc remaining=?
+[hocuspocus] awareness edm-4ff6172e-a056-4203-b19e-918210f039dc +0 ~0 -1 total=1
+[hocuspocus] connect edm-159d3199-6d65-4a7a-b3d1-8a79a59c6c48 total=?
+[hocuspocus] auth OK doc=edm-159d3199-6d65-4a7a-b3d1-8a79a59c6c48 isEdm=true canWrite=true
+[hocuspocus] awareness edm-159d3199-6d65-4a7a-b3d1-8a79a59c6c48 +1 ~0 -0 total=1
+[hocuspocus] awareness edm-159d3199-6d65-4a7a-b3d1-8a79a59c6c48 +0 ~1 -0 total=1
+[hocuspocus] disconnect edm-159d3199-6d65-4a7a-b3d1-8a79a59c6c48 remaining=?
+[hocuspocus] awareness edm-159d3199-6d65-4a7a-b3d1-8a79a59c6c48 +0 ~0 -1 total=1
+[hocuspocus] connect edm-81b1382a-2cc6-49c7-8767-43afb3c86bfe total=?
+[hocuspocus] auth OK doc=edm-81b1382a-2cc6-49c7-8767-43afb3c86bfe isEdm=true canWrite=true
+[hocuspocus] awareness edm-81b1382a-2cc6-49c7-8767-43afb3c86bfe +1 ~0 -0 total=1
+[hocuspocus] awareness edm-81b1382a-2cc6-49c7-8767-43afb3c86bfe +0 ~1 -0 total=1
+[hocuspocus] disconnect edm-81b1382a-2cc6-49c7-8767-43afb3c86bfe remaining=?
+[hocuspocus] awareness edm-81b1382a-2cc6-49c7-8767-43afb3c86bfe +0 ~0 -1 total=1
+[hocuspocus] connect edm-5295d07b-5c9b-4dd9-a03d-96166ef10cc1 total=?
+[hocuspocus] auth OK doc=edm-5295d07b-5c9b-4dd9-a03d-96166ef10cc1 isEdm=true canWrite=true
+[hocuspocus] awareness edm-5295d07b-5c9b-4dd9-a03d-96166ef10cc1 +1 ~0 -0 total=1
+[hocuspocus] awareness edm-5295d07b-5c9b-4dd9-a03d-96166ef10cc1 +0 ~1 -0 total=1
+[hocuspocus] disconnect edm-5295d07b-5c9b-4dd9-a03d-96166ef10cc1 remaining=?
+[hocuspocus] awareness edm-5295d07b-5c9b-4dd9-a03d-96166ef10cc1 +0 ~0 -1 total=1
+[hocuspocus] connect edm-5634d14b-7610-4928-9cfd-5c7070236998 total=?
+[hocuspocus] auth OK doc=edm-5634d14b-7610-4928-9cfd-5c7070236998 isEdm=true canWrite=true
+[hocuspocus] awareness edm-5634d14b-7610-4928-9cfd-5c7070236998 +1 ~0 -0 total=1
+[hocuspocus] awareness edm-5634d14b-7610-4928-9cfd-5c7070236998 +0 ~1 -0 total=1
+[hocuspocus] disconnect edm-5634d14b-7610-4928-9cfd-5c7070236998 remaining=?
+[hocuspocus] awareness edm-5634d14b-7610-4928-9cfd-5c7070236998 +0 ~0 -1 total=1
+[hocuspocus] connect edm-aefb702d-3ae4-41fd-8ee6-a90a209bb3aa total=?
+[hocuspocus] auth OK doc=edm-aefb702d-3ae4-41fd-8ee6-a90a209bb3aa isEdm=true canWrite=true
+[hocuspocus] awareness edm-aefb702d-3ae4-41fd-8ee6-a90a209bb3aa +1 ~0 -0 total=1
+[hocuspocus] awareness edm-aefb702d-3ae4-41fd-8ee6-a90a209bb3aa +0 ~1 -0 total=1
+[hocuspocus] disconnect edm-aefb702d-3ae4-41fd-8ee6-a90a209bb3aa remaining=?
+[hocuspocus] awareness edm-aefb702d-3ae4-41fd-8ee6-a90a209bb3aa +0 ~0 -1 total=1

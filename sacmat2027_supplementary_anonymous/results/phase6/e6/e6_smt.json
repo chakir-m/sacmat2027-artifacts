@@ -1,0 +1,637 @@
+{
+  "z3_version": "5.3.3",
+  "results": {
+    "M_IMPL|all|I1_isolation": {
+      "result": "PROVED",
+      "time_s": 0.003
+    },
+    "M_IMPL|all|I2_classification": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.003,
+      "witness": {
+        "role": "dm",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "True",
+        "clr": "1",
+        "sens": "2",
+        "asg(a)": "False",
+        "del(a)": "False",
+        "has_asg": "False",
+        "has_del": "False",
+        "a==READ": "False",
+        "a==DOWNLOAD": "False",
+        "own": "False",
+        "risk_high": "False"
+      }
+    },
+    "M_IMPL|all|I3_analyst_need_to_know": {
+      "result": "PROVED",
+      "time_s": 0.003
+    },
+    "M_IMPL|all|I4_analyst_delegation_liveness": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.007,
+      "witness": {
+        "role": "analyst",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "True",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "False",
+        "del(a)": "True",
+        "has_asg": "False",
+        "has_del": "True",
+        "a==READ": "False",
+        "a==DOWNLOAD": "False",
+        "own": "False",
+        "risk_high": "False"
+      }
+    },
+    "M_IMPL|all|I5_cross_dept_only_delegated_actions": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.003,
+      "witness": {
+        "role": "analyst",
+        "same_dept": "False",
+        "same_div": "False",
+        "same_div_raw": "True",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "True",
+        "del(a)": "False",
+        "has_asg": "True",
+        "has_del": "Exists(x, Not(x == Act!val!3))",
+        "a==READ": "False",
+        "a==DOWNLOAD": "False",
+        "own": "False",
+        "risk_high": "False"
+      }
+    },
+    "M_IMPL|all|I6_risk_deny": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.003,
+      "witness": {
+        "role": "dm",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "True",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "True",
+        "del(a)": "True",
+        "has_asg": "True",
+        "has_del": "True",
+        "a==READ": "False",
+        "a==DOWNLOAD": "False",
+        "own": "False",
+        "risk_high": "True"
+      }
+    },
+    "M_IMPL|all|I7_justified_allow": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.003,
+      "witness": {
+        "role": "dm",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "True",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "False",
+        "del(a)": "False",
+        "has_asg": "False",
+        "has_del": "False",
+        "a==READ": "False",
+        "a==DOWNLOAD": "False",
+        "own": "False",
+        "risk_high": "False"
+      }
+    },
+    "M_IMPL|all|PAPER_analyst_least_privilege": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.007,
+      "witness": {
+        "role": "analyst",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "True",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "True",
+        "del(a)": "False",
+        "has_asg": "True",
+        "has_del": "False",
+        "a==READ": "False",
+        "a==DOWNLOAD": "False",
+        "own": "False",
+        "risk_high": "False"
+      }
+    },
+    "M_IMPL|all|LP_least_privilege_with_owner_exception": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.007,
+      "witness": {
+        "role": "analyst",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "True",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "True",
+        "del(a)": "False",
+        "has_asg": "True",
+        "has_del": "False",
+        "a==READ": "False",
+        "a==DOWNLOAD": "False",
+        "own": "False",
+        "risk_high": "False"
+      }
+    },
+    "M_IMPL|api|I1_isolation": {
+      "result": "PROVED",
+      "time_s": 0.002
+    },
+    "M_IMPL|api|I2_classification": {
+      "result": "PROVED",
+      "time_s": 0.003
+    },
+    "M_IMPL|api|I3_analyst_need_to_know": {
+      "result": "PROVED",
+      "time_s": 0.003
+    },
+    "M_IMPL|api|I4_analyst_delegation_liveness": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.007,
+      "witness": {
+        "role": "analyst",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "True",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "False",
+        "del(a)": "True",
+        "has_asg": "False",
+        "has_del": "True",
+        "a==READ": "True",
+        "a==DOWNLOAD": "False",
+        "own": "False",
+        "risk_high": "False"
+      }
+    },
+    "M_IMPL|api|I5_cross_dept_only_delegated_actions": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.007,
+      "witness": {
+        "role": "analyst",
+        "same_dept": "False",
+        "same_div": "False",
+        "same_div_raw": "True",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "True",
+        "del(a)": "False",
+        "has_asg": "True",
+        "has_del": "True",
+        "a==READ": "False",
+        "a==DOWNLOAD": "False",
+        "own": "False",
+        "risk_high": "False"
+      }
+    },
+    "M_IMPL|api|I6_risk_deny": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.007,
+      "witness": {
+        "role": "analyst",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "False",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "True",
+        "del(a)": "True",
+        "has_asg": "True",
+        "has_del": "True",
+        "a==READ": "True",
+        "a==DOWNLOAD": "False",
+        "own": "False",
+        "risk_high": "True"
+      }
+    },
+    "M_IMPL|api|I7_justified_allow": {
+      "result": "PROVED",
+      "time_s": 0.003
+    },
+    "M_IMPL|api|PAPER_analyst_least_privilege": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.007,
+      "witness": {
+        "role": "analyst",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "True",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "True",
+        "del(a)": "False",
+        "has_asg": "True",
+        "has_del": "False",
+        "a==READ": "False",
+        "a==DOWNLOAD": "False",
+        "own": "False",
+        "risk_high": "False"
+      }
+    },
+    "M_IMPL|api|LP_least_privilege_with_owner_exception": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.007,
+      "witness": {
+        "role": "analyst",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "True",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "True",
+        "del(a)": "False",
+        "has_asg": "True",
+        "has_del": "False",
+        "a==READ": "False",
+        "a==DOWNLOAD": "False",
+        "own": "False",
+        "risk_high": "False"
+      }
+    },
+    "M_IMPL|all|Pctx_decision_inert": {
+      "result": "PROVED",
+      "time_s": 0.004
+    },
+    "R_PAPER|all|I1_isolation": {
+      "result": "PROVED",
+      "time_s": 0.004
+    },
+    "R_PAPER|all|I2_classification": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "R_PAPER|all|I3_analyst_need_to_know": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.001,
+      "witness": {
+        "role": "analyst",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "True",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "False",
+        "del(a)": "False",
+        "has_asg": "True",
+        "has_del": "False",
+        "a==READ": "True",
+        "a==DOWNLOAD": "False",
+        "own": "False",
+        "risk_high": "False"
+      }
+    },
+    "R_PAPER|all|I4_analyst_delegation_liveness": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.002,
+      "witness": {
+        "role": "analyst",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "True",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "False",
+        "del(a)": "True",
+        "has_asg": "False",
+        "has_del": "True",
+        "a==READ": "False",
+        "a==DOWNLOAD": "False",
+        "own": "False",
+        "risk_high": "False"
+      }
+    },
+    "R_PAPER|all|I5_cross_dept_only_delegated_actions": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.001,
+      "witness": {
+        "role": "analyst",
+        "same_dept": "False",
+        "same_div": "False",
+        "same_div_raw": "True",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "True",
+        "del(a)": "False",
+        "has_asg": "True",
+        "has_del": "Exists(x, Not(x == Act!val!0))",
+        "a==READ": "True",
+        "a==DOWNLOAD": "False",
+        "own": "False",
+        "risk_high": "False"
+      }
+    },
+    "R_PAPER|all|I6_risk_deny": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.001,
+      "witness": {
+        "role": "director",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "False",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "False",
+        "del(a)": "True",
+        "has_asg": "False",
+        "has_del": "True",
+        "a==READ": "False",
+        "a==DOWNLOAD": "False",
+        "own": "False",
+        "risk_high": "True"
+      }
+    },
+    "R_PAPER|all|I7_justified_allow": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.001,
+      "witness": {
+        "role": "dm",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "False",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "False",
+        "del(a)": "False",
+        "has_asg": "True",
+        "has_del": "False",
+        "a==READ": "True",
+        "a==DOWNLOAD": "False",
+        "own": "False",
+        "risk_high": "False"
+      }
+    },
+    "R_PAPER|all|PAPER_analyst_least_privilege": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "R_PAPER|all|LP_least_privilege_with_owner_exception": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "R_PAPER|api|I1_isolation": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "R_PAPER|api|I2_classification": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "R_PAPER|api|I3_analyst_need_to_know": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.002,
+      "witness": {
+        "role": "analyst",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "True",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "False",
+        "del(a)": "False",
+        "has_asg": "True",
+        "has_del": "False",
+        "a==READ": "True",
+        "a==DOWNLOAD": "False",
+        "own": "False",
+        "risk_high": "False"
+      }
+    },
+    "R_PAPER|api|I4_analyst_delegation_liveness": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.002,
+      "witness": {
+        "role": "analyst",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "True",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "False",
+        "del(a)": "True",
+        "has_asg": "False",
+        "has_del": "True",
+        "a==READ": "True",
+        "a==DOWNLOAD": "False",
+        "own": "False",
+        "risk_high": "False"
+      }
+    },
+    "R_PAPER|api|I5_cross_dept_only_delegated_actions": {
+      "result": "PROVED",
+      "time_s": 0.001
+    },
+    "R_PAPER|api|I6_risk_deny": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.002,
+      "witness": {
+        "role": "director",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "False",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "False",
+        "del(a)": "False",
+        "has_asg": "False",
+        "has_del": "False",
+        "a==READ": "False",
+        "a==DOWNLOAD": "False",
+        "own": "False",
+        "risk_high": "True"
+      }
+    },
+    "R_PAPER|api|I7_justified_allow": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.002,
+      "witness": {
+        "role": "dm",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "False",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "False",
+        "del(a)": "False",
+        "has_asg": "True",
+        "has_del": "False",
+        "a==READ": "True",
+        "a==DOWNLOAD": "False",
+        "own": "False",
+        "risk_high": "False"
+      }
+    },
+    "R_PAPER|api|PAPER_analyst_least_privilege": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "R_PAPER|api|LP_least_privilege_with_owner_exception": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "R_PAPER|all|Pctx_decision_inert": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "C9_FIX|all|I1_isolation": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "C9_FIX|all|I2_classification": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "C9_FIX|all|I3_analyst_need_to_know": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "C9_FIX|all|I4_analyst_delegation_liveness": {
+      "result": "PROVED",
+      "time_s": 0.001
+    },
+    "C9_FIX|all|I5_cross_dept_only_delegated_actions": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "C9_FIX|all|I6_risk_deny": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "C9_FIX|all|I7_justified_allow": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "C9_FIX|all|PAPER_analyst_least_privilege": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.002,
+      "witness": {
+        "role": "analyst",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "True",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "False",
+        "del(a)": "False",
+        "has_asg": "False",
+        "has_del": "False",
+        "a==READ": "False",
+        "a==DOWNLOAD": "True",
+        "own": "True",
+        "risk_high": "False"
+      }
+    },
+    "C9_FIX|all|LP_least_privilege_with_owner_exception": {
+      "result": "PROVED",
+      "time_s": 0.001
+    },
+    "C9_FIX|api|I1_isolation": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "C9_FIX|api|I2_classification": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "C9_FIX|api|I3_analyst_need_to_know": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "C9_FIX|api|I4_analyst_delegation_liveness": {
+      "result": "PROVED",
+      "time_s": 0.001
+    },
+    "C9_FIX|api|I5_cross_dept_only_delegated_actions": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "C9_FIX|api|I6_risk_deny": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "C9_FIX|api|I7_justified_allow": {
+      "result": "PROVED",
+      "time_s": 0.0
+    },
+    "C9_FIX|api|PAPER_analyst_least_privilege": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.002,
+      "witness": {
+        "role": "analyst",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "True",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "False",
+        "del(a)": "False",
+        "has_asg": "False",
+        "has_del": "False",
+        "a==READ": "False",
+        "a==DOWNLOAD": "True",
+        "own": "True",
+        "risk_high": "False"
+      }
+    },
+    "C9_FIX|api|LP_least_privilege_with_owner_exception": {
+      "result": "PROVED",
+      "time_s": 0.001
+    },
+    "C9_FIX|all|Pctx_decision_inert": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.002,
+      "witness": {
+        "role": "dm",
+        "same_dept": "True",
+        "same_div": "False",
+        "same_div_raw": "True",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "True",
+        "del(a)": "False",
+        "has_asg": "True",
+        "has_del": "False",
+        "a==READ": "True",
+        "a==DOWNLOAD": "False",
+        "own": "True",
+        "risk_high": "True"
+      }
+    },
+    "EQUIV|api|R_PAPER==M_IMPL": {
+      "result": "COUNTEREXAMPLE",
+      "time_s": 0.002,
+      "witness": {
+        "role": "analyst",
+        "same_dept": "False",
+        "same_div": "False",
+        "same_div_raw": "False",
+        "clr": "1",
+        "sens": "0",
+        "asg(a)": "True",
+        "del(a)": "False",
+        "has_asg": "True",
+        "has_del": "True",
+        "a==READ": "False",
+        "a==DOWNLOAD": "False",
+        "own": "False",
+        "risk_high": "False"
+      }
+    }
+  }
+}

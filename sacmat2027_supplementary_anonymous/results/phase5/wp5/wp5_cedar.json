@@ -1,0 +1,40 @@
+{
+  "cedarpy": "4.12.2",
+  "M_IMPL": {
+    "policies": 36,
+    "chars": 18571,
+    "validation_passed": true,
+    "validation_errors": [],
+    "differential_vs_reference": {
+      "requests": 368640,
+      "agree": 368640,
+      "mismatch_examples": []
+    },
+    "time_s": 48.4
+  },
+  "M_IMPL_without_Pctx": {
+    "policies": 32,
+    "chars": 15983,
+    "validation_passed": true,
+    "validation_errors": [],
+    "differential_vs_reference": {
+      "requests": 368640,
+      "agree": 368640,
+      "mismatch_examples": []
+    },
+    "time_s": 46.5
+  },
+  "C9_FIX": {
+    "policies": 40,
+    "chars": 19422,
+    "validation_passed": true,
+    "validation_errors": [],
+    "differential_vs_reference": {
+      "requests": 737280,
+      "agree": 737280,
+      "mismatch_examples": []
+    },
+    "time_s": 98.6
+  },
+  "Pctx_removal_changes_decisions_in_M_IMPL": 0
+}

@@ -1,0 +1,4370 @@
+{
+ "summary": {
+  "api_routes": 152,
+  "other_routes": [
+   {
+    "type": "Route",
+    "path": "/openapi.json",
+    "name": "openapi"
+   },
+   {
+    "type": "Route",
+    "path": "/docs",
+    "name": "swagger_ui_html"
+   },
+   {
+    "type": "Route",
+    "path": "/docs/oauth2-redirect",
+    "name": "swagger_ui_redirect"
+   },
+   {
+    "type": "Route",
+    "path": "/redoc",
+    "name": "redoc_html"
+   },
+   {
+    "type": "Mount",
+    "path": "/metrics",
+    "name": null
+   }
+  ],
+  "in_scope": 100,
+  "in_scope_probed": 36,
+  "in_scope_by_module": {
+   "app.api.access": 1,
+   "app.api.audit_org": 3,
+   "app.api.delegations": 6,
+   "app.api.documents": 50,
+   "app.api.documents_export": 2,
+   "app.api.export": 3,
+   "app.api.internal": 5,
+   "app.api.notifications": 2,
+   "app.api.pep": 7,
+   "app.api.policies": 5,
+   "app.api.reports": 1,
+   "app.api.resources": 8,
+   "app.api.retention": 1,
+   "app.api.subjects": 6
+  },
+  "in_scope_with_pdp": 7,
+  "in_scope_with_doc_read": 29,
+  "in_scope_with_no_decision_procedure": [
+   "DELETE /api/v1/resources/{resource_id}/assignments/{assignment_id}",
+   "GET /api/v1/resources/{resource_id}/access-context",
+   "GET /api/v1/audit/stats",
+   "GET /api/v1/documents/templates",
+   "PATCH /api/v1/documents/{doc_id}/comments/{comment_id}/resolve",
+   "POST /api/v1/documents/{doc_id}/sign"
+  ],
+  "in_scope_unprobed": [
+   "GET /api/v1/subjects/org-graph",
+   "GET /api/v1/subjects",
+   "POST /api/v1/subjects",
+   "GET /api/v1/subjects/{subject_id}",
+   "PUT /api/v1/subjects/{subject_id}",
+   "DELETE /api/v1/subjects/{subject_id}/hard",
+   "GET /api/v1/resources",
+   "POST /api/v1/resources",
+   "GET /api/v1/resources/{resource_id}/access-context",
+   "POST /api/v1/delegations/{delegation_id}/reject",
+   "GET /api/v1/audit/decisions",
+   "GET /api/v1/audit/stats",
+   "GET /api/v1/audit/risk-stats",
+   "GET /api/v1/policies",
+   "POST /api/v1/policies",
+   "GET /api/v1/policies/{policy_id}",
+   "PUT /api/v1/policies/{policy_id}",
+   "PATCH /api/v1/policies/{policy_id}/status",
+   "GET /api/v1/export/decisions/csv",
+   "GET /api/v1/export/audit/csv",
+   "GET /api/v1/export/decisions/pdf",
+   "GET /api/v1/pep/resources",
+   "GET /api/v1/internal/resources/{resource_id}/document",
+   "PUT /api/v1/internal/resources/{resource_id}/document",
+   "GET /api/v1/internal/documents/{doc_id}/check",
+   "GET /api/v1/internal/documents/{doc_id}/ydoc",
+   "PUT /api/v1/internal/documents/{doc_id}/ydoc",
+   "PATCH /api/v1/documents/spaces/{space_id}",
+   "DELETE /api/v1/documents/spaces/{space_id}",
+   "GET /api/v1/documents/spaces/{space_id}/folders",
+   "POST /api/v1/documents/spaces/{space_id}/folders",
+   "GET /api/v1/documents/{doc_id}/tasks",
+   "POST /api/v1/documents/{doc_id}/tasks",
+   "PATCH /api/v1/documents/{doc_id}/tasks/{task_id}",
+   "DELETE /api/v1/documents/{doc_id}/tasks/{task_id}",
+   "GET /api/v1/documents/{doc_id}/links",
+   "POST /api/v1/documents/{doc_id}/links",
+   "DELETE /api/v1/documents/{doc_id}/links/{link_id}",
+   "GET /api/v1/documents/{doc_id}/versions",
+   "POST /api/v1/documents/{doc_id}/versions/{version_id}/restore",
+   "GET /api/v1/documents/{doc_id}/workflow",
+   "POST /api/v1/documents/{doc_id}/submit",
+   "POST /api/v1/documents/{doc_id}/approve",
+   "POST /api/v1/documents/{doc_id}/reject",
+   "POST /api/v1/documents/{doc_id}/archive",
+   "POST /api/v1/documents/{doc_id}/restore",
+   "GET /api/v1/documents/{doc_id}/signatures",
+   "POST /api/v1/documents/{doc_id}/request-reopen",
+   "GET /api/v1/documents/{doc_id}/reopen-request",
+   "POST /api/v1/documents/{doc_id}/approve-reopen",
+   "POST /api/v1/documents/{doc_id}/reject-reopen",
+   "GET /api/v1/documents/{doc_id}/collaborators",
+   "GET /api/v1/documents/{doc_id}/mention-users",
+   "GET /api/v1/documents/{doc_id}/eligible-collaborators",
+   "POST /api/v1/documents/{doc_id}/collaborators",
+   "POST /api/v1/documents/{doc_id}/file",
+   "GET /api/v1/documents/{doc_id}/file",
+   "GET /api/v1/documents/{doc_id}/file/download",
+   "GET /api/v1/documents/{doc_id}/export/pdf",
+   "GET /api/v1/documents/{doc_id}/export/docx",
+   "GET /api/v1/notifications",
+   "PATCH /api/v1/notifications/{notification_id}/read",
+   "GET /api/v1/org/reports/compliance",
+   "POST /api/v1/org/retention-policies/run"
+  ],
+  "probe_url_templates": [
+   "/access/decide",
+   "/delegations",
+   "/delegations/{x}",
+   "/delegations/{x}/approve",
+   "/delegations/{x}/revoke",
+   "/documents",
+   "/documents/spaces/{x}/folders/{x}",
+   "/documents/{x}",
+   "/documents/{x}/collaborators/{x}",
+   "/documents/{x}/comments",
+   "/documents/{x}/comments/{x}/resolve",
+   "/documents/{x}/publish",
+   "/documents/{x}/request-approval",
+   "/documents/{x}/sign",
+   "/pep/access/{x}",
+   "/pep/access/{x}/check",
+   "/pep/download/{x}",
+   "/pep/preview/{x}",
+   "/pep/{x}/{x}",
+   "/resources/{x}",
+   "/resources/{x}/assignments",
+   "/resources/{x}/assignments/{x}"
+  ]
+ },
+ "routes": [
+  {
+   "path": "/api/v1/auth/token",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.auth.login",
+   "dependencies": [
+    "OAuth2PasswordRequestForm",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/auth/mfa",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.auth.verify_mfa",
+   "dependencies": [
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/auth/refresh",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.auth.refresh_token",
+   "dependencies": [
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/auth/me",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.auth.get_me",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/auth/profile",
+   "methods": [
+    "PATCH"
+   ],
+   "endpoint": "app.api.auth.update_profile",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/auth/logout",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.auth.logout",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/access/decide",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.access.decide_access",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": true,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentTask",
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [
+    "Delegation",
+    "DocumentCollaborator",
+    "ResourceAssignment"
+   ],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/access/simulate",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.access.simulate_access",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": true,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/subjects/org-graph",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.subjects.get_org_graph",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/subjects",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.subjects.list_subjects",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/subjects",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.subjects.create_subject",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "file_path"
+   ],
+   "grant_change": [
+    "Delegation"
+   ],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/subjects/{subject_id}",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.subjects.get_subject",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/subjects/{subject_id}",
+   "methods": [
+    "PUT"
+   ],
+   "endpoint": "app.api.subjects.update_subject",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "file_path"
+   ],
+   "grant_change": [
+    "Delegation"
+   ],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/subjects/{subject_id}",
+   "methods": [
+    "DELETE"
+   ],
+   "endpoint": "app.api.subjects.delete_subject",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/subjects/{subject_id}/hard",
+   "methods": [
+    "DELETE"
+   ],
+   "endpoint": "app.api.subjects.hard_delete_subject",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [
+    "Delegation",
+    "ResourceAssignment"
+   ],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/resources/types",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.resources.list_resource_types",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/resources",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.resources.list_resources",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/resources",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.resources.create_resource",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "file_path"
+   ],
+   "grant_change": [
+    "Delegation"
+   ],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/resources/{resource_id}",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.resources.get_resource",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/resources/{resource_id}",
+   "methods": [
+    "PUT"
+   ],
+   "endpoint": "app.api.resources.update_resource",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "file_path"
+   ],
+   "grant_change": [
+    "Delegation"
+   ],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/resources/{resource_id}",
+   "methods": [
+    "DELETE"
+   ],
+   "endpoint": "app.api.resources.delete_resource",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/resources/{resource_id}/assignments",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.resources.list_assignments",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/resources/{resource_id}/assignments",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.resources.create_assignment",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [
+    "ResourceAssignment"
+   ],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/resources/{resource_id}/assignments/{assignment_id}",
+   "methods": [
+    "DELETE"
+   ],
+   "endpoint": "app.api.resources.revoke_assignment",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [
+    "ResourceAssignment"
+   ],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/resources/{resource_id}/access-context",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.resources.get_access_context",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/delegations",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.delegations.list_delegations",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/delegations",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.delegations.request_delegation",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentTask",
+    "Resource"
+   ],
+   "content": [
+    "file_path"
+   ],
+   "grant_change": [
+    "Delegation",
+    "DocumentCollaborator",
+    "ResourceAssignment"
+   ],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/delegations/{delegation_id}",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.delegations.get_delegation",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/delegations/{delegation_id}/approve",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.delegations.approve_delegation",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentTask",
+    "Resource"
+   ],
+   "content": [
+    "file_path"
+   ],
+   "grant_change": [
+    "Delegation",
+    "DocumentCollaborator",
+    "ResourceAssignment"
+   ],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/delegations/{delegation_id}/reject",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.delegations.reject_delegation",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "file_path"
+   ],
+   "grant_change": [
+    "Delegation"
+   ],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/delegations/{delegation_id}/revoke",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.delegations.revoke_delegation",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "file_path"
+   ],
+   "grant_change": [
+    "Delegation"
+   ],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/audit",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.audit_org.list_audit_logs",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_admin_subject",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "get_admin_subject"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/audit/decisions",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.audit_org.list_decisions",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/audit/stats",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.audit_org.get_audit_stats",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/audit/risk-stats",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.audit_org.get_risk_stats",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_admin_subject",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "get_admin_subject"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/org/departments",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.audit_org.list_departments",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/org/divisions",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.audit_org.list_divisions",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/org/roles",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.audit_org.list_roles",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/org/departments",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.audit_org.create_department",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_admin_subject",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "get_admin_subject"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/org/departments/{dept_id}",
+   "methods": [
+    "PUT"
+   ],
+   "endpoint": "app.api.audit_org.update_department",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/org/departments/{dept_id}",
+   "methods": [
+    "DELETE"
+   ],
+   "endpoint": "app.api.audit_org.delete_department",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_admin_subject",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "get_admin_subject"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/org/divisions",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.audit_org.create_division",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_admin_subject",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "get_admin_subject"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/org/divisions/{div_id}",
+   "methods": [
+    "PUT"
+   ],
+   "endpoint": "app.api.audit_org.update_division",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "_require_admin_or_dept_director",
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/org/divisions/{div_id}",
+   "methods": [
+    "DELETE"
+   ],
+   "endpoint": "app.api.audit_org.delete_division",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "_require_admin_or_dept_director",
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/org/roles",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.audit_org.create_role",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_admin_subject",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "get_admin_subject"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/org/roles/{role_id}",
+   "methods": [
+    "PUT"
+   ],
+   "endpoint": "app.api.audit_org.update_role",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_admin_subject",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "get_admin_subject"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/org/roles/{role_id}",
+   "methods": [
+    "DELETE"
+   ],
+   "endpoint": "app.api.audit_org.delete_role",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_admin_subject",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "get_admin_subject"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/org/roles/{role_id}/permissions",
+   "methods": [
+    "PUT"
+   ],
+   "endpoint": "app.api.audit_org.update_role_permissions",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_admin_subject",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "get_admin_subject"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/org/subjects/{subject_id}/permission-overrides",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.audit_org.list_subject_permission_overrides",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_admin_subject",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "get_admin_subject"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/org/subjects/{subject_id}/permission-overrides",
+   "methods": [
+    "PUT"
+   ],
+   "endpoint": "app.api.audit_org.update_subject_permission_override",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_admin_subject",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "get_admin_subject"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/policies",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.policies.list_policies",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/policies",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.policies.create_policy",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "_require_policy_manager",
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "file_path"
+   ],
+   "grant_change": [
+    "Delegation"
+   ],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/policies/{policy_id}",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.policies.get_policy",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/policies/{policy_id}",
+   "methods": [
+    "PUT"
+   ],
+   "endpoint": "app.api.policies.update_policy",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "_require_policy_manager",
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "file_path"
+   ],
+   "grant_change": [
+    "Delegation"
+   ],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/policies/{policy_id}/status",
+   "methods": [
+    "PATCH"
+   ],
+   "endpoint": "app.api.policies.toggle_policy_status",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "_require_policy_manager",
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "file_path"
+   ],
+   "grant_change": [
+    "Delegation"
+   ],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/policies/{policy_id}",
+   "methods": [
+    "DELETE"
+   ],
+   "endpoint": "app.api.policies.delete_policy",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "_require_policy_manager",
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/policies/sync-builtins",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.policies.sync_builtin_policies",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/health/detailed",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.health.detailed_health",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_admin_subject",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "get_admin_subject"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/mfa/status",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.mfa.get_mfa_status",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/mfa/setup",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.mfa.setup_mfa",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/mfa/verify",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.mfa.verify_and_enable_mfa",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/mfa/disable",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.mfa.disable_mfa",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/mfa/validate",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.mfa.validate_mfa_token",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/export/decisions/csv",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.export.export_decisions_csv",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [
+    "StreamingResponse"
+   ],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/export/audit/csv",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.export.export_audit_csv",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_admin_subject",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "get_admin_subject"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [
+    "StreamingResponse"
+   ],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/export/decisions/pdf",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.export.export_decisions_pdf",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [
+    "StreamingResponse"
+   ],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/pep/upload/{resource_id}",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.pep.upload_file",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/pep/access/{resource_id}",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.pep.enforce_access",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": true,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "StreamingResponse",
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/pep/access/{resource_id}/check",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.pep.check_access",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": true,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/pep/test/{resource_id}",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.pep.test_access",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": true,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/pep/preview/{resource_id}",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.pep.preview_file",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": true,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "StreamingResponse",
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/pep/download/{resource_id}",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.pep.download_file",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": true,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "StreamingResponse",
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/pep/resources",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.pep.list_accessible_resources",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": true,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/internal/resources/{resource_id}/document",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.internal.get_document",
+   "dependencies": [
+    "_require_internal",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": true,
+   "objects": [
+    "Document",
+    "DocumentComment",
+    "Resource"
+   ],
+   "content": [
+    "content_json",
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/internal/resources/{resource_id}/document",
+   "methods": [
+    "PUT"
+   ],
+   "endpoint": "app.api.internal.save_document",
+   "dependencies": [
+    "_require_internal",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": true,
+   "objects": [
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/internal/documents/{doc_id}/check",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.internal.check_document_access",
+   "dependencies": [
+    "_require_internal",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": true,
+   "objects": [
+    "Document"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/internal/documents/{doc_id}/ydoc",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.internal.get_doc_ydoc",
+   "dependencies": [
+    "_require_internal",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": true,
+   "objects": [
+    "Document"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/internal/documents/{doc_id}/ydoc",
+   "methods": [
+    "PUT"
+   ],
+   "endpoint": "app.api.internal.save_doc_ydoc",
+   "dependencies": [
+    "_require_internal",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": true,
+   "objects": [
+    "Document"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/spaces",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.documents.list_spaces",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentFolder",
+    "DocumentSpace"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/spaces",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.documents.create_space",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "DocumentSpace"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/spaces/{space_id}",
+   "methods": [
+    "PATCH"
+   ],
+   "endpoint": "app.api.documents.update_space",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentFolder",
+    "DocumentSpace"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/spaces/{space_id}",
+   "methods": [
+    "DELETE"
+   ],
+   "endpoint": "app.api.documents.archive_space",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "DocumentSpace"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/spaces/{space_id}/folders",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.documents.list_folders",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentFolder",
+    "DocumentSpace"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/spaces/{space_id}/folders",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.documents.create_folder",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "DocumentFolder",
+    "DocumentSpace"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/spaces/{space_id}/folders/{folder_id}",
+   "methods": [
+    "DELETE"
+   ],
+   "endpoint": "app.api.documents.delete_folder",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "DocumentFolder",
+    "DocumentSpace"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.documents.list_documents",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentComment",
+    "Resource"
+   ],
+   "content": [
+    "content_json",
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.documents.create_document",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentVersion"
+   ],
+   "content": [
+    "content_json",
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/templates",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.documents.list_templates",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [],
+   "content": [
+    "content_json"
+   ],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/templates",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.documents.create_template",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [
+    "content_json"
+   ],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/templates/{template_id}",
+   "methods": [
+    "DELETE"
+   ],
+   "endpoint": "app.api.documents.delete_template",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/tasks",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.documents.list_tasks",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentTask",
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/tasks",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.documents.create_task",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentTask",
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [
+    "Delegation",
+    "DocumentCollaborator",
+    "ResourceAssignment"
+   ],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/tasks/{task_id}",
+   "methods": [
+    "PATCH"
+   ],
+   "endpoint": "app.api.documents.update_task",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentTask",
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [
+    "Delegation",
+    "DocumentCollaborator",
+    "ResourceAssignment"
+   ],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/tasks/{task_id}",
+   "methods": [
+    "DELETE"
+   ],
+   "endpoint": "app.api.documents.delete_task",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentTask",
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [
+    "Delegation",
+    "DocumentCollaborator",
+    "ResourceAssignment"
+   ],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/links",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.documents.list_links",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentLink",
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/links",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.documents.create_link",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentLink",
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [
+    "Delegation",
+    "DocumentCollaborator",
+    "ResourceAssignment"
+   ],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/links/{link_id}",
+   "methods": [
+    "DELETE"
+   ],
+   "endpoint": "app.api.documents.delete_link",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentLink",
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [
+    "Delegation",
+    "DocumentCollaborator",
+    "ResourceAssignment"
+   ],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/search",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.documents.search_documents",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/activity",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.documents.list_activity",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "WorkflowStep"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.documents.get_document",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": true,
+   "objects": [
+    "Document",
+    "DocumentComment",
+    "Resource"
+   ],
+   "content": [
+    "content_json",
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}",
+   "methods": [
+    "PUT"
+   ],
+   "endpoint": "app.api.documents.update_document",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [
+    "_can_write_document",
+    "_can_write_or_collaborate"
+   ],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentVersion"
+   ],
+   "content": [
+    "content_json",
+    "file_path"
+   ],
+   "grant_change": [
+    "DocumentCollaborator"
+   ],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}",
+   "methods": [
+    "DELETE"
+   ],
+   "endpoint": "app.api.documents.delete_document",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [
+    "_can_delete_document"
+   ],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/versions",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.documents.list_versions",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentVersion",
+    "Resource"
+   ],
+   "content": [
+    "content_json"
+   ],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/versions/{version_id}/restore",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.documents.restore_to_version",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [
+    "_can_write_document"
+   ],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentVersion"
+   ],
+   "content": [
+    "content_json"
+   ],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/workflow",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.documents.get_workflow_history",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "Resource",
+    "WorkflowStep"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/submit",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.documents.submit_for_review",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentTask",
+    "Resource",
+    "WorkflowStep"
+   ],
+   "content": [
+    "content_json",
+    "file_path"
+   ],
+   "grant_change": [
+    "Delegation",
+    "DocumentCollaborator",
+    "ResourceAssignment"
+   ],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/request-approval",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.documents.request_approval",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "WorkflowStep"
+   ],
+   "content": [
+    "content_json",
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/approve",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.documents.approve_document",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentTask",
+    "Resource",
+    "WorkflowStep"
+   ],
+   "content": [
+    "content_json",
+    "file_path"
+   ],
+   "grant_change": [
+    "Delegation",
+    "DocumentCollaborator",
+    "ResourceAssignment"
+   ],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/reject",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.documents.reject_document",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [
+    "_can_write_document"
+   ],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentTask",
+    "Resource",
+    "WorkflowStep"
+   ],
+   "content": [
+    "content_json",
+    "file_path"
+   ],
+   "grant_change": [
+    "Delegation",
+    "DocumentCollaborator",
+    "ResourceAssignment"
+   ],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/publish",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.documents.publish_document",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "Resource",
+    "WorkflowStep"
+   ],
+   "content": [
+    "content_json",
+    "file_path"
+   ],
+   "grant_change": [
+    "DocumentCollaborator",
+    "ResourceAssignment"
+   ],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/archive",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.documents.archive_document",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [
+    "_can_delete_document"
+   ],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "Resource",
+    "WorkflowStep"
+   ],
+   "content": [
+    "content_json",
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/restore",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.documents.restore_document",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [
+    "_can_write_document"
+   ],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "WorkflowStep"
+   ],
+   "content": [
+    "content_json",
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/comments",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.documents.list_comments",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentComment",
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/comments",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.documents.add_comment",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentComment",
+    "DocumentTask",
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [
+    "Delegation",
+    "DocumentCollaborator",
+    "ResourceAssignment"
+   ],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/comments/{comment_id}/resolve",
+   "methods": [
+    "PATCH"
+   ],
+   "endpoint": "app.api.documents.resolve_comment",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [
+    "DocumentComment"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/signatures",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.documents.list_signatures",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentSignature",
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/sign",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.documents.sign_document",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentSignature"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/request-reopen",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.documents.request_reopen",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [
+    "_can_write_document"
+   ],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentReopenRequest",
+    "DocumentTask",
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [
+    "Delegation",
+    "DocumentCollaborator",
+    "ResourceAssignment"
+   ],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/reopen-request",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.documents.get_reopen_request",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentReopenRequest",
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/approve-reopen",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.documents.approve_reopen",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [
+    "_can_reopen_directly"
+   ],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentReopenRequest",
+    "WorkflowStep"
+   ],
+   "content": [
+    "content_json",
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/reject-reopen",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.documents.reject_reopen",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [
+    "_can_reopen_directly"
+   ],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentReopenRequest"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/collaborators",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.documents.list_collaborators",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/mention-users",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.documents.list_mention_users",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/eligible-collaborators",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.documents.list_eligible_collaborators",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [
+    "_can_manage_collaborators"
+   ],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/collaborators",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.documents.add_collaborator",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [
+    "_can_manage_collaborators"
+   ],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "DocumentTask",
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [
+    "Delegation",
+    "DocumentCollaborator",
+    "ResourceAssignment"
+   ],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/collaborators/{subject_id}",
+   "methods": [
+    "DELETE"
+   ],
+   "endpoint": "app.api.documents.remove_collaborator",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [
+    "_can_manage_collaborators"
+   ],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [
+    "DocumentCollaborator",
+    "ResourceAssignment"
+   ],
+   "probed": true,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/file",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.documents.upload_document_file",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [
+    "_can_write_document"
+   ],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/file",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.documents.preview_document_file",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "Resource"
+   ],
+   "content": [
+    "StreamingResponse",
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/file/download",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.documents.download_document_file",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "Resource"
+   ],
+   "content": [
+    "StreamingResponse",
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/export/pdf",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.documents_export.export_pdf",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "Resource"
+   ],
+   "content": [
+    "StreamingResponse",
+    "content_json"
+   ],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/documents/{doc_id}/export/docx",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.documents_export.export_docx",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [
+    "_assert_can_read",
+    "_can_read_document",
+    "_check_delegation_read"
+   ],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document",
+    "Resource"
+   ],
+   "content": [
+    "StreamingResponse",
+    "content_json"
+   ],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/notifications",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.notifications.list_notifications",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "file_path"
+   ],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/notifications/count",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.notifications.unread_count",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/notifications/{notification_id}/read",
+   "methods": [
+    "PATCH"
+   ],
+   "endpoint": "app.api.notifications.mark_read",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [
+    "file_path"
+   ],
+   "grant_change": [
+    "Delegation"
+   ],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/notifications/read-all",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.notifications.mark_all_read",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/auth/sso/providers",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.sso.list_providers",
+   "dependencies": [],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/auth/sso/login",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.sso.sso_login",
+   "dependencies": [],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "_require_oidc"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/auth/sso/callback",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.sso.sso_callback",
+   "dependencies": [
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "_require_oidc"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/org/reports/access-review",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.reports.get_access_review",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_admin_subject",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "get_admin_subject"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/org/reports/compliance",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.reports.get_compliance_summary",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_admin_subject",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "get_admin_subject",
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Resource"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/api/v1/webhooks",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.webhooks.list_webhooks",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_admin_subject",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "get_admin_subject"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/webhooks",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.webhooks.create_webhook",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_admin_subject",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "get_admin_subject"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/webhooks/{webhook_id}",
+   "methods": [
+    "DELETE"
+   ],
+   "endpoint": "app.api.webhooks.delete_webhook",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_admin_subject",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "get_admin_subject"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/webhooks/{webhook_id}/test",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.webhooks.test_webhook",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_admin_subject",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "get_admin_subject"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/webhooks/{webhook_id}/toggle",
+   "methods": [
+    "PATCH"
+   ],
+   "endpoint": "app.api.webhooks.toggle_webhook",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_admin_subject",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "get_admin_subject"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/org/retention-policies",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.api.retention.list_retention_policies",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "_require_admin",
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/org/retention-policies",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.retention.create_retention_policy",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "_require_admin",
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/org/retention-policies/{policy_id}",
+   "methods": [
+    "PUT"
+   ],
+   "endpoint": "app.api.retention.update_retention_policy",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "_require_admin",
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/org/retention-policies/{policy_id}",
+   "methods": [
+    "DELETE"
+   ],
+   "endpoint": "app.api.retention.delete_retention_policy",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "_require_admin",
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/api/v1/org/retention-policies/run",
+   "methods": [
+    "POST"
+   ],
+   "endpoint": "app.api.retention.run_retention_now",
+   "dependencies": [
+    "OAuth2PasswordBearer",
+    "get_current_subject",
+    "get_db"
+   ],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [
+    "_require_admin",
+    "is_platform_admin"
+   ],
+   "internal_guard": false,
+   "objects": [
+    "Document"
+   ],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": true
+  },
+  {
+   "path": "/health",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.main.health_check",
+   "dependencies": [],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  },
+  {
+   "path": "/",
+   "methods": [
+    "GET"
+   ],
+   "endpoint": "app.main.root",
+   "dependencies": [],
+   "pdp": false,
+   "doc_read": [],
+   "doc_write": [],
+   "role_guard": [],
+   "internal_guard": false,
+   "objects": [],
+   "content": [],
+   "grant_change": [],
+   "probed": false,
+   "in_scope": false
+  }
+ ]
+}

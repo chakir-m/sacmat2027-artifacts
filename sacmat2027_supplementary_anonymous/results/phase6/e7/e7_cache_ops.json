@@ -1,0 +1,618 @@
+{
+ "backend": "/home/claude/paper-work/forks/eval-fork-fb7f20d1/backend",
+ "assignment_ttl_s": 120,
+ "A_workers1": {
+  "workers": 1,
+  "cycles": 200,
+  "load_requests": 12353,
+  "load_5xx": 0,
+  "hook_calls": 400,
+  "server_pids": 1,
+  "eps_b_ms": {
+   "median": 0.788,
+   "p99": 3.668,
+   "max": 4.81,
+   "mean": 0.863
+  },
+  "bumped_before_response": 200,
+  "deny_after_revocation": 200,
+  "revocation_status_ok": 200,
+  "trials": [
+   {
+    "create": 201,
+    "revoke": 204,
+    "gens": [
+     [
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      1,
+      1
+     ],
+     [
+      0,
+      2,
+      2
+     ]
+    ],
+    "bumped_before_response": true,
+    "deny_after": true,
+    "revoke_s": 0.1341
+   },
+   {
+    "create": 201,
+    "revoke": 204,
+    "gens": [
+     [
+      0,
+      2,
+      2
+     ],
+     [
+      0,
+      3,
+      3
+     ],
+     [
+      0,
+      4,
+      4
+     ]
+    ],
+    "bumped_before_response": true,
+    "deny_after": true,
+    "revoke_s": 0.1174
+   },
+   {
+    "create": 201,
+    "revoke": 204,
+    "gens": [
+     [
+      0,
+      4,
+      4
+     ],
+     [
+      0,
+      5,
+      5
+     ],
+     [
+      0,
+      6,
+      6
+     ]
+    ],
+    "bumped_before_response": true,
+    "deny_after": true,
+    "revoke_s": 0.1142
+   },
+   {
+    "create": 201,
+    "revoke": 204,
+    "gens": [
+     [
+      0,
+      6,
+      6
+     ],
+     [
+      0,
+      7,
+      7
+     ],
+     [
+      0,
+      8,
+      8
+     ]
+    ],
+    "bumped_before_response": true,
+    "deny_after": true,
+    "revoke_s": 0.1703
+   },
+   {
+    "create": 201,
+    "revoke": 204,
+    "gens": [
+     [
+      0,
+      8,
+      8
+     ],
+     [
+      0,
+      9,
+      9
+     ],
+     [
+      0,
+      10,
+      10
+     ]
+    ],
+    "bumped_before_response": true,
+    "deny_after": true,
+    "revoke_s": 0.1419
+   }
+  ]
+ },
+ "A_workers2": {
+  "workers": 2,
+  "cycles": 200,
+  "load_requests": 1579,
+  "load_5xx": 0,
+  "hook_calls": 400,
+  "server_pids": 2,
+  "eps_b_ms": {
+   "median": 0.701,
+   "p99": 2.993,
+   "max": 4.447,
+   "mean": 0.858
+  },
+  "bumped_before_response": 200,
+  "deny_after_revocation": 200,
+  "revocation_status_ok": 200,
+  "trials": [
+   {
+    "create": 201,
+    "revoke": 204,
+    "gens": [
+     [
+      0,
+      400,
+      400
+     ],
+     [
+      0,
+      401,
+      401
+     ],
+     [
+      0,
+      402,
+      402
+     ]
+    ],
+    "bumped_before_response": true,
+    "deny_after": true,
+    "revoke_s": 0.0149
+   },
+   {
+    "create": 201,
+    "revoke": 204,
+    "gens": [
+     [
+      0,
+      402,
+      402
+     ],
+     [
+      0,
+      403,
+      403
+     ],
+     [
+      0,
+      404,
+      404
+     ]
+    ],
+    "bumped_before_response": true,
+    "deny_after": true,
+    "revoke_s": 0.0082
+   },
+   {
+    "create": 201,
+    "revoke": 204,
+    "gens": [
+     [
+      0,
+      404,
+      404
+     ],
+     [
+      0,
+      405,
+      405
+     ],
+     [
+      0,
+      406,
+      406
+     ]
+    ],
+    "bumped_before_response": true,
+    "deny_after": true,
+    "revoke_s": 0.0141
+   },
+   {
+    "create": 201,
+    "revoke": 204,
+    "gens": [
+     [
+      0,
+      406,
+      406
+     ],
+     [
+      0,
+      407,
+      407
+     ],
+     [
+      0,
+      408,
+      408
+     ]
+    ],
+    "bumped_before_response": true,
+    "deny_after": true,
+    "revoke_s": 0.0098
+   },
+   {
+    "create": 201,
+    "revoke": 204,
+    "gens": [
+     [
+      0,
+      408,
+      408
+     ],
+     [
+      0,
+      409,
+      409
+     ],
+     [
+      0,
+      410,
+      410
+     ]
+    ],
+    "bumped_before_response": true,
+    "deny_after": true,
+    "revoke_s": 0.01
+   }
+  ]
+ },
+ "B_control": [
+  {
+   "warm": 200,
+   "revoke_status": 204,
+   "revoke_request_s": 0.014,
+   "unrelated_request": [
+    200,
+    0.021
+   ],
+   "gens_before": [
+    0,
+    801,
+    801
+   ],
+   "gens_after": [
+    0,
+    802,
+    802
+   ],
+   "bump_lost": false,
+   "first_deny_after_revocation_s": 0.23,
+   "polls": 1
+  },
+  {
+   "warm": 200,
+   "revoke_status": 204,
+   "revoke_request_s": 0.008,
+   "unrelated_request": [
+    200,
+    0.015
+   ],
+   "gens_before": [
+    0,
+    803,
+    803
+   ],
+   "gens_after": [
+    0,
+    804,
+    804
+   ],
+   "bump_lost": false,
+   "first_deny_after_revocation_s": 0.22,
+   "polls": 1
+  },
+  {
+   "warm": 200,
+   "revoke_status": 204,
+   "revoke_request_s": 0.007,
+   "unrelated_request": [
+    200,
+    0.014
+   ],
+   "gens_before": [
+    0,
+    805,
+    805
+   ],
+   "gens_after": [
+    0,
+    806,
+    806
+   ],
+   "bump_lost": false,
+   "first_deny_after_revocation_s": 0.22,
+   "polls": 1
+  },
+  {
+   "warm": 200,
+   "revoke_status": 204,
+   "revoke_request_s": 0.007,
+   "unrelated_request": [
+    200,
+    0.014
+   ],
+   "gens_before": [
+    0,
+    807,
+    807
+   ],
+   "gens_after": [
+    0,
+    808,
+    808
+   ],
+   "bump_lost": false,
+   "first_deny_after_revocation_s": 0.22,
+   "polls": 1
+  },
+  {
+   "warm": 200,
+   "revoke_status": 204,
+   "revoke_request_s": 0.007,
+   "unrelated_request": [
+    200,
+    0.012
+   ],
+   "gens_before": [
+    0,
+    809,
+    809
+   ],
+   "gens_after": [
+    0,
+    810,
+    810
+   ],
+   "bump_lost": false,
+   "first_deny_after_revocation_s": 0.22,
+   "polls": 1
+  }
+ ],
+ "B_refused": [
+  {
+   "warm": 200,
+   "revoke_status": 204,
+   "revoke_request_s": 0.012,
+   "unrelated_request": [
+    200,
+    0.017
+   ],
+   "gens_before": [
+    0,
+    811,
+    811
+   ],
+   "gens_after": [
+    0,
+    811,
+    811
+   ],
+   "bump_lost": true,
+   "first_deny_after_revocation_s": 120.21,
+   "polls": 450
+  },
+  {
+   "warm": 200,
+   "revoke_status": 204,
+   "revoke_request_s": 0.009,
+   "unrelated_request": [
+    200,
+    0.019
+   ],
+   "gens_before": [
+    0,
+    812,
+    812
+   ],
+   "gens_after": [
+    0,
+    812,
+    812
+   ],
+   "bump_lost": true,
+   "first_deny_after_revocation_s": 120.23,
+   "polls": 449
+  },
+  {
+   "warm": 200,
+   "revoke_status": 204,
+   "revoke_request_s": 0.006,
+   "unrelated_request": [
+    200,
+    0.022
+   ],
+   "gens_before": [
+    0,
+    813,
+    813
+   ],
+   "gens_after": [
+    0,
+    813,
+    813
+   ],
+   "bump_lost": true,
+   "first_deny_after_revocation_s": 120.11,
+   "polls": 450
+  },
+  {
+   "warm": 200,
+   "revoke_status": 204,
+   "revoke_request_s": 0.009,
+   "unrelated_request": [
+    200,
+    0.017
+   ],
+   "gens_before": [
+    0,
+    814,
+    814
+   ],
+   "gens_after": [
+    0,
+    814,
+    814
+   ],
+   "bump_lost": true,
+   "first_deny_after_revocation_s": 120.03,
+   "polls": 450
+  },
+  {
+   "warm": 200,
+   "revoke_status": 204,
+   "revoke_request_s": 0.005,
+   "unrelated_request": [
+    200,
+    0.014
+   ],
+   "gens_before": [
+    0,
+    815,
+    815
+   ],
+   "gens_after": [
+    0,
+    815,
+    815
+   ],
+   "bump_lost": true,
+   "first_deny_after_revocation_s": 120.17,
+   "polls": 450
+  }
+ ],
+ "B_timeout": [
+  {
+   "warm": 200,
+   "revoke_status": 204,
+   "revoke_request_s": 2.012,
+   "unrelated_request": [
+    200,
+    1.823
+   ],
+   "gens_before": [
+    0,
+    816,
+    816
+   ],
+   "gens_after": [
+    0,
+    816,
+    816
+   ],
+   "bump_lost": true,
+   "first_deny_after_revocation_s": 118.17,
+   "polls": 442
+  },
+  {
+   "warm": 200,
+   "revoke_status": 204,
+   "revoke_request_s": 2.012,
+   "unrelated_request": [
+    200,
+    1.828
+   ],
+   "gens_before": [
+    0,
+    817,
+    817
+   ],
+   "gens_after": [
+    0,
+    817,
+    817
+   ],
+   "bump_lost": true,
+   "first_deny_after_revocation_s": 118.14,
+   "polls": 445
+  },
+  {
+   "warm": 200,
+   "revoke_status": 204,
+   "revoke_request_s": 2.014,
+   "unrelated_request": [
+    200,
+    1.831
+   ],
+   "gens_before": [
+    0,
+    818,
+    818
+   ],
+   "gens_after": [
+    0,
+    818,
+    818
+   ],
+   "bump_lost": true,
+   "first_deny_after_revocation_s": 118.07,
+   "polls": 440
+  },
+  {
+   "warm": 200,
+   "revoke_status": 204,
+   "revoke_request_s": 2.013,
+   "unrelated_request": [
+    200,
+    1.827
+   ],
+   "gens_before": [
+    0,
+    819,
+    819
+   ],
+   "gens_after": [
+    0,
+    819,
+    819
+   ],
+   "bump_lost": true,
+   "first_deny_after_revocation_s": 118.23,
+   "polls": 438
+  },
+  {
+   "warm": 200,
+   "revoke_status": 204,
+   "revoke_request_s": 2.01,
+   "unrelated_request": [
+    200,
+    1.822
+   ],
+   "gens_before": [
+    0,
+    820,
+    820
+   ],
+   "gens_after": [
+    0,
+    820,
+    820
+   ],
+   "bump_lost": true,
+   "first_deny_after_revocation_s": 118.12,
+   "polls": 443
+  }
+ ]
+}
