@@ -1,0 +1,38 @@
+From 6a269540a33ceba8690df0f0827c49a6d23d353a Mon Sep 17 00:00:00 2001
+From: eval-fork <eval-fork@localhost>
+Date: Thu, 19 Nov 2026 17:44:08 +0000
+Subject: [PATCH 09/13] F8: re-authorization loop now sees the open sessions
+ under Hocuspocus 2.x
+
+The loop added in e9ba4c3 read `server.hocuspocus.documents`. With the declared
+dependency @hocuspocus/server ^2.13.7, Server.configure() returns the Hocuspocus
+instance itself, so that property is undefined and the loop never re-checked a
+session. Found by running the collaboration server for the first time in the
+evaluation (phase 5): a removed collaborator kept an open session. The loop now
+reads the documents of whichever object holds them.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+ hocuspocus/server.mjs | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/hocuspocus/server.mjs b/hocuspocus/server.mjs
+index 8ea6a8c..0cc4372 100644
+--- a/hocuspocus/server.mjs
++++ b/hocuspocus/server.mjs
+@@ -219,7 +219,11 @@ async function reauthorize(conn) {
+ }
+ 
+ setInterval(async () => {
+-  const docs = server.hocuspocus?.documents ?? new Map()
++  // [eval-fork F8, phase 5] In @hocuspocus/server 2.x, Server.configure() returns the Hocuspocus
++  // instance itself, which holds `documents`; only 3.x wraps it as `server.hocuspocus`. Reading
++  // `server.hocuspocus.documents` alone made this loop a no-op under the declared ^2.13.7.
++  const hp = server.hocuspocus ?? server
++  const docs = hp.documents ?? new Map()
+   const conns = []
+   for (const doc of docs.values()) {
+     for (const conn of doc.getConnections()) conns.push(conn)
+-- 
+2.43.0
+

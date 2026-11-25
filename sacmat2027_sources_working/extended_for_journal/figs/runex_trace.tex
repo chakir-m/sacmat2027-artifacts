@@ -1,0 +1,38 @@
+\begin{tabular}{@{}l@{\;}ccccc@{}}
+\toprule
+\multicolumn{6}{@{}l}{v1 (\chain)} \\
+\midrule
+rule & (a) & (b$_1$) & (b$_2$) & (c$_1$) & (c$_2$) \\
+\midrule
+Admin & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ \\
+$P_1$ & $\cdot$ & \cellcolor{red!20}\textbf{deny} & $\cdot$ & $\cdot$ & $\cdot$ \\
+$\Pc$ & $\cdot$ &  & $\cdot$ & $\cdot$ & $\cdot$ \\
+$P_2$ & $\cdot$ &  & $\cdot$ & $\cdot$ & $\cdot$ \\
+$P_3$ & $\cdot$ &  & $\cdot$ & $\cdot$ & $\cdot$ \\
+$P_4$ & \cellcolor{green!20}\textbf{allow} &  & \cellcolor{green!20}\textbf{allow} & $\cdot$ & \cellcolor{green!20}\textbf{allow} \\
+$P_5$ &  &  &  & \cellcolor{red!20}\textbf{deny} &  \\
+$P_6$ &  &  &  &  &  \\
+$\Px$ &  &  &  &  &  \\
+$P_7$ &  &  &  &  &  \\
+\bottomrule
+\end{tabular}%
+\hspace{3mm}%
+\begin{tabular}{@{}l@{\;}ccccc@{}}
+\toprule
+\multicolumn{6}{@{}l}{v2 ($\mathcal{F}$)} \\
+\midrule
+rule & (a) & (b$_1$) & (b$_2$) & (c$_1$) & (c$_2$) \\
+\midrule
+Admin & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ \\
+$\Px$ & $\cdot$ & $\cdot$ & $\cdot$ & \cellcolor{red!20}\textbf{deny} & \cellcolor{red!20}\textbf{deny} \\
+$P_1$ & $\cdot$ & \cellcolor{red!20}\textbf{deny} & $\cdot$ &  &  \\
+$\Pc$ & $\cdot$ &  & $\cdot$ &  &  \\
+$P_2$ & $\cdot$ &  & $\cdot$ &  &  \\
+$P_3$ & $\cdot$ &  & $\cdot$ &  &  \\
+$\Po$ & $\cdot$ &  & $\cdot$ &  &  \\
+$P_4$ & \cellcolor{green!20}\textbf{allow} &  & $\cdot$ &  &  \\
+$P_6$ &  &  & $\cdot$ &  &  \\
+$P_5$ &  &  & $\cdot$ &  &  \\
+$P_7$ &  &  & \cellcolor{red!20}\textbf{deny} &  &  \\
+\bottomrule
+\end{tabular}%

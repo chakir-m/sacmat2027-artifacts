@@ -93,6 +93,7 @@
 - a README.
 
 The extended version is no longer in it. It stays in your sources package as `extended_for_journal/`, for a later journal version.
+<<<<<<< HEAD
 
 ## Update of 25 November 2026
 
@@ -118,3 +119,5 @@ The extended version is no longer in it. It stays in your sources package as `ex
   - The body ends at the bottom of page 10, and references and appendices fill pages 11–12 (12 pages in total).
   - 0 errors, 0 overfull boxes, 0 undefined references.
   - Every number in the paper also appears in the verified long version.
+=======
+>>>>>>> 42fa364aea261fae9fc6322d2fbffae1eb27feb4

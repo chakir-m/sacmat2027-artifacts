@@ -1,0 +1,61 @@
+From 5b628181f9158154e6fe6271749cb5c2982e65eb Mon Sep 17 00:00:00 2001
+From: eval-fork <eval-fork@localhost>
+Date: Thu, 19 Nov 2026 17:36:00 +0000
+Subject: [PATCH 08/13] DR4: published documents are decided by their object
+ even after it is deleted
+
+Found by the new bounded-exhaustive check of the document read procedure
+(E1c). A published document whose linked object had been deleted (soft delete,
+is_active = False) fell through to the workflow rules, so every employee of the
+department could read it without a grant, a moved subject could read it with an
+old assignment, and an owner who had left the department was exempt from the
+clearance barrier. Now the linked object decides through the PDP whether it is
+active or not (a published document without one is refused), and the owner's
+exemption from the barrier on unpublished documents requires the owner's
+department, as P_own does.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+ backend/app/api/documents.py | 23 +++++++++++++----------
+ 1 file changed, 13 insertions(+), 10 deletions(-)
+
+diff --git a/backend/app/api/documents.py b/backend/app/api/documents.py
+index 899a66d..7198f8a 100644
+--- a/backend/app/api/documents.py
++++ b/backend/app/api/documents.py
+@@ -424,19 +424,22 @@ async def _doc_read_allowed(
+     if compute_risk_score(current, ctx).score >= settings.RISK_DENY_THRESHOLD:
+         return False
+     if doc.status == DocumentStatus.PUBLISHED:
++        # [eval-fork DR4, phase 5] the linked object decides even after it was deleted
++        # (soft-deleted, is_active = False): the document stays published, and the workflow
++        # rules below would otherwise let every employee of the department read it.
+         linked = (await db.execute(
+-            select(Resource).where(Resource.attributes["document_id"].astext == doc.id,
+-                                   Resource.is_active == True)  # noqa: E712
++            select(Resource).where(Resource.attributes["document_id"].astext == doc.id)
+         )).scalars().first()
+-        if linked is not None:
+-            # [eval-fork DR4, owner rule] the owner rule is P_own inside the PDP
+-            dec = await PolicyDecisionPoint(db).decide(AccessRequest(
+-                subject_id=current.id, resource_id=linked.id, action="read",
+-                context=dict(ctx), _resource=linked))
+-            return dec.result == DecisionResult.ALLOW
++        if linked is None:
++            return False                     # publishing always links an object: fail closed
++        # [eval-fork DR4, owner rule] the owner rule is P_own inside the PDP
++        dec = await PolicyDecisionPoint(db).decide(AccessRequest(
++            subject_id=current.id, resource_id=linked.id, action="read",
++            context=dict(ctx), _resource=linked))
++        return dec.result == DecisionResult.ALLOW
+     # Unpublished (workflow) documents: classification barrier, with the same role
+-    # exemptions as P_class (director in dept, division manager in own division, owner).
+-    exempt = (doc.owner_id == current.id
++    # exemptions as P_class (director in dept, division manager in own division, owner in dept).
++    exempt = ((doc.owner_id == current.id and doc.department_id == current.department_id)
+               or (builtin == "director" and doc.department_id == current.department_id)
+               or (builtin == "division_manager" and doc.department_id == current.department_id
+                   and current.division_id is not None and doc.division_id == current.division_id))
+-- 
+2.43.0
+

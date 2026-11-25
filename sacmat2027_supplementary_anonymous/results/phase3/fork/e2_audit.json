@@ -1,0 +1,87 @@
+{
+  "E2a_audit_persistence": {
+    "POST /access/decide | allow(director,P2)": {
+      "requests": 20,
+      "http_status": [
+        200
+      ],
+      "access_decisions_rows_added": 20,
+      "audit_logs_rows_added": 0
+    },
+    "POST /access/decide | deny(analyst,P5)": {
+      "requests": 20,
+      "http_status": [
+        200
+      ],
+      "access_decisions_rows_added": 20,
+      "audit_logs_rows_added": 0
+    },
+    "GET /pep/access/{id} | allow(director,P2)": {
+      "requests": 20,
+      "http_status": [
+        200
+      ],
+      "access_decisions_rows_added": 20,
+      "audit_logs_rows_added": 20
+    },
+    "GET /pep/access/{id} | deny(analyst,P5)": {
+      "requests": 20,
+      "http_status": [
+        403
+      ],
+      "access_decisions_rows_added": 20,
+      "audit_logs_rows_added": 20
+    },
+    "GET /pep/preview/{id} | allow(director,P2)": {
+      "requests": 20,
+      "http_status": [
+        200
+      ],
+      "access_decisions_rows_added": 20,
+      "audit_logs_rows_added": 20
+    },
+    "GET /pep/preview/{id} | deny(analyst,P5)": {
+      "requests": 20,
+      "http_status": [
+        403
+      ],
+      "access_decisions_rows_added": 20,
+      "audit_logs_rows_added": 20
+    },
+    "GET /pep/download/{id} | allow(director,P2)": {
+      "requests": 20,
+      "http_status": [
+        200
+      ],
+      "access_decisions_rows_added": 20,
+      "audit_logs_rows_added": 20
+    },
+    "GET /pep/download/{id} | deny(analyst,P5)": {
+      "requests": 20,
+      "http_status": [
+        403
+      ],
+      "access_decisions_rows_added": 20,
+      "audit_logs_rows_added": 20
+    },
+    "GET /pep/access/{id}/check | allow(director,P2)": {
+      "requests": 20,
+      "http_status": [
+        200
+      ],
+      "access_decisions_rows_added": 20,
+      "audit_logs_rows_added": 20
+    },
+    "GET /pep/access/{id}/check | deny(analyst,P5)": {
+      "requests": 20,
+      "http_status": [
+        200
+      ],
+      "access_decisions_rows_added": 20,
+      "audit_logs_rows_added": 20
+    }
+  },
+  "_runtime_s": {
+    "audit": 3.0
+  }
+}

@@ -1,0 +1,45 @@
+From eb9675e8e6415a6e0c1e411a5479a74f68f6aac8 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Sat, 21 Nov 2026 21:39:56 +0000
+Subject: [PATCH 10/13] D1: assignments grant read access only, as documented
+
+P4 now allows an employee or division manager to read an object when the
+assignment lists read, and never grants write, download or delete through
+an assignment. CLAUDE.md (P4: action = read), the design document and the
+test name test_p4_analyst_denies_write_even_if_assigned all state this;
+up to the previous commit the code granted any listed action.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+ backend/app/services/pdp.py | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/backend/app/services/pdp.py b/backend/app/services/pdp.py
+index 0db8bc1..6b7ad08 100644
+--- a/backend/app/services/pdp.py
++++ b/backend/app/services/pdp.py
+@@ -271,8 +271,11 @@ class PolicyDecisionPoint:
+                          f"Access granted: resource owner may '{request.action}' within their department")
+         tr("P_own", "P_own", 35, "allow", False, "Not owner, owner outside department, or action not read/download")
+ 
+-        # P4 – Assignment grants access for actions in assignment.actions list
++        # P4 – Assignment grants read access, if read is in the assignment.actions list
++        # [eval-fork D1, read-only assignments]: as documented (P4: "action = read"), an assignment
++        # grants an employee or division manager read access only, whatever other actions it lists.
+         if (ctx["has_assignment"] and request.action in ctx["assignment_actions"]
++                and request.action == "read"
+                 and (ctx["is_analyst"] or ctx["is_div_manager"])
+                 and subject.department_id == resource.department_id):    # [eval-fork DR2]
+             label = "Analyst" if ctx["is_analyst"] else "Manager"
+@@ -280,7 +283,7 @@ class PolicyDecisionPoint:
+                f"{label} has explicit assignment, action '{request.action}' in {ctx['assignment_actions']}")
+             return allow("P4","P4 – Assignment Authorization",
+                          f"Access granted: {label} has '{request.action}' permission via explicit assignment")
+-        tr("P4","P4",40,"allow",False,"No assignment, action not in assignment actions, or role not eligible")
++        tr("P4","P4",40,"allow",False,"No assignment, action not read or not in assignment actions, or role not eligible")
+ 
+         # P6 – Delegation grants access for actions in delegation.approved_actions list
+         if ctx["has_delegation"] and request.action in ctx["delegation_actions"]:
+-- 
+2.43.0
+

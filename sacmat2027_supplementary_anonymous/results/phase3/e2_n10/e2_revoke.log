@@ -1,0 +1,279 @@
+{
+ "E2b_delegation_revocation": [
+  {
+   "delta_s": 0,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 60.18,
+   "allows_after_revoke": 149,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   "delta_s": 0,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 60.2,
+   "allows_after_revoke": 148,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   "delta_s": 0,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 60.03,
+   "allows_after_revoke": 148,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   "delta_s": 0,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 60.08,
+   "allows_after_revoke": 147,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   "delta_s": 0,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 60.22,
+   "allows_after_revoke": 148,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   "delta_s": 0,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 60.18,
+   "allows_after_revoke": 148,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   "delta_s": 0,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 60.07,
+   "allows_after_revoke": 148,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   "delta_s": 0,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 59.88,
+   "allows_after_revoke": 149,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   "delta_s": 0,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 60.22,
+   "allows_after_revoke": 146,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   "delta_s": 0,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 59.59,
+   "allows_after_revoke": 149,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   "delta_s": 15,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 44.87,
+   "allows_after_revoke": 105,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   "delta_s": 15,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 45.17,
+   "allows_after_revoke": 105,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   "delta_s": 15,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 45.44,
+   "allows_after_revoke": 105,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   "delta_s": 15,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 44.82,
+   "allows_after_revoke": 105,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   "delta_s": 15,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 45.21,
+   "allows_after_revoke": 105,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   "delta_s": 15,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 45.32,
+   "allows_after_revoke": 104,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   "delta_s": 15,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 45.35,
+   "allows_after_revoke": 105,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   "delta_s": 15,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 45.27,
+   "allows_after_revoke": 106,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   "delta_s": 15,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 45.13,
+   "allows_after_revoke": 106,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   "delta_s": 15,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 45.25,
+   "allows_after_revoke": 105,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   "delta_s": 30,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 30.11,
+   "allows_after_revoke": 63,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   "delta_s": 30,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 30.08,
+   "allows_after_revoke": 64,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   "delta_s": 30,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 30.23,
+   "allows_after_revoke": 63,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   "delta_s": 30,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 29.98,
+   "allows_after_revoke": 63,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   "delta_s": 30,
+   "warm": [
+    "allow",
+    "P6 \u2013 Delegated Access Exception"
+   ],
+   "revoke_http": 200,
+   "window_s": 30.13,
+   "allows_after_revoke": 64,
+   "final_policy": "P1 \u2013 Inter-Department Segmentation"
+  },
+  {
+   

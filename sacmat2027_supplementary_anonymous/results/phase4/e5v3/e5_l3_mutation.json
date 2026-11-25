@@ -1,0 +1,1696 @@
+{
+ "baseline": {
+  "T": [
+   0,
+   32.0,
+   "137 passed, 2 skipped, 1 deselected, 103 warnings in 29.12s"
+  ],
+  "P": [
+   0,
+   9.0,
+   "E5_PROBE PASS []"
+  ]
+ },
+ "results": [
+  {
+   "file": "app/api/pep.py",
+   "id": 0,
+   "op": "NEG",
+   "line": 119,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S2_mfa_obligation_all_endpoints', 'L2_mfa_director_allowed', 'S3_owner_cross_dept_denied', 'L3_owner_same_dept_allowed', 'S4_download_needs_download_action', 'L4_assigned_read_allowed', 'S5_denials_persisted', 'S17_audit_outcome_matches_decision', 'S22_high_risk_owner_denied_at_gate']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 24.00s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 1,
+   "op": "LCR",
+   "line": 119,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S2_mfa_obligation_all_endpoints', 'L2_mfa_director_allowed', 'S3_owner_cross_dept_denied', 'L3_owner_same_dept_allowed', 'S4_download_needs_download_action', 'L4_assigned_read_allowed', 'S5_denials_persisted', 'S17_audit_outcome_matches_decision', 'S22_high_risk_owner_denied_at_gate']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 23.08s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 2,
+   "op": "ROR",
+   "line": 119,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S2_mfa_obligation_all_endpoints', 'L2_mfa_director_allowed', 'S3_owner_cross_dept_denied', 'S4_download_needs_download_action']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.90s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 3,
+   "op": "MEM",
+   "line": 119,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S2_mfa_obligation_all_endpoints', 'L2_mfa_director_allowed', 'L3_owner_same_dept_allowed', 'L4_assigned_read_allowed', 'S5_denials_persisted', 'S17_audit_outcome_matches_decision', 'S22_high_risk_owner_denied_at_gate']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 23.08s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 4,
+   "op": "NEG",
+   "line": 122,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.02s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 5,
+   "op": "CRPb",
+   "line": 124,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.93s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 6,
+   "op": "LCR",
+   "line": 127,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S3_owner_cross_dept_denied', 'S4_download_needs_download_action']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.44s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 7,
+   "op": "ROR",
+   "line": 127,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L3_owner_same_dept_allowed', 'S4_download_needs_download_action']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 23.29s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 8,
+   "op": "ROR",
+   "line": 127,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S3_owner_cross_dept_denied', 'L3_owner_same_dept_allowed']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 22.93s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 9,
+   "op": "NEG",
+   "line": 128,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S3_owner_cross_dept_denied', 'L3_owner_same_dept_allowed', 'S4_download_needs_download_action', 'S5_denials_persisted', 'S17_audit_outcome_matches_decision']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 23.41s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 10,
+   "op": "NEG",
+   "line": 131,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L3_owner_same_dept_allowed', 'S22_high_risk_owner_denied_at_gate']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 22.64s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 11,
+   "op": "ROR",
+   "line": 131,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S22_high_risk_owner_denied_at_gate']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.01s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 12,
+   "op": "CRP+",
+   "line": 137,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.51s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 13,
+   "op": "CRP-",
+   "line": 137,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.89s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 14,
+   "op": "CRP+",
+   "line": 145,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.61s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 15,
+   "op": "CRP-",
+   "line": 145,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.57s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 16,
+   "op": "ROR",
+   "line": 146,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L2_mfa_director_allowed', 'S3_owner_cross_dept_denied', 'L3_owner_same_dept_allowed', 'S4_download_needs_download_action', 'L4_assigned_read_allowed', 'S17_audit_outcome_matches_decision', 'S22_high_risk_owner_denied_at_gate']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 23.99s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 17,
+   "op": "NEG",
+   "line": 147,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S2_mfa_obligation_all_endpoints']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.96s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 18,
+   "op": "LCR",
+   "line": 147,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S2_mfa_obligation_all_endpoints']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.89s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 19,
+   "op": "LCR",
+   "line": 148,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L2_mfa_director_allowed', 'L3_owner_same_dept_allowed', 'L4_assigned_read_allowed', 'S17_audit_outcome_matches_decision']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 24.19s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 20,
+   "op": "MEM",
+   "line": 148,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S2_mfa_obligation_all_endpoints', 'L3_owner_same_dept_allowed', 'L4_assigned_read_allowed', 'S17_audit_outcome_matches_decision']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 25.88s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 21,
+   "op": "UOI-",
+   "line": 148,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S2_mfa_obligation_all_endpoints', 'L2_mfa_director_allowed']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 28.43s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 22,
+   "op": "NEG",
+   "line": 156,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S17_audit_outcome_matches_decision']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.36s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 23,
+   "op": "LCR",
+   "line": 156,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S17_audit_outcome_matches_decision']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 28.68s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 24,
+   "op": "UOI-",
+   "line": 156,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S17_audit_outcome_matches_decision']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.49s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 25,
+   "op": "NEG",
+   "line": 157,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S5_denials_persisted']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 23.75s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 26,
+   "op": "NEG",
+   "line": 164,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S5_denials_persisted', 'S17_audit_outcome_matches_decision']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.87s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 27,
+   "op": "ROR",
+   "line": 164,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S5_denials_persisted', 'S17_audit_outcome_matches_decision']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.01s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 28,
+   "op": "NEG",
+   "line": 170,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L2_mfa_director_allowed', 'S3_owner_cross_dept_denied', 'L3_owner_same_dept_allowed', 'S4_download_needs_download_action', 'L4_assigned_read_allowed', 'S22_high_risk_owner_denied_at_gate']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 23.13s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 29,
+   "op": "UOI-",
+   "line": 170,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L2_mfa_director_allowed', 'S3_owner_cross_dept_denied', 'L3_owner_same_dept_allowed', 'S4_download_needs_download_action', 'L4_assigned_read_allowed', 'S22_high_risk_owner_denied_at_gate']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 23.24s"
+  },
+  {
+   "file": "app/api/pep.py",
+   "id": 30,
+   "op": "NEG",
+   "line": 176,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S2_mfa_obligation_all_endpoints', 'L2_mfa_director_allowed', 'L3_owner_same_dept_allowed', 'L4_assigned_read_allowed']",
+   "tests_out": "1 failed, 98 passed, 2 skipped, 1 deselected, 80 warnings in 23.15s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 0,
+   "op": "NEG",
+   "line": 416,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S1_doc_api_top_secret_denied', 'S12_published_unassigned_denied_via_pdp', 'S13_collaborator_needs_clearance_on_draft', 'S14_manager_needs_clearance_on_dept_doc_in_review', 'S18_moved_owner_published_doc_denied', 'S19_manager_without_division_not_exempt', 'S20_non_collaborator_cannot_read_draft', 'S23_high_risk_owner_denied_on_document']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.42s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 1,
+   "op": "RET",
+   "line": 417,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L7_admin_reads_top_secret_doc']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.67s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 2,
+   "op": "CRPb",
+   "line": 417,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L7_admin_reads_top_secret_doc']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.74s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 3,
+   "op": "NEG",
+   "line": 421,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', 'L8_owner_reads_own_published_doc', 'L9_cleared_collaborator_reads_draft', 'L10_cleared_manager_reads_dept_doc_in_review', 'L13_dept_director_reads_ts_draft', 'L14_own_division_manager_reads_ts_draft', 'S23_high_risk_owner_denied_on_document']",
+   "tests_out": "1 failed, 72 passed, 2 skipped, 1 deselected, 43 warnings in 15.56s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 4,
+   "op": "ROR",
+   "line": 421,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S23_high_risk_owner_denied_on_document']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 28.34s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 5,
+   "op": "RET",
+   "line": 423,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S23_high_risk_owner_denied_on_document']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.49s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 6,
+   "op": "CRPb",
+   "line": 423,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S23_high_risk_owner_denied_on_document']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.11s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 7,
+   "op": "NEG",
+   "line": 424,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S12_published_unassigned_denied_via_pdp']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.76s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 8,
+   "op": "ROR",
+   "line": 424,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S12_published_unassigned_denied_via_pdp']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.05s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 9,
+   "op": "ROR",
+   "line": 426,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.90s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 10,
+   "op": "ROR",
+   "line": 427,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S12_published_unassigned_denied_via_pdp']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.97s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 11,
+   "op": "CRPb",
+   "line": 427,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S12_published_unassigned_denied_via_pdp']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.00s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 12,
+   "op": "NEG",
+   "line": 429,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S12_published_unassigned_denied_via_pdp']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.28s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 13,
+   "op": "ROR",
+   "line": 429,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S12_published_unassigned_denied_via_pdp']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.06s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 14,
+   "op": "NEG",
+   "line": 430,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S1_doc_api_top_secret_denied', 'S12_published_unassigned_denied_via_pdp', 'S18_moved_owner_published_doc_denied']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.82s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 15,
+   "op": "LCR",
+   "line": 430,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S1_doc_api_top_secret_denied', 'S12_published_unassigned_denied_via_pdp', 'S18_moved_owner_published_doc_denied']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.63s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 16,
+   "op": "ROR",
+   "line": 430,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S1_doc_api_top_secret_denied', 'S12_published_unassigned_denied_via_pdp']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.78s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 17,
+   "op": "ROR",
+   "line": 430,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S18_moved_owner_published_doc_denied']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.89s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 18,
+   "op": "RET",
+   "line": 431,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L8_owner_reads_own_published_doc']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.99s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 19,
+   "op": "CRPb",
+   "line": 431,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L8_owner_reads_own_published_doc']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.71s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 20,
+   "op": "ROR",
+   "line": 437,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S1_doc_api_top_secret_denied', 'L1_doc_api_assigned_read_allowed', 'S12_published_unassigned_denied_via_pdp', 'S18_moved_owner_published_doc_denied']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.02s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 21,
+   "op": "LCR",
+   "line": 440,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L13_dept_director_reads_ts_draft', 'L14_own_division_manager_reads_ts_draft']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.55s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 22,
+   "op": "ROR",
+   "line": 440,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S13_collaborator_needs_clearance_on_draft', 'S14_manager_needs_clearance_on_dept_doc_in_review', 'S19_manager_without_division_not_exempt']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.52s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 23,
+   "op": "LCR",
+   "line": 441,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S13_collaborator_needs_clearance_on_draft', 'S14_manager_needs_clearance_on_dept_doc_in_review', 'S19_manager_without_division_not_exempt']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.32s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 24,
+   "op": "ROR",
+   "line": 441,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S13_collaborator_needs_clearance_on_draft', 'S14_manager_needs_clearance_on_dept_doc_in_review', 'L13_dept_director_reads_ts_draft', 'S19_manager_without_division_not_exempt']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.33s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 25,
+   "op": "ROR",
+   "line": 441,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L13_dept_director_reads_ts_draft']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.49s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 26,
+   "op": "LCR",
+   "line": 442,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S13_collaborator_needs_clearance_on_draft', 'S14_manager_needs_clearance_on_dept_doc_in_review', 'S19_manager_without_division_not_exempt']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.98s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 27,
+   "op": "ROR",
+   "line": 442,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S13_collaborator_needs_clearance_on_draft', 'L14_own_division_manager_reads_ts_draft']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.82s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 28,
+   "op": "ROR",
+   "line": 442,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L14_own_division_manager_reads_ts_draft']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.88s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 29,
+   "op": "ROR",
+   "line": 443,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L14_own_division_manager_reads_ts_draft', 'S19_manager_without_division_not_exempt']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.72s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 30,
+   "op": "ROR",
+   "line": 443,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S14_manager_needs_clearance_on_dept_doc_in_review', 'L14_own_division_manager_reads_ts_draft']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.56s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 31,
+   "op": "NEG",
+   "line": 444,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S13_collaborator_needs_clearance_on_draft', 'L9_cleared_collaborator_reads_draft', 'S14_manager_needs_clearance_on_dept_doc_in_review', 'L10_cleared_manager_reads_dept_doc_in_review', 'L13_dept_director_reads_ts_draft', 'L14_own_division_manager_reads_ts_draft', 'S19_manager_without_division_not_exempt']",
+   "tests_out": "1 failed, 72 passed, 2 skipped, 1 deselected, 43 warnings in 14.66s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 32,
+   "op": "LCR",
+   "line": 444,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L9_cleared_collaborator_reads_draft', 'L10_cleared_manager_reads_dept_doc_in_review', 'L13_dept_director_reads_ts_draft', 'L14_own_division_manager_reads_ts_draft']",
+   "tests_out": "1 failed, 72 passed, 2 skipped, 1 deselected, 43 warnings in 14.54s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 33,
+   "op": "UOI-",
+   "line": 444,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S13_collaborator_needs_clearance_on_draft', 'S14_manager_needs_clearance_on_dept_doc_in_review', 'L13_dept_director_reads_ts_draft', 'L14_own_division_manager_reads_ts_draft', 'S19_manager_without_division_not_exempt']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.63s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 34,
+   "op": "ROR",
+   "line": 444,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.42s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 35,
+   "op": "CRP+",
+   "line": 444,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.67s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 36,
+   "op": "CRP-",
+   "line": 444,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.64s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 37,
+   "op": "ROR",
+   "line": 445,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L9_cleared_collaborator_reads_draft', 'L10_cleared_manager_reads_dept_doc_in_review']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.13s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 38,
+   "op": "RET",
+   "line": 446,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S13_collaborator_needs_clearance_on_draft', 'S14_manager_needs_clearance_on_dept_doc_in_review', 'S19_manager_without_division_not_exempt']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.99s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 39,
+   "op": "CRPb",
+   "line": 446,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S13_collaborator_needs_clearance_on_draft', 'S14_manager_needs_clearance_on_dept_doc_in_review', 'S19_manager_without_division_not_exempt']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.11s"
+  },
+  {
+   "file": "app/api/documents.py",
+   "id": 40,
+   "op": "RET",
+   "line": 447,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S20_non_collaborator_cannot_read_draft']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.25s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 0,
+   "op": "ROR",
+   "line": 568,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', '_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.59s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 1,
+   "op": "NEG",
+   "line": 571,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revoke_delegation', 'L11_resource_owner_revokes_delegation', 'L15_resource_dept_director_revokes']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.54s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 2,
+   "op": "UOI-",
+   "line": 571,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revoke_delegation', 'L11_resource_owner_revokes_delegation', 'L15_resource_dept_director_revokes']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.57s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 3,
+   "op": "NEG",
+   "line": 574,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revoke_delegation', 'L11_resource_owner_revokes_delegation', 'L15_resource_dept_director_revokes']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.92s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 4,
+   "op": "ROR",
+   "line": 574,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revoke_delegation', 'L11_resource_owner_revokes_delegation', 'L15_resource_dept_director_revokes']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.21s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 5,
+   "op": "NEG",
+   "line": 579,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revoke_delegation', 'L11_resource_owner_revokes_delegation']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.67s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 6,
+   "op": "UOI-",
+   "line": 579,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revoke_delegation', 'L11_resource_owner_revokes_delegation']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.39s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 7,
+   "op": "NEG",
+   "line": 581,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L15_resource_dept_director_revokes']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.07s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 8,
+   "op": "ROR",
+   "line": 581,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.60s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 9,
+   "op": "LCR",
+   "line": 583,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revoke_delegation', 'L11_resource_owner_revokes_delegation']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.35s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 10,
+   "op": "ROR",
+   "line": 583,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L15_resource_dept_director_revokes']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.82s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 11,
+   "op": "ROR",
+   "line": 583,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'L15_resource_dept_director_revokes']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.63s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 12,
+   "op": "ROR",
+   "line": 584,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L15_resource_dept_director_revokes']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.47s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 13,
+   "op": "ROR",
+   "line": 584,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S15_foreign_director_cannot_revoke_delegation', 'L11_resource_owner_revokes_delegation', 'L15_resource_dept_director_revokes']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.39s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 14,
+   "op": "NEG",
+   "line": 585,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revoke_delegation', 'L11_resource_owner_revokes_delegation', 'L15_resource_dept_director_revokes']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.27s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 15,
+   "op": "UOI-",
+   "line": 585,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revoke_delegation', 'L11_resource_owner_revokes_delegation', 'L15_resource_dept_director_revokes']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.05s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 16,
+   "op": "LCR",
+   "line": 585,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L11_resource_owner_revokes_delegation', 'L15_resource_dept_director_revokes']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.40s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 17,
+   "op": "ROR",
+   "line": 585,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revoke_delegation', 'L11_resource_owner_revokes_delegation']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.60s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 18,
+   "op": "LCR",
+   "line": 586,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revoke_delegation', 'L11_resource_owner_revokes_delegation']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.56s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 19,
+   "op": "ROR",
+   "line": 586,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L11_resource_owner_revokes_delegation']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.59s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 20,
+   "op": "ROR",
+   "line": 586,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revoke_delegation', 'L11_resource_owner_revokes_delegation']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.69s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 21,
+   "op": "ROR",
+   "line": 610,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.03s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 22,
+   "op": "NEG",
+   "line": 613,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.43s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 23,
+   "op": "NEG",
+   "line": 614,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.00s"
+  },
+  {
+   "file": "app/api/delegations.py",
+   "id": 24,
+   "op": "NEG",
+   "line": 620,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.63s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 0,
+   "op": "ROR",
+   "line": 478,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S8_assignment_revocation_immediate', 'S16_other_division_manager_cannot_revoke', 'L12_own_division_manager_revokes', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.77s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 1,
+   "op": "ROR",
+   "line": 479,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S8_assignment_revocation_immediate', 'S16_other_division_manager_cannot_revoke', 'L12_own_division_manager_revokes', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.27s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 2,
+   "op": "NEG",
+   "line": 483,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S8_assignment_revocation_immediate', 'S16_other_division_manager_cannot_revoke', 'L12_own_division_manager_revokes', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.83s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 3,
+   "op": "UOI-",
+   "line": 483,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S8_assignment_revocation_immediate', 'S16_other_division_manager_cannot_revoke', 'L12_own_division_manager_revokes', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.69s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 4,
+   "op": "NEG",
+   "line": 487,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S16_other_division_manager_cannot_revoke']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.97s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 5,
+   "op": "UOI-",
+   "line": 487,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S16_other_division_manager_cannot_revoke']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.58s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 6,
+   "op": "ROR",
+   "line": 488,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.00s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 7,
+   "op": "NEG",
+   "line": 489,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S8_assignment_revocation_immediate', 'L12_own_division_manager_revokes', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.57s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 8,
+   "op": "ROR",
+   "line": 489,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['_crash']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.87s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 9,
+   "op": "NEG",
+   "line": 490,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S8_assignment_revocation_immediate', 'L12_own_division_manager_revokes', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.70s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 10,
+   "op": "NEG",
+   "line": 491,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S8_assignment_revocation_immediate', 'L12_own_division_manager_revokes', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.09s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 11,
+   "op": "LCR",
+   "line": 492,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S16_other_division_manager_cannot_revoke']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.61s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 12,
+   "op": "ROR",
+   "line": 492,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S8_assignment_revocation_immediate', 'L12_own_division_manager_revokes', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.06s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 13,
+   "op": "LCR",
+   "line": 493,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S8_assignment_revocation_immediate', 'L12_own_division_manager_revokes', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.16s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 14,
+   "op": "LCR",
+   "line": 493,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S16_other_division_manager_cannot_revoke']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.87s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 15,
+   "op": "ROR",
+   "line": 493,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S8_assignment_revocation_immediate', 'S16_other_division_manager_cannot_revoke', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.27s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 16,
+   "op": "ROR",
+   "line": 493,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S8_assignment_revocation_immediate', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.80s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 17,
+   "op": "LCR",
+   "line": 494,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S16_other_division_manager_cannot_revoke']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.34s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 18,
+   "op": "ROR",
+   "line": 494,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L12_own_division_manager_revokes']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.39s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 19,
+   "op": "ROR",
+   "line": 494,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L12_own_division_manager_revokes']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.84s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 20,
+   "op": "ROR",
+   "line": 495,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L12_own_division_manager_revokes']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.76s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 21,
+   "op": "ROR",
+   "line": 495,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S16_other_division_manager_cannot_revoke', 'L12_own_division_manager_revokes']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.67s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 22,
+   "op": "NEG",
+   "line": 496,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S8_assignment_revocation_immediate', 'S16_other_division_manager_cannot_revoke', 'L12_own_division_manager_revokes', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.72s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 23,
+   "op": "UOI-",
+   "line": 496,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S6_revocation_needs_authority', 'S8_assignment_revocation_immediate', 'S16_other_division_manager_cannot_revoke', 'L12_own_division_manager_revokes', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.15s"
+  },
+  {
+   "file": "app/api/resources.py",
+   "id": 24,
+   "op": "CRPb",
+   "line": 499,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S8_assignment_revocation_immediate', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.87s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 0,
+   "op": "NEG",
+   "line": 168,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.57s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 1,
+   "op": "UOI-",
+   "line": 168,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.84s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 2,
+   "op": "RET",
+   "line": 169,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "1 failed, 50 passed, 1 deselected, 18 warnings in 6.56s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 3,
+   "op": "CRP+",
+   "line": 171,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.04s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 4,
+   "op": "CRP-",
+   "line": 171,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 28.01s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 5,
+   "op": "RET",
+   "line": 174,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 28.14s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 6,
+   "op": "NEG",
+   "line": 176,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', 'L2_mfa_director_allowed', 'L4_assigned_read_allowed', 'L5_delegation_approved_and_usable', 'S7_delegation_revocation_immediate', 'S8_assignment_revocation_immediate', 'S9_no_cross_dept_write_via_delegation', 'L6_cross_dept_read_via_delegation', 'S10_assignment_expiry_honoured', 'S17_audit_outcome_matches_decision', 'S21_bulk_grant_update_takes_effect', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "1 failed, 99 passed, 2 skipped, 1 deselected, 81 warnings in 23.35s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 7,
+   "op": "ROR",
+   "line": 176,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', 'L2_mfa_director_allowed', 'L4_assigned_read_allowed', 'L5_delegation_approved_and_usable', 'S7_delegation_revocation_immediate', 'S8_assignment_revocation_immediate', 'S9_no_cross_dept_write_via_delegation', 'L6_cross_dept_read_via_delegation', 'S10_assignment_expiry_honoured', 'S17_audit_outcome_matches_decision', 'S21_bulk_grant_update_takes_effect', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "1 failed, 99 passed, 2 skipped, 1 deselected, 81 warnings in 23.11s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 8,
+   "op": "NEG",
+   "line": 180,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.36s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 9,
+   "op": "UOI-",
+   "line": 180,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.76s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 10,
+   "op": "RET",
+   "line": 181,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', 'L4_assigned_read_allowed', 'L5_delegation_approved_and_usable', 'S7_delegation_revocation_immediate', 'S8_assignment_revocation_immediate', 'S9_no_cross_dept_write_via_delegation', 'L6_cross_dept_read_via_delegation', 'S10_assignment_expiry_honoured', 'S17_audit_outcome_matches_decision', 'S21_bulk_grant_update_takes_effect', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.73s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 11,
+   "op": "RET",
+   "line": 185,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.32s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 12,
+   "op": "NEG",
+   "line": 187,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 25.74s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 13,
+   "op": "LCR",
+   "line": 187,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L2_mfa_director_allowed', 'L4_assigned_read_allowed', 'L6_cross_dept_read_via_delegation', 'S10_assignment_expiry_honoured', 'S17_audit_outcome_matches_decision']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.28s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 14,
+   "op": "ROR",
+   "line": 187,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L2_mfa_director_allowed', 'L4_assigned_read_allowed', 'L6_cross_dept_read_via_delegation', 'S10_assignment_expiry_honoured', 'S17_audit_outcome_matches_decision']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.63s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 15,
+   "op": "ROR",
+   "line": 187,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.66s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 16,
+   "op": "RET",
+   "line": 188,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.64s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 17,
+   "op": "LCR",
+   "line": 192,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "1 failed, 49 passed, 1 deselected, 17 warnings in 6.03s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 18,
+   "op": "NEG",
+   "line": 194,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.40s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 19,
+   "op": "ROR",
+   "line": 194,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.42s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 20,
+   "op": "NEG",
+   "line": 197,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.10s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 21,
+   "op": "UOI-",
+   "line": 197,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.63s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 22,
+   "op": "CRP+",
+   "line": 199,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.44s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 23,
+   "op": "CRP-",
+   "line": 199,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.89s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 24,
+   "op": "NEG",
+   "line": 201,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', 'L2_mfa_director_allowed', 'L4_assigned_read_allowed', 'L5_delegation_approved_and_usable', 'S7_delegation_revocation_immediate', 'S8_assignment_revocation_immediate', 'S9_no_cross_dept_write_via_delegation', 'L6_cross_dept_read_via_delegation', 'S10_assignment_expiry_honoured', 'S17_audit_outcome_matches_decision', 'S21_bulk_grant_update_takes_effect', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "1 failed, 99 passed, 2 skipped, 1 deselected, 81 warnings in 23.32s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 25,
+   "op": "LCR",
+   "line": 201,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', 'L4_assigned_read_allowed', 'S9_no_cross_dept_write_via_delegation', 'L6_cross_dept_read_via_delegation', 'S17_audit_outcome_matches_decision', 'S21_bulk_grant_update_takes_effect']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.77s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 26,
+   "op": "ROR",
+   "line": 201,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', 'L4_assigned_read_allowed', 'S9_no_cross_dept_write_via_delegation', 'L6_cross_dept_read_via_delegation', 'S10_assignment_expiry_honoured', 'S17_audit_outcome_matches_decision', 'S21_bulk_grant_update_takes_effect']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.11s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 27,
+   "op": "NEG",
+   "line": 202,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.13s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 28,
+   "op": "CRP+",
+   "line": 204,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.25s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 29,
+   "op": "CRP-",
+   "line": 204,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.44s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 30,
+   "op": "NEG",
+   "line": 205,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.43s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 31,
+   "op": "ROR",
+   "line": 205,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 27.37s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 32,
+   "op": "CRP+",
+   "line": 205,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.43s"
+  },
+  {
+   "file": "app/services/pip.py",
+   "id": 33,
+   "op": "CRP-",
+   "line": 205,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.17s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 0,
+   "op": "NEG",
+   "line": 39,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "",
+   "tests_out": "41 passed, 1 deselected, 12 warnings, 1 error in 1.94s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 1,
+   "op": "NEG",
+   "line": 41,
+   "killed_by_repo_tests": true,
+   "killed_by_probe": true,
+   "probe_out": "",
+   "tests_out": "41 passed, 1 deselected, 12 warnings, 1 error in 2.04s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 2,
+   "op": "NEG",
+   "line": 47,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S21_bulk_grant_update_takes_effect']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.62s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 3,
+   "op": "LCR",
+   "line": 47,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S21_bulk_grant_update_takes_effect']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.34s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 4,
+   "op": "NEG",
+   "line": 49,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S21_bulk_grant_update_takes_effect']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.66s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 5,
+   "op": "LCR",
+   "line": 49,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": false,
+   "probe_out": "E5_PROBE PASS []",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.81s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 6,
+   "op": "ROR",
+   "line": 49,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S21_bulk_grant_update_takes_effect']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.41s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 7,
+   "op": "MEM",
+   "line": 49,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S21_bulk_grant_update_takes_effect']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.88s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 8,
+   "op": "NEG",
+   "line": 56,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S7_delegation_revocation_immediate', 'S8_assignment_revocation_immediate', 'S21_bulk_grant_update_takes_effect', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.90s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 9,
+   "op": "UOI-",
+   "line": 56,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S7_delegation_revocation_immediate', 'S8_assignment_revocation_immediate', 'S21_bulk_grant_update_takes_effect', 'S11_forced_race_no_stale_allow']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.57s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 10,
+   "op": "NEG",
+   "line": 61,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S21_bulk_grant_update_takes_effect']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.42s"
+  },
+  {
+   "file": "app/services/pip_invalidation.py",
+   "id": 11,
+   "op": "ROR",
+   "line": 61,
+   "killed_by_repo_tests": false,
+   "killed_by_probe": true,
+   "probe_out": "E5_PROBE FAIL ['S21_bulk_grant_update_takes_effect']",
+   "tests_out": "137 passed, 2 skipped, 1 deselected, 103 warnings in 26.81s"
+  }
+ ]
+}

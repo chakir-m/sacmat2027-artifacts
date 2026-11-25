@@ -1,0 +1,113 @@
+held-out points: {'app/api/pep.py': 23, 'app/api/documents.py': 5, 'app/api/delegations.py': 21, 'app/api/resources.py': 16, 'app/services/pip.py': 23, 'app/services/pip_invalidation.py': 20, 'app/main.py': 3} {'SDL': 82, 'ARG': 21, 'RSW': 8} total 111
+baseline {'T': (0, 21.9, '137 passed, 2 skipped, 1 deselected, 103 warnings in 20.00s'), 'P': (0, 8.2, 'E5_PROBE PASS []')}
+app/api/pep.py 0 SDL 77 T P E5_PROBE FAIL ['_crash']
+app/api/pep.py 1 SDL 78 T P E5_PROBE FAIL ['_crash']
+app/api/pep.py 2 SDL 79 T P E5_PROBE FAIL ['_crash']
+app/api/pep.py 3 ARG 79 - - E5_PROBE PASS []
+app/api/pep.py 4 SDL 81 - - E5_PROBE PASS []
+app/api/pep.py 5 RSW 81 - P E5_PROBE FAIL ['_crash']
+app/api/pep.py 6 SDL 83 T P E5_PROBE FAIL ['_crash']
+app/api/pep.py 7 SDL 84 T P E5_PROBE FAIL ['_crash']
+app/api/pep.py 8 ARG 84 - - E5_PROBE PASS []
+app/api/pep.py 9 SDL 89 T P E5_PROBE FAIL ['_crash']
+app/api/pep.py 10 SDL 92 T P E5_PROBE FAIL ['_crash']
+app/api/pep.py 11 SDL 93 T P E5_PROBE FAIL ['_crash']
+app/api/pep.py 12 SDL 94 T P E5_PROBE FAIL ['_crash']
+app/api/pep.py 13 ARG 94 T P E5_PROBE FAIL ['_crash']
+app/api/pep.py 14 SDL 95 T P E5_PROBE FAIL ['_crash']
+app/api/pep.py 15 SDL 96 T P E5_PROBE FAIL ['_crash']
+app/api/pep.py 16 SDL 106 - - E5_PROBE PASS []
+app/api/pep.py 17 SDL 107 - - E5_PROBE PASS []
+app/api/pep.py 18 SDL 109 - P E5_PROBE FAIL ['S5_denials_persisted', 'S17_audit_outcome_matches_decision']
+app/api/pep.py 19 SDL 111 - P E5_PROBE FAIL ['S3_owner_cross_dept_denied', 'S4_download_needs_download_action', 'S28_assignment_grants_read_only', 'S2
+app/api/pep.py 20 RSW 111 - P E5_PROBE FAIL ['_crash']
+app/api/pep.py 21 SDL 117 - P E5_PROBE FAIL ['S2_mfa_obligation_all_endpoints']
+app/api/pep.py 22 RSW 117 - P E5_PROBE FAIL ['_crash']
+app/api/documents.py 0 SDL 422 T P E5_PROBE FAIL ['_crash']
+app/api/documents.py 1 ARG 424 T P E5_PROBE FAIL ['_crash']
+app/api/documents.py 2 SDL 430 - P E5_PROBE FAIL ['_crash']
+app/api/documents.py 3 SDL 436 - P E5_PROBE FAIL ['_crash']
+app/api/documents.py 4 SDL 442 T P E5_PROBE FAIL ['_crash']
+app/api/delegations.py 0 SDL 595 - P E5_PROBE FAIL ['_crash']
+app/api/delegations.py 1 SDL 599 - P E5_PROBE FAIL ['_crash']
+app/api/delegations.py 2 SDL 601 - - E5_PROBE PASS []
+app/api/delegations.py 3 RSW 601 - - E5_PROBE PASS []
+app/api/delegations.py 4 SDL 604 - - E5_PROBE PASS []
+app/api/delegations.py 5 RSW 604 - - E5_PROBE PASS []
+app/api/delegations.py 6 SDL 609 - P E5_PROBE FAIL ['_crash']
+app/api/delegations.py 7 SDL 610 - P E5_PROBE FAIL ['_crash']
+app/api/delegations.py 8 SDL 612 - P E5_PROBE FAIL ['_crash']
+app/api/delegations.py 9 SDL 617 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revok
+app/api/delegations.py 10 RSW 617 - P E5_PROBE FAIL ['_crash']
+app/api/delegations.py 11 SDL 619 - P E5_PROBE FAIL ['S7_delegation_revocation_immediate']
+app/api/delegations.py 12 SDL 620 - - E5_PROBE PASS []
+app/api/delegations.py 13 SDL 621 - - E5_PROBE PASS []
+app/api/delegations.py 14 SDL 623 - - E5_PROBE PASS []
+app/api/delegations.py 15 SDL 632 - - E5_PROBE PASS []
+app/api/delegations.py 16 SDL 633 - P E5_PROBE FAIL ['_crash']
+app/api/delegations.py 17 ARG 634 - - E5_PROBE PASS []
+app/api/delegations.py 18 SDL 641 - P E5_PROBE FAIL ['_crash']
+app/api/delegations.py 19 SDL 643 - P E5_PROBE FAIL ['_crash']
+app/api/delegations.py 20 SDL 644 - - E5_PROBE PASS []
+app/api/resources.py 0 SDL 476 - P E5_PROBE FAIL ['_crash']
+app/api/resources.py 1 ARG 477 - - E5_PROBE PASS []
+app/api/resources.py 2 SDL 482 - P E5_PROBE FAIL ['_crash']
+app/api/resources.py 3 SDL 484 - - E5_PROBE PASS []
+app/api/resources.py 4 RSW 484 - - E5_PROBE PASS []
+app/api/resources.py 5 SDL 488 - P E5_PROBE FAIL ['_crash']
+app/api/resources.py 6 SDL 489 - P E5_PROBE FAIL ['_crash']
+app/api/resources.py 7 SDL 490 - P E5_PROBE FAIL ['_crash']
+app/api/resources.py 8 SDL 491 - P E5_PROBE FAIL ['_crash']
+app/api/resources.py 9 SDL 492 - P E5_PROBE FAIL ['_crash']
+app/api/resources.py 10 SDL 497 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S16_other_division_manager_cannot_revoke']
+app/api/resources.py 11 RSW 497 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S16_other_division_manager_cannot_revoke']
+app/api/resources.py 12 SDL 499 - P E5_PROBE FAIL ['S8_assignment_revocation_immediate', 'S11_forced_race_no_stale_allow']
+app/api/resources.py 13 SDL 500 - - E5_PROBE PASS []
+app/api/resources.py 14 SDL 501 - - E5_PROBE PASS []
+app/api/resources.py 15 SDL 502 - - E5_PROBE PASS []
+app/services/pip.py 0 SDL 167 T P E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', '_crash']
+app/services/pip.py 1 SDL 171 T P E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', '_crash']
+app/services/pip.py 2 ARG 171 - - E5_PROBE PASS []
+app/services/pip.py 3 ARG 171 - P E5_PROBE FAIL ['S7_delegation_revocation_immediate', 'S8_assignment_revocation_immediate', 'S11_forced_race_no_stale_all
+app/services/pip.py 4 SDL 175 T P E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', '_crash']
+app/services/pip.py 5 SDL 177 T P E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', '_crash']
+app/services/pip.py 6 SDL 178 - - E5_PROBE PASS []
+app/services/pip.py 7 SDL 179 - - E5_PROBE PASS []
+app/services/pip.py 8 SDL 183 - P E5_PROBE FAIL ['L19_reader_resolves_comment', 'L2_mfa_director_allowed', 'L4_assigned_read_allowed', 'L6_cross_dept_read
+app/services/pip.py 9 SDL 186 - P E5_PROBE FAIL ['L19_reader_resolves_comment', 'L2_mfa_director_allowed', 'L4_assigned_read_allowed', 'L6_cross_dept_read
+app/services/pip.py 10 ARG 189 - P E5_PROBE FAIL ['L19_reader_resolves_comment', 'L2_mfa_director_allowed', 'L4_assigned_read_allowed', 'L6_cross_dept_read
+app/services/pip.py 11 SDL 192 T P E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', '_crash']
+app/services/pip.py 12 SDL 193 T P E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', '_crash']
+app/services/pip.py 13 ARG 193 - - E5_PROBE PASS []
+app/services/pip.py 14 SDL 196 T P E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', '_crash']
+app/services/pip.py 15 SDL 199 - P E5_PROBE FAIL ['L5_delegation_approved_and_usable', 'S9_no_cross_dept_write_via_delegation', 'L6_cross_dept_read_via_del
+app/services/pip.py 16 SDL 200 - - E5_PROBE PASS []
+app/services/pip.py 17 SDL 202 - P E5_PROBE FAIL ['L5_delegation_approved_and_usable', 'S9_no_cross_dept_write_via_delegation', 'L6_cross_dept_read_via_del
+app/services/pip.py 18 SDL 203 - P E5_PROBE FAIL ['L5_delegation_approved_and_usable', 'S9_no_cross_dept_write_via_delegation', 'L6_cross_dept_read_via_del
+app/services/pip.py 19 SDL 204 - - E5_PROBE PASS []
+app/services/pip.py 20 ARG 204 - - E5_PROBE PASS []
+app/services/pip.py 21 SDL 208 - - E5_PROBE PASS []
+app/services/pip.py 22 ARG 208 - - E5_PROBE PASS []
+app/services/pip_invalidation.py 0 SDL 37 T P E5_PROBE FAIL ['_crash']
+app/services/pip_invalidation.py 1 ARG 37 T P 
+app/services/pip_invalidation.py 2 ARG 39 T P 
+app/services/pip_invalidation.py 3 SDL 40 - - E5_PROBE PASS []
+app/services/pip_invalidation.py 4 SDL 40 - - E5_PROBE PASS []
+app/services/pip_invalidation.py 5 ARG 41 T P 
+app/services/pip_invalidation.py 6 SDL 42 - - E5_PROBE PASS []
+app/services/pip_invalidation.py 7 SDL 42 - - E5_PROBE PASS []
+app/services/pip_invalidation.py 8 ARG 35 T P 
+app/services/pip_invalidation.py 9 SDL 48 T P E5_PROBE FAIL ['_crash']
+app/services/pip_invalidation.py 10 ARG 48 T P E5_PROBE FAIL ['_crash']
+app/services/pip_invalidation.py 11 SDL 50 - P E5_PROBE FAIL ['S21_bulk_grant_update_takes_effect']
+app/services/pip_invalidation.py 12 ARG 50 - P E5_PROBE FAIL ['_crash']
+app/services/pip_invalidation.py 13 ARG 45 T P 
+app/services/pip_invalidation.py 14 SDL 55 T P 
+app/services/pip_invalidation.py 15 ARG 55 - P E5_PROBE FAIL ['S7_delegation_revocation_immediate', 'S8_assignment_revocation_immediate', 'S21_bulk_grant_update_takes_
+app/services/pip_invalidation.py 16 SDL 59 - P E5_PROBE FAIL ['S7_delegation_revocation_immediate', 'S8_assignment_revocation_immediate', 'S21_bulk_grant_update_takes_
+app/services/pip_invalidation.py 17 SDL 61 - P E5_PROBE FAIL ['S7_delegation_revocation_immediate', 'S8_assignment_revocation_immediate', 'S21_bulk_grant_update_takes_
+app/services/pip_invalidation.py 18 SDL 62 - P E5_PROBE FAIL ['S7_delegation_revocation_immediate', 'S8_assignment_revocation_immediate', 'S21_bulk_grant_update_takes_
+app/services/pip_invalidation.py 19 ARG 53 T P 
+app/main.py 0 SDL 193 T P E5_PROBE FAIL ['_crash']
+app/main.py 1 SDL 194 T P E5_PROBE FAIL ['_crash']
+app/main.py 2 SDL 198 - - E5_PROBE PASS []

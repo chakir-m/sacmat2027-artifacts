@@ -1,0 +1,184 @@
+{
+ "T1_shipped_policies": {
+  "rounds": 25,
+  "user_checks": 100,
+  "mismatches": 0,
+  "examples": []
+ },
+ "T1_all_example_policies_enabled": {
+  "rounds": 25,
+  "user_checks": 100,
+  "mismatches": 0,
+  "examples": []
+ },
+ "T2": {
+  "propagation_s": [
+   0.895,
+   0.116,
+   0.862,
+   0.533,
+   0.517,
+   0.428,
+   0.862,
+   0.834,
+   0.744,
+   0.194
+  ],
+  "invalid_validation": [
+   {
+    "forbid_never_enforced_5s": true,
+    "status": 200,
+    "response_signals_policy_error": false
+   },
+   {
+    "forbid_never_enforced_5s": true,
+    "status": 200,
+    "response_signals_policy_error": false
+   },
+   {
+    "forbid_never_enforced_5s": true,
+    "status": 200,
+    "response_signals_policy_error": false
+   },
+   {
+    "forbid_never_enforced_5s": true,
+    "status": 200,
+    "response_signals_policy_error": false
+   },
+   {
+    "forbid_never_enforced_5s": true,
+    "status": 200,
+    "response_signals_policy_error": false
+   },
+   {
+    "forbid_never_enforced_5s": true,
+    "status": 200,
+    "response_signals_policy_error": false
+   },
+   {
+    "forbid_never_enforced_5s": true,
+    "status": 200,
+    "response_signals_policy_error": false
+   },
+   {
+    "forbid_never_enforced_5s": true,
+    "status": 200,
+    "response_signals_policy_error": false
+   },
+   {
+    "forbid_never_enforced_5s": true,
+    "status": 200,
+    "response_signals_policy_error": false
+   },
+   {
+    "forbid_never_enforced_5s": true,
+    "status": 200,
+    "response_signals_policy_error": false
+   }
+  ],
+  "invalid_syntax": [
+   {
+    "forbid_never_enforced_5s": true,
+    "status": 200,
+    "response_signals_policy_error": false
+   },
+   {
+    "forbid_never_enforced_5s": true,
+    "status": 200,
+    "response_signals_policy_error": false
+   },
+   {
+    "forbid_never_enforced_5s": true,
+    "status": 200,
+    "response_signals_policy_error": false
+   },
+   {
+    "forbid_never_enforced_5s": true,
+    "status": 200,
+    "response_signals_policy_error": false
+   },
+   {
+    "forbid_never_enforced_5s": true,
+    "status": 200,
+    "response_signals_policy_error": false
+   },
+   {
+    "forbid_never_enforced_5s": true,
+    "status": 200,
+    "response_signals_policy_error": false
+   },
+   {
+    "forbid_never_enforced_5s": true,
+    "status": 200,
+    "response_signals_policy_error": false
+   },
+   {
+    "forbid_never_enforced_5s": true,
+    "status": 200,
+    "response_signals_policy_error": false
+   },
+   {
+    "forbid_never_enforced_5s": true,
+    "status": 200,
+    "response_signals_policy_error": false
+   },
+   {
+    "forbid_never_enforced_5s": true,
+    "status": 200,
+    "response_signals_policy_error": false
+   }
+  ],
+  "share_revocation": [
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true
+  ]
+ },
+ "T3a_mediation": {
+  "GET /list/get": {
+   "status": 200,
+   "allowed": false
+  },
+  "POST /list/update": {
+   "status": 200,
+   "allowed": false
+  },
+  "DELETE /list/delete": {
+   "status": 200,
+   "allowed": false
+  },
+  "POST /task/create": {
+   "status": 200,
+   "allowed": false
+  },
+  "POST /task/update": {
+   "status": 200,
+   "allowed": false
+  },
+  "DELETE /task/delete": {
+   "status": 200,
+   "allowed": false
+  },
+  "POST /share": {
+   "status": 200,
+   "allowed": false
+  },
+  "DELETE /share": {
+   "status": 200,
+   "allowed": false
+  },
+  "_state_unchanged": true,
+  "_lists_visible_to_aaron": []
+ },
+ "T3b_identity": {
+  "principal_source": "request field `uid` (query string or JSON body)",
+  "request_as_emina_without_credentials_allowed": true
+ }
+}

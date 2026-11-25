@@ -1,0 +1,495 @@
+From c99e5b07838808fbd638a3b9d3bceb4ecf381a71 Mon Sep 17 00:00:00 2001
+From: eval <eval@local>
+Date: Fri, 30 Oct 2026 18:34:34 +0000
+Subject: [PATCH 02/13] DR4 (single PEP gate, endpoint-derived action, scoped
+ owner access, document reads via PDP), DR5 PEP audit, F9 ledger, F13
+ authority/PAP status
+
+---
+ backend/app/api/delegations.py    |  13 ++
+ backend/app/api/documents.py      |  47 ++++++
+ backend/app/api/internal.py       |  10 ++
+ backend/app/api/pep.py            | 235 +++++++++++-------------------
+ backend/app/api/policies.py       |   8 +-
+ backend/app/api/resources.py      |  13 ++
+ backend/app/api/subjects.py       |  12 +-
+ backend/app/services/scheduler.py |   2 +-
+ 8 files changed, 181 insertions(+), 159 deletions(-)
+
+diff --git a/backend/app/api/delegations.py b/backend/app/api/delegations.py
+index 0f94b3b..e29f789 100644
+--- a/backend/app/api/delegations.py
++++ b/backend/app/api/delegations.py
+@@ -574,6 +574,19 @@ async def revoke_delegation(
+     if delegation.status != DelegationStatus.APPROVED:
+         raise HTTPException(status_code=400, detail="Only approved delegations can be revoked")
+ 
++    # [eval-fork F13] authority as documented: approver, admin, or resource owner
++    # (plus the director of the resource's department, who approves delegations)
++    if not current.is_platform_admin:
++        res = delegation.resource
++        _r = (await db.execute(select(Role).where(Role.id == current.role_id))).scalar_one_or_none() \
++            if current.role_id else None
++        is_res_director = (_r is not None and _r.builtin_type == "director"
++                           and res is not None and res.department_id == current.department_id)
++        if not (current.id == delegation.approver_id
++                or (res is not None and res.owner_id == current.id)
++                or is_res_director):
++            raise HTTPException(status_code=403, detail="Not authorized to revoke this delegation")
++
+     delegation.status = DelegationStatus.REVOKED
+     delegation.revoked_at = datetime.now(timezone.utc)
+     delegation.revoke_reason = body.reason
+diff --git a/backend/app/api/documents.py b/backend/app/api/documents.py
+index 83986fb..ab5d074 100644
+--- a/backend/app/api/documents.py
++++ b/backend/app/api/documents.py
+@@ -37,6 +37,7 @@ from app.core.config import settings
+ from app.db.database import get_db
+ from app.services.notifications import notify, notify_admins
+ from app.models.models import (
++    DecisionResult,
+     AuditEventType, AuditLog, Delegation, DelegationStatus, Department, Division, Document,
+     DocumentCollaborator, DocumentComment, DocumentFolder, DocumentLink, DocumentReopenRequest,
+     DocumentSignature, DocumentSpace, DocumentStatus, DocumentTask, DocumentTemplate,
+@@ -399,10 +400,56 @@ def _can_read_document(doc: Document, current: Subject, builtin: Optional[str])
+     return False
+ 
+ 
++async def _doc_read_allowed(
++    db: AsyncSession, doc: Document, current: Subject, builtin: Optional[str]
++) -> Optional[bool]:
++    """[eval-fork DR4] One decision procedure for document reads.
++
++    Published documents with a linked Resource are decided by the PDP on that resource
++    (classification, assignment/delegation, risk), exactly as /pep/access would decide.
++    The owner keeps read access only inside the resource's department.
++    For other documents the workflow rules below apply, plus the classification barrier.
++    Returns True/False when decided here, None to fall through to the workflow rules.
++    """
++    from app.services.pdp import (PolicyDecisionPoint, AccessRequest,
++                                  _clearance_rank, _sensitivity_rank)
++    if current.is_platform_admin:
++        return True
++    if doc.status == DocumentStatus.PUBLISHED:
++        linked = (await db.execute(
++            select(Resource).where(Resource.attributes["document_id"].astext == doc.id,
++                                   Resource.is_active == True)  # noqa: E712
++        )).scalars().first()
++        if linked is not None:
++            if doc.owner_id == current.id and linked.department_id == current.department_id:
++                return True
++            dec = await PolicyDecisionPoint(db).decide(AccessRequest(
++                subject_id=current.id, resource_id=linked.id, action="read",
++                context={"surface": "documents",
++                         "timestamp": datetime.now(timezone.utc).isoformat()},
++                _resource=linked))
++            return dec.result == DecisionResult.ALLOW
++    # Unpublished (workflow) documents: classification barrier, with the same role
++    # exemptions as P_class (director in dept, division manager in own division, owner).
++    exempt = (doc.owner_id == current.id
++              or (builtin == "director" and doc.department_id == current.department_id)
++              or (builtin == "division_manager" and doc.department_id == current.department_id
++                  and current.division_id is not None and doc.division_id == current.division_id))
++    if (not exempt and _sensitivity_rank(doc.sensitivity) > 0
++            and _clearance_rank(current.clearance) < _sensitivity_rank(doc.sensitivity)):
++        return False
++    return None
++
++
+ async def _assert_can_read(
+     db: AsyncSession, doc: Document, current: Subject, builtin: Optional[str]
+ ) -> None:
+     """Raise 403 if the user cannot read this document under P1-P6 (or as a collaborator)."""
++    decided = await _doc_read_allowed(db, doc, current, builtin)   # [eval-fork DR4]
++    if decided is True:
++        return
++    if decided is False:
++        raise HTTPException(403, "Access denied")
+     if _can_read_document(doc, current, builtin):
+         return
+     # Explicit collaborator invitation — read access at any doc status
+diff --git a/backend/app/api/internal.py b/backend/app/api/internal.py
+index 0dae58a..d667dc6 100644
+--- a/backend/app/api/internal.py
++++ b/backend/app/api/internal.py
+@@ -143,6 +143,16 @@ async def check_document_access(
+         return {"allowed": False}
+ 
+     if action == "read":
++        # [eval-fork DR4] same decision procedure as the document API
++        from app.api.documents import _assert_can_read
++        builtin = None
++        if subject.role_id:
++            role = (await db.execute(select(Role).where(Role.id == subject.role_id))).scalar_one_or_none()
++            builtin = role.builtin_type if role else None
++        try:
++            await _assert_can_read(db, doc, subject, builtin)
++        except HTTPException:
++            return {"allowed": False}
+         return {"allowed": True}
+ 
+     # For write, allow collaborators a quick path before checking roles
+diff --git a/backend/app/api/pep.py b/backend/app/api/pep.py
+index cddbbbc..141a988 100644
+--- a/backend/app/api/pep.py
++++ b/backend/app/api/pep.py
+@@ -90,6 +90,80 @@ async def _log_owner_access(
+     ))
+ 
+ 
++# ══════════════════════════════════════════════════════════════
++# [eval-fork DR4/DR5] single enforcement gate for every file-serving endpoint
++# ══════════════════════════════════════════════════════════════
++_ENDPOINT_ACTION = {"access": "read", "preview": "read", "download": "download"}
++
++
++async def _persist_independently(*rows) -> None:
++    """[eval-fork DR5] audit rows survive a rollback of the request transaction."""
++    from app.db.database import AsyncSessionLocal
++    try:
++        async with AsyncSessionLocal() as s:
++            for r in rows:
++                s.add(r)
++            await s.commit()
++    except Exception as e:
++        logger.error("pep_audit_persist_error", error=str(e))
++
++
++async def _pep_gate(db, current, resource, requested_action, request, surface):
++    """Decide, record, and enforce (including obligations) for one file-serving request.
++    The action is fixed by the endpoint; a different requested action is rejected (400)."""
++    from app.services.pdp import _obligations_for
++    start = time.monotonic()
++    action = _ENDPOINT_ACTION[surface]
++    req_val = getattr(requested_action, "value", requested_action)
++    if surface != "download" and req_val not in (None, action):
++        raise HTTPException(status_code=400,
++                            detail=f"/pep/{surface} serves action '{action}' only")
++    ip = request.client.host if request.client else "unknown"
++    # Owner access only inside the resource's department (no bypass after a move)
++    owner = (resource.owner_id == current.id and resource.department_id == current.department_id)
++    if owner:
++        decision = _owner_decision()
++        decision.obligations = _obligations_for(resource, current)
++    else:
++        decision = await PolicyDecisionPoint(db).decide(AccessRequest(
++            subject_id=current.id, resource_id=resource.id, action=action,
++            context={"request_ip": ip, "user_agent": request.headers.get("user-agent", ""),
++                     "pep_enforced": True, "surface": surface,
++                     "timestamp": datetime.now(timezone.utc).isoformat()},
++            _resource=resource))
++    elapsed_ms = int((time.monotonic() - start) * 1000)
++    allowed = decision.result == DecisionResult.ALLOW
++    obligations = list(getattr(decision, "obligations", []) or []) if allowed else []
++    mfa_block = allowed and "mfa_required" in obligations and not current.mfa_enabled
++    rows = [AuditLog(
++        subject_id=current.id, event_type=AuditEventType.POLICY_DECISION,
++        entity_type="resource", entity_id=resource.id,
++        details={"action": action, "surface": surface, "decision": decision.result.value,
++                 "policy_applied": decision.applied_policy_name, "decision_time_ms": elapsed_ms,
++                 "pep_enforced": True, "obligation_block": "mfa_required" if mfa_block else None,
++                 "subject_email": current.email, "resource_name": resource.name},
++        outcome="allow" if (allowed and not mfa_block) else "deny", ip_address=ip)]
++    if owner:
++        rows.append(AccessDecision(
++            subject_id=current.id, resource_id=resource.id, action=action,
++            result=DecisionResult.ALLOW, applied_policy_id=None, applied_policy_name="Owner Access",
++            context_snapshot={"owner_bypass": True, "surface": surface,
++                              "timestamp": datetime.now(timezone.utc).isoformat()},
++            decision_time_ms=elapsed_ms))
++    await _persist_independently(*rows)
++    if not allowed:
++        raise HTTPException(status_code=403, detail={
++            "error": "Access Denied by Policy", "action": action,
++            "decision": decision.result.value.upper(),
++            "policy_applied": decision.applied_policy_name, "reason": decision.reason,
++            "decision_time_ms": elapsed_ms})
++    if mfa_block:
++        raise HTTPException(status_code=403, detail={
++            "error": "MFA Required", "obligation": "mfa_required", "decision": "DENY",
++            "reason": f"Resource '{resource.name}' requires multi-factor authentication."})
++    return decision, obligations, elapsed_ms
++
++
+ # ══════════════════════════════════════════════════════════════
+ # UPLOAD — attach a real file to a resource record
+ # ══════════════════════════════════════════════════════════════
+@@ -226,79 +300,10 @@ async def enforce_access(
+     if not resource:
+         raise HTTPException(status_code=404, detail="Resource not found")
+ 
+-    # Resource owners always have access to their own resources
+-    owner_bypass = resource.owner_id == current.id
+-    if owner_bypass:
+-        decision = _owner_decision()
+-    else:
+-        # PDP evaluates decision
+-        pdp = PolicyDecisionPoint(db)
+-        pdp_request = AccessRequest(
+-            subject_id=current.id,
+-            resource_id=resource_id,
+-            action=action,
+-            context={
+-                "request_ip": request.client.host if request.client else "unknown",
+-                "user_agent": request.headers.get("user-agent", ""),
+-                "pep_enforced": True,
+-                "has_real_file": resource.file_path is not None,
+-                "timestamp": datetime.now(timezone.utc).isoformat(),
+-            },
+-            _resource=resource,
+-        )
+-        decision = await pdp.decide(pdp_request)
+-    elapsed_ms = int((time.monotonic() - start_time) * 1000)
+-
+-    if owner_bypass:
+-        await _log_owner_access(db, current.id, resource_id, action, elapsed_ms, surface="access")
+-
+-    # Log the enforcement event
+-    db.add(AuditLog(
+-        subject_id=current.id,
+-        event_type=AuditEventType.POLICY_DECISION,
+-        entity_type="resource",
+-        entity_id=resource_id,
+-        details={
+-            "action": action,
+-            "decision": decision.result.value,
+-            "policy_applied": decision.applied_policy_name,
+-            "decision_time_ms": elapsed_ms,
+-            "pep_enforced": True,
+-            "has_real_file": resource.file_path is not None,
+-            "subject_email": current.email,
+-            "resource_name": resource.name,
+-        },
+-        outcome="allow" if decision.result == DecisionResult.ALLOW else "deny",
+-        ip_address=request.client.host if request.client else None,
+-    ))
+-    await db.flush()
+-
+-    # ── DENY / INDETERMINATE: block access (fail-closed) ─────
+-    # Any result that is not an explicit ALLOW is treated as DENY.
+-    # INDETERMINATE (evaluation error) must never grant access.
+-    if decision.result != DecisionResult.ALLOW:
+-        logger.info("pep_denied", subject=current.email,
+-                    resource=resource.name, action=action,
+-                    policy=decision.applied_policy_name, ms=elapsed_ms,
+-                    result=decision.result.value)
+-        raise HTTPException(
+-            status_code=403,
+-            detail={
+-                "error": "Access Denied by Policy",
+-                "subject": current.email,
+-                "resource": resource.name,
+-                "action": action,
+-                "decision": decision.result.value.upper(),
+-                "policy_applied": decision.applied_policy_name,
+-                "reason": decision.reason,
+-                "decision_time_ms": elapsed_ms,
+-                "message": (
+-                    "The PDP denied this request. "
+-                    "The file was never opened. "
+-                    "This denial is permanently logged in the audit trail."
+-                ),
+-            }
+-        )
++    # [eval-fork DR4/DR5] single gate: endpoint-derived action, scoped owner access,
++    # obligations, and audit rows persisted independently of this transaction
++    decision, obligations, elapsed_ms = await _pep_gate(db, current, resource, action, request, "access")
++    action = "read"
+ 
+     # ── Update last-known IP for risk engine baseline ─────────
+     client_ip = request.client.host if request.client else None
+@@ -310,31 +315,6 @@ async def enforce_access(
+             current.attributes = attrs
+             flag_modified(current, "attributes")
+ 
+-    # ── Obligation enforcement ────────────────────────────────
+-    obligations = getattr(decision, "obligations", []) or []
+-
+-    if "mfa_required" in obligations and not current.mfa_enabled:
+-        db.add(AuditLog(
+-            subject_id=current.id,
+-            event_type=AuditEventType.POLICY_DECISION,
+-            entity_type="resource",
+-            entity_id=resource_id,
+-            details={"action": action, "decision": "DENY", "reason": "obligation:mfa_required",
+-                     "resource_name": resource.name},
+-            outcome="deny",
+-            ip_address=request.client.host if request.client else None,
+-        ))
+-        raise HTTPException(
+-            status_code=403,
+-            detail={
+-                "error": "MFA Required",
+-                "obligation": "mfa_required",
+-                "reason": f"Resource '{resource.name}' has TOP_SECRET sensitivity. "
+-                           "Enable multi-factor authentication in your profile to access it.",
+-                "decision": "DENY",
+-            }
+-        )
+-
+     # ── ALLOW: serve the real file (if one is attached) ───────
+     logger.info("pep_allowed", subject=current.email,
+                 resource=resource.name, action=action,
+@@ -709,34 +689,8 @@ async def preview_file(
+     if not resource:
+         raise HTTPException(status_code=404, detail="Resource not found")
+ 
+-    # Resource owners always have access to their own resources
+-    owner_bypass = resource.owner_id == current.id
+-    if owner_bypass:
+-        decision = _owner_decision()
+-    else:
+-        pdp = PolicyDecisionPoint(db)
+-        decision = await pdp.decide(AccessRequest(
+-            subject_id=current.id,
+-            resource_id=resource_id,
+-            action=action,
+-            context={"pep_enforced": True, "preview": True},
+-            _resource=resource,
+-        ))
+-    elapsed_ms = int((time.monotonic() - start_time) * 1000)
+-
+-    if owner_bypass:
+-        await _log_owner_access(db, current.id, resource_id, action, elapsed_ms, surface="preview")
+-
+-    if decision.result != DecisionResult.ALLOW:  # fail-closed
+-        raise HTTPException(
+-            status_code=403,
+-            detail={
+-                "error": "Access Denied by Policy",
+-                "decision": decision.result.value.upper(),
+-                "policy_applied": decision.applied_policy_name,
+-                "reason": decision.reason,
+-            }
+-        )
++    # [eval-fork DR4/DR5] single gate (see _pep_gate)
++    decision, obligations, elapsed_ms = await _pep_gate(db, current, resource, action, request, "preview")
+ 
+     # Re-read file_path directly to avoid ORM cache issues
+     fp_res = await db.execute(
+@@ -789,33 +743,8 @@ async def download_file(
+     if not resource:
+         raise HTTPException(status_code=404, detail="Resource not found")
+ 
+-    owner_bypass = resource.owner_id == current.id
+-    if owner_bypass:
+-        decision = _owner_decision()
+-    else:
+-        pdp = PolicyDecisionPoint(db)
+-        decision = await pdp.decide(AccessRequest(
+-            subject_id=current.id,
+-            resource_id=resource_id,
+-            action=action,
+-            context={"pep_enforced": True, "download": True},
+-            _resource=resource,
+-        ))
+-    elapsed_ms = int((time.monotonic() - start_time) * 1000)
+-
+-    if owner_bypass:
+-        await _log_owner_access(db, current.id, resource_id, action, elapsed_ms, surface="download")
+-
+-    if decision.result != DecisionResult.ALLOW:  # fail-closed
+-        raise HTTPException(
+-            status_code=403,
+-            detail={
+-                "error": "Access Denied by Policy",
+-                "decision": decision.result.value.upper(),
+-                "policy_applied": decision.applied_policy_name,
+-                "reason": decision.reason,
+-            }
+-        )
++    # [eval-fork DR4/DR5] single gate (see _pep_gate)
++    decision, obligations, elapsed_ms = await _pep_gate(db, current, resource, action, request, "download")
+ 
+     fp_res = await db.execute(
+         select(Resource.file_path, Resource.file_size, Resource.mime_type, Resource.name)
+diff --git a/backend/app/api/policies.py b/backend/app/api/policies.py
+index 757bbd5..feff0af 100644
+--- a/backend/app/api/policies.py
++++ b/backend/app/api/policies.py
+@@ -175,6 +175,11 @@ async def update_policy(
+     if policy.builtin_id:
+         # Builtin: only allow status change
+         if body.status is not None:
++            # [eval-fork F13] the PDP always enforces built-in rules; the PAP must not
++            # display a built-in rule as inactive (the same guard PATCH applies to P7)
++            if getattr(body.status, "value", body.status) != "active":
++                raise HTTPException(status_code=400,
++                                    detail="Built-in policies are always enforced and cannot be deactivated")
+             policy.status = body.status
+         else:
+             raise HTTPException(
+@@ -215,7 +220,8 @@ async def toggle_policy_status(
+         raise HTTPException(status_code=404, detail="Policy not found")
+ 
+     # Prevent disabling P7 (default deny) — would create security gap
+-    if policy.builtin_id == "P7" and not active:
++    # [eval-fork F13] extended to every built-in rule: the PDP never reads their status
++    if policy.builtin_id and not active:
+         raise HTTPException(
+             status_code=400,
+             detail="P7 (Default Deny) cannot be disabled — it is the Zero Trust safety net."
+diff --git a/backend/app/api/resources.py b/backend/app/api/resources.py
+index b197579..e83bce6 100644
+--- a/backend/app/api/resources.py
++++ b/backend/app/api/resources.py
+@@ -483,6 +483,19 @@ async def revoke_assignment(
+     if not assignment:
+         raise HTTPException(status_code=404, detail="Assignment not found")
+ 
++    # [eval-fork F13] revocation requires the same authority as creation
++    if not current.is_platform_admin:
++        resource = (await db.execute(select(Resource).where(Resource.id == resource_id))).scalar_one_or_none()
++        role_result = await db.execute(select(Role).where(Role.id == current.role_id)) if current.role_id else None
++        current_role = role_result.scalar_one_or_none() if role_result else None
++        builtin = current_role.builtin_type if current_role else None
++        ok = resource is not None and (
++            (builtin == "director" and resource.department_id == current.department_id)
++            or (builtin == "division_manager" and resource.department_id == current.department_id
++                and current.division_id is not None and resource.division_id == current.division_id))
++        if not ok:
++            raise HTTPException(status_code=403, detail="Not authorized to revoke this assignment")
++
+     assignment.is_active = False
+     await db.flush()
+     await pip_cache.invalidate_subject(assignment.subject_id)
+diff --git a/backend/app/api/subjects.py b/backend/app/api/subjects.py
+index ffd11b0..c3f1da4 100644
+--- a/backend/app/api/subjects.py
++++ b/backend/app/api/subjects.py
+@@ -684,10 +684,14 @@ async def hard_delete_subject(
+         .where(Resource.owner_id == subject_id)
+         .values(owner_id=current.id)
+     )
+-    # 5. Access decisions (NOT NULL FK) → delete
+-    await db.execute(
+-        sa_delete(AccessDecision).where(AccessDecision.subject_id == subject_id)
+-    )
++    # 5. [eval-fork F9] Access decisions are an append-only ledger: never deleted.
++    #    A subject with recorded decisions cannot be hard-deleted (deactivate instead).
++    n_dec = (await db.execute(
++        select(func.count()).select_from(AccessDecision).where(AccessDecision.subject_id == subject_id)
++    )).scalar()
++    if n_dec:
++        raise HTTPException(status_code=409,
++                            detail="Subject has recorded access decisions; deactivate instead of deleting")
+     # 6. Audit logs → nullify (nullable FK)
+     await db.execute(
+         sa_update(AuditLog)
+diff --git a/backend/app/services/scheduler.py b/backend/app/services/scheduler.py
+index d3abc44..7174cfc 100644
+--- a/backend/app/services/scheduler.py
++++ b/backend/app/services/scheduler.py
+@@ -86,7 +86,7 @@ async def _prune_audit_logs() -> None:
+ 
+     async with AsyncSessionLocal() as db:
+         try:
+-            r1 = await db.execute(delete(AuditLog).where(AuditLog.created_at < cutoff))
++            r1 = await db.execute(delete(AuditLog).where(AuditLog.occurred_at < cutoff)  # [eval-fork F9] existing column)
+             r2 = await db.execute(delete(AccessDecision).where(AccessDecision.decided_at < cutoff))
+             await db.commit()
+             logger.info(
+-- 
+2.43.0
+

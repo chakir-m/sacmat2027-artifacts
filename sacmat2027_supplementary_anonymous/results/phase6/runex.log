@@ -1,0 +1,5 @@
+a_ana_reads_assigned_report                        v1=('P4', 'allow')  v2=('P4', 'allow')
+b1_dan_writes_o_before                             v1=('P1', 'deny')  v2=('P1', 'deny')
+b2_dan_writes_o_after_asg_and_read_delegation      v1=('P4', 'allow')  v2=('P7', 'deny')
+c1_ana_unassigned_0200_five_failed_logins          v1=('P5', 'deny')  v2=('P_ctx', 'deny')
+c2_same_but_assigned                               v1=('P4', 'allow')  v2=('P_ctx', 'deny')

@@ -1,0 +1,189 @@
+{
+ "original": {
+  "op": "original",
+  "line": null,
+  "worlds": 604800,
+  "agreement_with_M_DOC": 604800,
+  "requirement_violations": {},
+  "theta_used": 70,
+  "mismatch_example": [],
+  "killed": false
+ },
+ "4": {
+  "op": "ROR",
+  "line": 424,
+  "worlds": 604800,
+  "agreement_with_M_DOC": 507276,
+  "requirement_violations": {
+   "R6|linked=none|status=draft": 5382,
+   "R6|linked=active|status=draft": 5382,
+   "R6|linked=inactive|status=draft": 5382,
+   "R6|linked=none|status=review": 5490,
+   "R6|linked=active|status=review": 5490,
+   "R6|linked=inactive|status=review": 5490,
+   "R6|linked=none|status=pending_approval": 5490,
+   "R6|linked=active|status=pending_approval": 5490,
+   "R6|linked=inactive|status=pending_approval": 5490,
+   "R6|linked=none|status=approved": 5382,
+   "R6|linked=active|status=approved": 5382,
+   "R6|linked=inactive|status=approved": 5382,
+   "R6|linked=none|status=archived": 5382,
+   "R6|linked=active|status=archived": 5382,
+   "R6|linked=inactive|status=archived": 5382,
+   "R6|linked=none|status=rejected": 5382,
+   "R6|linked=active|status=rejected": 5382,
+   "R6|linked=inactive|status=rejected": 5382
+  },
+  "theta_used": 70,
+  "mismatch_example": [
+   {
+    "world": [
+     "director",
+     "D1",
+     true,
+     "D1",
+     "draft",
+     "normal",
+     "public",
+     false,
+     false,
+     "none",
+     "frozenset()",
+     "frozenset()",
+     true
+    ],
+    "impl": true,
+    "ref": false
+   }
+  ],
+  "killed": true
+ },
+ "12": {
+  "op": "RET",
+  "line": 434,
+  "worlds": 604800,
+  "agreement_with_M_DOC": 593280,
+  "requirement_violations": {
+   "R1|linked=none|status=published": 2304,
+   "R2|linked=none|status=published": 1764,
+   "R3|linked=none|status=published": 672
+  },
+  "theta_used": 70,
+  "mismatch_example": [
+   {
+    "world": [
+     "director",
+     "D1",
+     true,
+     "D1",
+     "published",
+     "normal",
+     "public",
+     false,
+     false,
+     "none",
+     "frozenset()",
+     "frozenset()",
+     false
+    ],
+    "impl": true,
+    "ref": false
+   }
+  ],
+  "killed": true
+ },
+ "13": {
+  "op": "CRPb",
+  "line": 434,
+  "worlds": 604800,
+  "agreement_with_M_DOC": 593280,
+  "requirement_violations": {
+   "R1|linked=none|status=published": 2304,
+   "R2|linked=none|status=published": 1764,
+   "R3|linked=none|status=published": 672
+  },
+  "theta_used": 70,
+  "mismatch_example": [
+   {
+    "world": [
+     "director",
+     "D1",
+     true,
+     "D1",
+     "published",
+     "normal",
+     "public",
+     false,
+     false,
+     "none",
+     "frozenset()",
+     "frozenset()",
+     false
+    ],
+    "impl": true,
+    "ref": false
+   }
+  ],
+  "killed": true
+ },
+ "18": {
+  "op": "ROR",
+  "line": 442,
+  "worlds": 604800,
+  "agreement_with_M_DOC": 593784,
+  "requirement_violations": {},
+  "theta_used": 70,
+  "mismatch_example": [
+   {
+    "world": [
+     "division_manager",
+     "D1",
+     true,
+     "D2",
+     "draft",
+     "normal",
+     "sensitive",
+     true,
+     false,
+     "none",
+     "frozenset()",
+     "frozenset()",
+     false
+    ],
+    "impl": false,
+    "ref": true
+   }
+  ],
+  "killed": true
+ },
+ "30": {
+  "op": "ROR",
+  "line": 446,
+  "worlds": 604800,
+  "agreement_with_M_DOC": 604800,
+  "requirement_violations": {},
+  "theta_used": 70,
+  "mismatch_example": [],
+  "killed": false
+ },
+ "31": {
+  "op": "CRP+",
+  "line": 446,
+  "worlds": 604800,
+  "agreement_with_M_DOC": 604800,
+  "requirement_violations": {},
+  "theta_used": 70,
+  "mismatch_example": [],
+  "killed": false
+ },
+ "32": {
+  "op": "CRP-",
+  "line": 446,
+  "worlds": 604800,
+  "agreement_with_M_DOC": 604800,
+  "requirement_violations": {},
+  "theta_used": 70,
+  "mismatch_example": [],
+  "killed": false
+ }
+}

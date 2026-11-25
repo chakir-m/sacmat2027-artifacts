@@ -30,7 +30,11 @@
 \ifdefined\ANON \anontrue \else \anonfalse \fi
 % Name of our system: anonymised in the submission build only.
 \ifanon
+<<<<<<< HEAD
   \newcommand{\sysname}{\textsc{OpenZTAC}\xspace}
+=======
+  \newcommand{\sysname}{\textsc{Atrium}\xspace}
+>>>>>>> 42fa364aea261fae9fc6322d2fbffae1eb27feb4
 \else
   \newcommand{\sysname}{\textsc{OpenZTAC}\xspace}
 \fi
@@ -73,7 +77,11 @@ Layered Conformance Checking of a Zero-Trust ABAC System}
 \fi
 
 \begin{abstract}
+<<<<<<< HEAD
 We designed and built \sysname, a zero-trust ABAC system whose decision point applies a first-applicable
+=======
+We designed, built and deployed \sysname, a zero-trust ABAC system whose decision point applies a first-applicable
+>>>>>>> 42fa364aea261fae9fc6322d2fbffae1eb27feb4
 chain of nine rules. We proved properties of the chain and tested the decision point thoroughly, yet several of
 these guarantees failed for the system as a whole. We turn the lesson into a method that checks a deployment at
 three levels: the rules (L1), the stored state they read (L2), and every path that enforces a decision (L3). Under
@@ -116,10 +124,17 @@ talks about, every path to a protected object goes through the PDP (complete med
 \cite{saltzer1975protection}), and the record of each decision survives. Everyone assumes these; few check them,
 and almost never together.
 
+<<<<<<< HEAD
 We learned this on our own system. \sysname is a ZTA/ABAC system we built, with a Python backend of about
 16.8\,kLOC (FastAPI, PostgreSQL, Redis), a document service with real-time collaboration, and a PDP that evaluates
 a first-applicable chain we call \chain. We wrote down security invariants, proved five properties of the chain on
 paper, wrote 140 tests covering 95\,\% of the PDP, and ran it. When we finally checked the running system as a
+=======
+We learned this on our own system. \sysname is an open-source ZTA/ABAC system with a Python backend of about
+16.8\,kLOC (FastAPI, PostgreSQL, Redis), a document service with real-time collaboration, and a PDP that evaluates
+a first-applicable chain we call \chain. We wrote down security invariants, proved five properties of the chain on
+paper, wrote 140 tests covering 95\,\% of the PDP, and deployed it. When we finally checked the running system as a
+>>>>>>> 42fa364aea261fae9fc6322d2fbffae1eb27feb4
 whole, the PDP was exactly right, and the system was not.
 
 \paragraph{Approach.} We model a deployment by its runs, the sequences of requests, decisions, effects, records and
@@ -127,7 +142,13 @@ commits it produces (\S\ref{sec:system}), state an insider threat model over the
 conformance at three levels (\S\ref{sec:levels}). \textbf{L1, rules:} does the decision code match the rule model,
 and do the rules satisfy the requirements? \textbf{L2, state:} does the decision use state at most $\Delta$ old?
 \textbf{L3, enforcement:} does every path ask the PDP for the right action, meet its obligations and record the
+<<<<<<< HEAD
 decision? For each level we build an \emph{oracle} that decides whether observed behaviour is correct.
+=======
+decision? For each level we build an \emph{oracle} that decides whether observed behaviour is correct. We write
+the chain once, as code, and interpret it as Python booleans for testing, as z3 terms for proofs, and as Cedar
+policies.
+>>>>>>> 42fa364aea261fae9fc6322d2fbffae1eb27feb4
 
 \paragraph{Questions.} \RQ1: Can rule-level conformance be established \emph{completely} by bounded checking, and
 what does it find? \RQ2: What goes wrong between stored state and decisions, and does our staleness bound predict
@@ -138,12 +159,21 @@ and Backstage RBAC? \S\ref{sec:l1}--\S\ref{sec:rq5} answer them in turn.
 \paragraph{Contributions.} Verified authorizers tested against their model \cite{cutler2024cedar,disselkoen2024vgd},
 model-based security testing \cite{mouelhi2008models} and data independence \cite{wolper1986,lazic2003semantic}
 are precedents; we contribute (1) contracts for rules, state and enforcement over runs, with a composition theorem
+<<<<<<< HEAD
 and an independence result ; (2) a tool-checked syntactic criterion and an SMT coverage query
 that together make a finite differential test of ordinary PDP code complete, which exposed two holes in the world
 space we had used; (3) a tight staleness theorem for TTL-cached grants, matched
 by measurement within 0.63\,s over 100 trials, a mixed-view result, and a freshness result for a versioned cache;
 (4) an L3 check over a route inventory generated from the routing table, which found four failures our hand-built
 inventory had missed; (5) 18 findings on \sysname v1, each backed by a proof, an exhaustive count or
+=======
+and an independence result (\S\ref{sec:levels}); (2) a tool-checked syntactic criterion and an SMT coverage query
+that together make a finite differential test of ordinary PDP code complete, which exposed two holes in the world
+space we had used (\S\ref{sec:method}, \S\ref{sec:l1}); (3) a tight staleness theorem for TTL-cached grants, matched
+by measurement within 0.63\,s over 100 trials, a mixed-view result, and a freshness result for a versioned cache;
+(4) an L3 check over a route inventory generated from the routing table, which found four failures our hand-built
+inventory had missed (\S\ref{sec:l3}); (5) 18 findings on \sysname v1, each backed by a proof, an exhaustive count or
+>>>>>>> 42fa364aea261fae9fc6322d2fbffae1eb27feb4
 a reproduction, and mutation evidence, including held-out operators, that the faults that matter are invisible to
 rule-level oracles and to our own tests; and (6) a repaired v2 that passes every oracle, an exact compilation of
 first-applicable chains to Cedar, and a preliminary transfer to three independent systems (\S\ref{sec:rq5}). Every
@@ -163,7 +193,11 @@ make validity intervals and \emph{ongoing} authorization first-class; the second
 and authorization recycling \cite{crampton2006saam,wei2008recycling} reuse cached decisions. Zanzibar
 \cite{pang2019zanzibar} avoids the ``new enemy'' problem with snapshot reads at the timestamps of consistency
 tokens; OpenFGA \cite{openfga} implements its model. We bound staleness for the plain TTL cache most applications
+<<<<<<< HEAD
 use.
+=======
+use, and measure OpenFGA's own check cache against the bound.
+>>>>>>> 42fa364aea261fae9fc6322d2fbffae1eb27feb4
 
 \paragraph{Analysing and testing access control.} Margrave, SMT encodings of XACML, Zelkova and anomaly detection
 reason about policies, not the code that runs them
@@ -350,7 +384,12 @@ assigned $\{\mathit{read}\}$ on $r$, reads it. (b$_1$) Dan asks to write $o$. (b
 $\{\mathit{read},\mathit{write}\}$ on $o$ and approves his read-only delegation; in v1 the write passes $P_1$, since
 a delegation exists, and $P_4$ allows it. (c$_1$) Ana, unassigned, asks for $r$ at 02:00 after five failed logins,
 so $\rho=30+40=70\ge\theta$, and $P_5$ denies. (c$_2$) Had she been assigned, v1 would allow her by $P_4$ without
+<<<<<<< HEAD
 consulting the risk rule. \S\ref{sec:l1} proves that (b$_2$) and (c$_2$) are general phenomena.
+=======
+consulting the risk rule. \S\ref{sec:l1} proves that (b$_2$) and (c$_2$) are general phenomena; the v2 traces preview
+the repaired chain $\mathcal{F}$ of \S\ref{sec:rq5}.
+>>>>>>> 42fa364aea261fae9fc6322d2fbffae1eb27feb4
 
 \begin{figure}[t]
 \centering\scriptsize\setlength{\tabcolsep}{2.2pt}
@@ -438,7 +477,11 @@ administrators) does not authorise.
 \end{definition}
 
 G1 and G2 are \emph{historical}: with caching, no $\Delta^\ast>0$ can promise more, since a grant may end between
+<<<<<<< HEAD
 the state a decision reads and the decision.
+=======
+the state a decision reads and the decision. G2 differs from G1 because the model itself may allow the request.
+>>>>>>> 42fa364aea261fae9fc6322d2fbffae1eb27feb4
 Table~\ref{tab:adv} groups attacks into seven classes; each has a \emph{primary} level whose oracle observes it on
 its own. Only A1 is visible to an oracle that tests the decision function.
 
@@ -482,7 +525,11 @@ routes that change grants; and (iii) every $\ev{dec}_k$ event $e$ is followed by
 $\ev{resp}_k$, whatever the outcome.
 \end{definition}
 
+<<<<<<< HEAD
 L3 is a safety property in
+=======
+L1 is a property of a function, L2 of a function and its state, L3 of the runs. L3 is a safety property in
+>>>>>>> 42fa364aea261fae9fc6322d2fbffae1eb27feb4
 Schneider's sense \cite{schneider2000enforceable}: every violation shows in a finite prefix, so a monitor or probe
 can detect it. L2$_\Delta$ implies L2$^+_\Delta$ and L2$^c_\Delta$, but L2$^c_\Delta$ implies neither: a view may
 combine grant sets that never held together (Proposition~\ref{prop:mixed}).
@@ -716,7 +763,11 @@ agree with $\Gasg_t$ and $\Gdel_t$, so every temporal problem below comes from t
 
 \begin{figure*}[t]
 \centering
+<<<<<<< HEAD
 \includegraphics[width=0.86\textwidth]{figs/fig_l2.pdf}
+=======
+\includegraphics[width=0.92\textwidth]{figs/fig_l2.pdf}
+>>>>>>> 42fa364aea261fae9fc6322d2fbffae1eb27feb4
 \caption{L2 results. (a) Every v1 staleness trial ($n=10$ per setting) against the prediction $\tau_g-\delta$ of
 Theorem~\ref{thm:stale} (dashed: $\tau=60$\,s; dotted: $\tau=120$\,s); race points use one injected concurrent
 decision. (b) OpenFGA, every trial ($n=10$ per setting): check cache, with the cache controller, with
@@ -733,7 +784,12 @@ $\tau_g-\delta$ by $-0.43$ to $+0.63$\,s, consistent with the 0.25\,s polling pa
 $\epsilon$ of Theorem~\ref{thm:stale}).
 
 \paragraph{The race.} Assignment revocation invalidates \emph{before} the request commits. With one decision
+<<<<<<< HEAD
 injected in between, a revoked assignment stayed usable for 120.1--120.3\,s ($n=10$). The race is not rare: under a two-worker server, \textbf{98 of 200} revocations (49\,\%; 95\,\% Wilson interval
+=======
+injected in between, a revoked assignment stayed usable for 120.1--120.3\,s ($n=10$). We had expected the race to be
+rare in practice. It is not: under a two-worker server, \textbf{98 of 200} revocations (49\,\%; 95\,\% Wilson interval
+>>>>>>> 42fa364aea261fae9fc6322d2fbffae1eb27feb4
 42--56\,\%) were followed, \emph{after} the revoking request returned, by an allow from a re-cached grant
 (Figure~\ref{fig:l2}c). With one worker we counted 174 of 400 and 315 of 600 in two campaigns: the race needs
 concurrent requests, not a second process. This is class A3: an insider who keeps requesting during a revocation
@@ -784,7 +840,12 @@ subjects who must be refused. They found four more failures (F15--F18 in Table~\
 resolution and signing decide nothing; the document list is a fifth decision procedure, a query that returns every
 published document of the department with its content and ignores $\Pc$; any subject reads any delegation; and
 directors and division managers publish, escalate and remove other departments' documents and folders. The state
+<<<<<<< HEAD
 sweep flags ten routes on v1 and one on v2 (a folder creation that no requirement covers). Names of unreadable objects appear on six routes of v1 and five of v2; $R$ constrains
+=======
+sweep flags ten routes on v1 and one on v2 (an employee creating a folder in her own department's space, which no
+requirement covers). Names of unreadable objects appear on six routes of v1 and five of v2; $R$ constrains
+>>>>>>> 42fa364aea261fae9fc6322d2fbffae1eb27feb4
 actions, not names, so we do not count these. Ten creation routes were not exercised (minimal bodies rejected, or an
 upload needed).
 
@@ -1000,13 +1061,24 @@ $\mathcal{F}$. The translation makes F1 visible: the $\Px$ forbid is guarded by 
 
 \paragraph{Other authorization systems.} To see whether our findings are specific to our code, we applied parts of
 the method, without modifying the systems, to OpenFGA 1.22.1 \cite{openfga}, Cedar's TinyTodo sample
+<<<<<<< HEAD
 \cite{cedarexamples} and the Backstage RBAC plugin 8.1.6 \cite{backstagerbac}. This is a \emph{preliminary transfer}: sampled L1 checks, targeted L2 experiments and a few
+=======
+\cite{cedarexamples} and the Backstage RBAC plugin 8.1.6 \cite{backstagerbac}, and relate them to Zanzibar's design
+\cite{pang2019zanzibar}, whose snapshot reads at the timestamps of consistency tokens address the same problem. This is a \emph{preliminary transfer}: sampled L1 checks, targeted L2 experiments and a few
+>>>>>>> 42fa364aea261fae9fc6322d2fbffae1eb27feb4
 L3 probes, without criterion G, coverage or a route inventory (Table~\ref{tab:compare}). At L1 all three agreed
 with a reference on every sampled case, so v1's L1 failures are failures of our chain. The state level is where
 systems differ: failures appear wherever a decision consults a \emph{copy} whose lifetime is not tied to its source,
 the premise of Theorem~\ref{thm:stale}. With OpenFGA's check cache (TTL 10\,s), a deleted tuple kept authorizing for
 10.0 and 5.0\,s at $\delta=0$ and 5\,s, within 0.05\,s of $\tau-\delta$ (Figure~\ref{fig:l2}b); OpenFGA documents this
+<<<<<<< HEAD
 trade-off, and the theorem lets the window be predicted, and chosen. At L3, part of enforcement lies outside each authorizer,
+=======
+trade-off, and the theorem lets the window be predicted, and chosen. TinyTodo keeps its old policy set when a
+reloaded file contains one invalid policy, and Backstage with group claims in tokens kept granting after a user left
+a group until a new token was issued \cite{backstageauth}. At L3, part of enforcement lies outside each authorizer,
+>>>>>>> 42fa364aea261fae9fc6322d2fbffae1eb27feb4
 so no rule-level check, even of a verified authorizer, can see it.
 
 \begin{table}[t]
@@ -1022,7 +1094,11 @@ System & L1 (rules) & L2 (state) & L3 (paths) \\
 \sysname v2 & PDP $=\mathcal{F}$; R1--R7, LP proved & $\le$0.14\,s; race 0/200 & one gate; 57/57 checks \\
 OpenFGA 1.22.1 & 5{,}120/5{,}120 checks & 2\,ms; check cache: \textbf{$\tau-\delta$} (10.0/5.0\,s) & PDP only, no PEP \\
 TinyTodo & 0/200 mismatches & \textbf{invalid policy file: new \texttt{forbid} never enforced} (20/20) & 8/8 mediated; \textbf{principal client-asserted} \\
+<<<<<<< HEAD
 Backstage RBAC 8.1.6 & 81/81 configurations & \textbf{token claims until reissue} (default up to 1\,h \cite{backstageauth}) & enforced by each plugin \\
+=======
+Backstage RBAC 8.1.6 & 81/81 configurations & \textbf{token claims until reissue} (default up to 1\,h) & enforced by each plugin \\
+>>>>>>> 42fa364aea261fae9fc6322d2fbffae1eb27feb4
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -1038,15 +1114,27 @@ which a permission change takes effect late or not at all.}
 % =====================================================================================
 
 \paragraph{Why our proofs did not catch this.} Our paper proofs of isolation and default deny are correct, as the
+<<<<<<< HEAD
 L1 check confirms; but least privilege was proved about $\mathcal{S}_{\mathrm{doc}}$, delegation safety for $P_6$ alone
 (Proposition~\ref{prop:unlock} needs $P_1$ and $P_4$), non-repudiation assumed an append-only ledger we never built, and
 no proof mentioned the cache or the other paths: a proof about $\decide$ discharges only the first premise of
 Theorem~\ref{thm:compose}.
+=======
+L1 check confirms. The least-privilege theorem was proved about $\mathcal{S}_{\mathrm{doc}}$, not the code. We proved delegation
+safety for $P_6$ alone, whereas Prop.~\ref{prop:unlock} comes from $P_1$ and $P_4$ together. Non-repudiation assumed an
+append-only ledger we never built, and no proof mentioned the cache or the other paths: a proof about $\decide$
+discharges only the first premise of Theorem~\ref{thm:compose}.
+>>>>>>> 42fa364aea261fae9fc6322d2fbffae1eb27feb4
 
 \paragraph{Generality.} The L1 findings belong to \chain; the method does not. Criterion G and coverage apply to
 loop-free decision code that compares open attributes only by equality and membership and has finitely many closed
 attributes; role hierarchies, numeric policies and loops would need their own observations and checker rules.
+<<<<<<< HEAD
 Theorem~\ref{thm:stale} applies to any copy of authorization state whose lifetime is not tied to its source, and
+=======
+Theorem~\ref{thm:stale} applies to any copy of authorization state whose lifetime is not tied to its source: TTL
+caches, policy snapshots, token claims, and, as OpenFGA shows, an authorization server's own cache.
+>>>>>>> 42fa364aea261fae9fc6322d2fbffae1eb27feb4
 Theorem~\ref{thm:compose} and Proposition~\ref{prop:indep} need only the event model of runs.
 
 \paragraph{Limitations.} We audited our own system; to limit the bias,
@@ -1066,6 +1154,7 @@ $\theta$.
 
 We set out to check that \sysname did what we had proved it does. The decision point did; the system around it
 re-admitted revoked grants, lost its denials, and served protected content without asking. Layered conformance made
+<<<<<<< HEAD
 each failure checkable, and together the three levels bound how stale the justification of an effect can be; none can
 stand in for another.
 
@@ -1079,6 +1168,11 @@ states all three parts or checks them together. Making $\Delta$ and the inventor
 operators and auditors ask every zero-trust deployment for the same evidence. Next steps are a typed call graph that
 ties each route to the object it decides on, fixtures that vary every context signal, complete studies of the
 external systems, and the L2 and L3 oracles as regression tests and run-time monitors.
+=======
+this checkable, with proofs that bound what each level can miss and none able to stand in for another. Next steps
+are a typed call graph tying each route to the object it decides on, fixtures that vary every context signal,
+complete studies of the external systems, and the L2 and L3 oracles as regression tests and monitors.
+>>>>>>> 42fa364aea261fae9fc6322d2fbffae1eb27feb4
 
 % Camera-ready only (ACM policy on generative AI requires disclosure):
 % \begin{acks}
@@ -1171,8 +1265,12 @@ $(t_r,t-\epsilon_b]$, and $B=G^g_{t-\epsilon_b}(u,o)$.
 
 \section{Artifact}
 \label{app:artifact}
+<<<<<<< HEAD
 The anonymised artifact is available at
 \url{https://anonymous.4open.science/r/sacmat2027-artifacts-4DCC/}. It identifies v1 by
+=======
+The anonymised artifact accompanies this submission\TODO{ and at an anonymous URL, to be added}. It identifies v1 by
+>>>>>>> 42fa364aea261fae9fc6322d2fbffae1eb27feb4
 the SHA-256 prefix \texttt{fb7f20d137add710} of its frozen snapshot and v2 by thirteen patches against it, and contains
 the reference semantics, every oracle, the raw results, the hand classification of every surviving mutant, the
 generated route inventory and both sweeps, \texttt{layercheck} (a reusable core with the three chain interpreters,

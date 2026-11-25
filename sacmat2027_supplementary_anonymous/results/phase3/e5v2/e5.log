@@ -1,0 +1,162 @@
+mutation points: {'app/api/pep.py': 27, 'app/api/documents.py': 37, 'app/api/delegations.py': 25, 'app/api/resources.py': 25, 'app/services/pip.py': 34, 'app/services/pip_invalidation.py': 12} total 160
+baseline {'T': (0, 28.4, '137 passed, 2 skipped, 1 deselected, 103 warnings in 25.86s'), 'P': (0, 8.6, 'E5_PROBE PASS []')}
+app/api/pep.py 0 NEG 118 T P E5_PROBE FAIL ['S2_mfa_obligation_all_endpoints', 'L2_mfa_director_allowed', 'S3_owner_cross_dept_denied', 'L3_owner_sam
+app/api/pep.py 1 LCR 118 T P E5_PROBE FAIL ['S2_mfa_obligation_all_endpoints', 'L2_mfa_director_allowed', 'S3_owner_cross_dept_denied', 'L3_owner_sam
+app/api/pep.py 2 ROR 118 - P E5_PROBE FAIL ['S2_mfa_obligation_all_endpoints', 'L2_mfa_director_allowed', 'S3_owner_cross_dept_denied', 'S4_download_
+app/api/pep.py 3 MEM 118 T P E5_PROBE FAIL ['S2_mfa_obligation_all_endpoints', 'L2_mfa_director_allowed', 'L3_owner_same_dept_allowed', 'L4_assigned_
+app/api/pep.py 4 NEG 121 - - E5_PROBE PASS []
+app/api/pep.py 5 LCR 123 - P E5_PROBE FAIL ['S3_owner_cross_dept_denied', 'S4_download_needs_download_action']
+app/api/pep.py 6 ROR 123 T P E5_PROBE FAIL ['L3_owner_same_dept_allowed', 'S4_download_needs_download_action']
+app/api/pep.py 7 ROR 123 T P E5_PROBE FAIL ['S3_owner_cross_dept_denied', 'L3_owner_same_dept_allowed']
+app/api/pep.py 8 NEG 124 - P E5_PROBE FAIL ['S3_owner_cross_dept_denied', 'L3_owner_same_dept_allowed', 'S4_download_needs_download_action', 'S5_deni
+app/api/pep.py 9 CRPb 131 - - E5_PROBE PASS []
+app/api/pep.py 10 CRP+ 134 - - E5_PROBE PASS []
+app/api/pep.py 11 CRP- 134 - - E5_PROBE PASS []
+app/api/pep.py 12 ROR 135 T P E5_PROBE FAIL ['L2_mfa_director_allowed', 'S3_owner_cross_dept_denied', 'L3_owner_same_dept_allowed', 'S4_download_needs
+app/api/pep.py 13 NEG 136 - P E5_PROBE FAIL ['S2_mfa_obligation_all_endpoints']
+app/api/pep.py 14 LCR 136 - P E5_PROBE FAIL ['S2_mfa_obligation_all_endpoints']
+app/api/pep.py 15 LCR 137 T P E5_PROBE FAIL ['L2_mfa_director_allowed', 'L3_owner_same_dept_allowed', 'L4_assigned_read_allowed', 'S17_audit_outcome_m
+app/api/pep.py 16 MEM 137 T P E5_PROBE FAIL ['S2_mfa_obligation_all_endpoints', 'L3_owner_same_dept_allowed', 'L4_assigned_read_allowed', 'S17_audit_o
+app/api/pep.py 17 UOI- 137 - P E5_PROBE FAIL ['S2_mfa_obligation_all_endpoints', 'L2_mfa_director_allowed']
+app/api/pep.py 18 NEG 145 - P E5_PROBE FAIL ['S17_audit_outcome_matches_decision']
+app/api/pep.py 19 LCR 145 - P E5_PROBE FAIL ['S17_audit_outcome_matches_decision']
+app/api/pep.py 20 UOI- 145 - P E5_PROBE FAIL ['S17_audit_outcome_matches_decision']
+app/api/pep.py 21 NEG 146 T P E5_PROBE FAIL ['S5_denials_persisted']
+app/api/pep.py 22 NEG 153 - P E5_PROBE FAIL ['S5_denials_persisted', 'S17_audit_outcome_matches_decision']
+app/api/pep.py 23 ROR 153 - P E5_PROBE FAIL ['S5_denials_persisted', 'S17_audit_outcome_matches_decision']
+app/api/pep.py 24 NEG 159 T P E5_PROBE FAIL ['L2_mfa_director_allowed', 'S3_owner_cross_dept_denied', 'L3_owner_same_dept_allowed', 'S4_download_needs
+app/api/pep.py 25 UOI- 159 T P E5_PROBE FAIL ['L2_mfa_director_allowed', 'S3_owner_cross_dept_denied', 'L3_owner_same_dept_allowed', 'S4_download_needs
+app/api/pep.py 26 NEG 165 T P E5_PROBE FAIL ['S2_mfa_obligation_all_endpoints', 'L2_mfa_director_allowed', 'L3_owner_same_dept_allowed', 'L4_assigned_
+app/api/documents.py 0 NEG 416 - P E5_PROBE FAIL ['S1_doc_api_top_secret_denied', 'S12_published_unassigned_denied_via_pdp', 'S13_collaborator_needs_cleara
+app/api/documents.py 1 RET 417 - P E5_PROBE FAIL ['L7_admin_reads_top_secret_doc']
+app/api/documents.py 2 CRPb 417 - P E5_PROBE FAIL ['L7_admin_reads_top_secret_doc']
+app/api/documents.py 3 NEG 418 - P E5_PROBE FAIL ['S12_published_unassigned_denied_via_pdp']
+app/api/documents.py 4 ROR 418 - P E5_PROBE FAIL ['S12_published_unassigned_denied_via_pdp']
+app/api/documents.py 5 ROR 420 - P E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed']
+app/api/documents.py 6 ROR 421 - P E5_PROBE FAIL ['S12_published_unassigned_denied_via_pdp']
+app/api/documents.py 7 CRPb 421 - P E5_PROBE FAIL ['S12_published_unassigned_denied_via_pdp']
+app/api/documents.py 8 NEG 423 - P E5_PROBE FAIL ['S12_published_unassigned_denied_via_pdp']
+app/api/documents.py 9 ROR 423 - P E5_PROBE FAIL ['S12_published_unassigned_denied_via_pdp']
+app/api/documents.py 10 NEG 424 - P E5_PROBE FAIL ['S1_doc_api_top_secret_denied', 'S12_published_unassigned_denied_via_pdp']
+app/api/documents.py 11 LCR 424 - P E5_PROBE FAIL ['S1_doc_api_top_secret_denied', 'S12_published_unassigned_denied_via_pdp']
+app/api/documents.py 12 ROR 424 - P E5_PROBE FAIL ['S1_doc_api_top_secret_denied', 'S12_published_unassigned_denied_via_pdp']
+app/api/documents.py 13 ROR 424 - - E5_PROBE PASS []
+app/api/documents.py 14 RET 425 - P E5_PROBE FAIL ['L8_owner_reads_own_published_doc']
+app/api/documents.py 15 CRPb 425 - P E5_PROBE FAIL ['L8_owner_reads_own_published_doc']
+app/api/documents.py 16 ROR 431 - P E5_PROBE FAIL ['S1_doc_api_top_secret_denied', 'L1_doc_api_assigned_read_allowed', 'S12_published_unassigned_denied_via_
+app/api/documents.py 17 LCR 434 - - E5_PROBE PASS []
+app/api/documents.py 18 ROR 434 - P E5_PROBE FAIL ['S13_collaborator_needs_clearance_on_draft', 'S14_manager_needs_clearance_on_dept_doc_in_review']
+app/api/documents.py 19 LCR 435 - P E5_PROBE FAIL ['S13_collaborator_needs_clearance_on_draft', 'S14_manager_needs_clearance_on_dept_doc_in_review']
+app/api/documents.py 20 ROR 435 - P E5_PROBE FAIL ['S13_collaborator_needs_clearance_on_draft', 'S14_manager_needs_clearance_on_dept_doc_in_review']
+app/api/documents.py 21 ROR 435 - - E5_PROBE PASS []
+app/api/documents.py 22 LCR 436 - P E5_PROBE FAIL ['S13_collaborator_needs_clearance_on_draft', 'S14_manager_needs_clearance_on_dept_doc_in_review']
+app/api/documents.py 23 ROR 436 - P E5_PROBE FAIL ['S13_collaborator_needs_clearance_on_draft']
+app/api/documents.py 24 ROR 436 - - E5_PROBE PASS []
+app/api/documents.py 25 ROR 437 - - E5_PROBE PASS []
+app/api/documents.py 26 ROR 437 - P E5_PROBE FAIL ['S14_manager_needs_clearance_on_dept_doc_in_review']
+app/api/documents.py 27 NEG 438 T P E5_PROBE FAIL ['S13_collaborator_needs_clearance_on_draft', 'L9_cleared_collaborator_reads_draft', 'S14_manager_needs_cl
+app/api/documents.py 28 LCR 438 T P E5_PROBE FAIL ['L9_cleared_collaborator_reads_draft', 'L10_cleared_manager_reads_dept_doc_in_review']
+app/api/documents.py 29 UOI- 438 - P E5_PROBE FAIL ['S13_collaborator_needs_clearance_on_draft', 'S14_manager_needs_clearance_on_dept_doc_in_review']
+app/api/documents.py 30 ROR 438 - - E5_PROBE PASS []
+app/api/documents.py 31 CRP+ 438 - - E5_PROBE PASS []
+app/api/documents.py 32 CRP- 438 - - E5_PROBE PASS []
+app/api/documents.py 33 ROR 439 - P E5_PROBE FAIL ['L9_cleared_collaborator_reads_draft', 'L10_cleared_manager_reads_dept_doc_in_review']
+app/api/documents.py 34 RET 440 - P E5_PROBE FAIL ['S13_collaborator_needs_clearance_on_draft', 'S14_manager_needs_clearance_on_dept_doc_in_review']
+app/api/documents.py 35 CRPb 440 - P E5_PROBE FAIL ['S13_collaborator_needs_clearance_on_draft', 'S14_manager_needs_clearance_on_dept_doc_in_review']
+app/api/documents.py 36 RET 441 - - E5_PROBE PASS []
+app/api/delegations.py 0 ROR 568 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', '_crash']
+app/api/delegations.py 1 NEG 571 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revok
+app/api/delegations.py 2 UOI- 571 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revok
+app/api/delegations.py 3 NEG 574 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revok
+app/api/delegations.py 4 ROR 574 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revok
+app/api/delegations.py 5 NEG 579 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revok
+app/api/delegations.py 6 UOI- 579 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revok
+app/api/delegations.py 7 NEG 581 - - E5_PROBE PASS []
+app/api/delegations.py 8 ROR 581 - P E5_PROBE FAIL ['_crash']
+app/api/delegations.py 9 LCR 583 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revok
+app/api/delegations.py 10 ROR 583 - - E5_PROBE PASS []
+app/api/delegations.py 11 ROR 583 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate']
+app/api/delegations.py 12 ROR 584 - - E5_PROBE PASS []
+app/api/delegations.py 13 ROR 584 - P E5_PROBE FAIL ['S15_foreign_director_cannot_revoke_delegation', 'L11_resource_owner_revokes_delegation']
+app/api/delegations.py 14 NEG 585 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revok
+app/api/delegations.py 15 UOI- 585 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revok
+app/api/delegations.py 16 LCR 585 - P E5_PROBE FAIL ['L11_resource_owner_revokes_delegation']
+app/api/delegations.py 17 ROR 585 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revok
+app/api/delegations.py 18 LCR 586 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revok
+app/api/delegations.py 19 ROR 586 - P E5_PROBE FAIL ['L11_resource_owner_revokes_delegation']
+app/api/delegations.py 20 ROR 586 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S7_delegation_revocation_immediate', 'S15_foreign_director_cannot_revok
+app/api/delegations.py 21 ROR 610 - P E5_PROBE FAIL ['_crash']
+app/api/delegations.py 22 NEG 613 - - E5_PROBE PASS []
+app/api/delegations.py 23 NEG 614 - - E5_PROBE PASS []
+app/api/delegations.py 24 NEG 620 - - E5_PROBE PASS []
+app/api/resources.py 0 ROR 478 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S8_assignment_revocation_immediate', 'S16_other_division_manager_cannot
+app/api/resources.py 1 ROR 479 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S8_assignment_revocation_immediate', 'S16_other_division_manager_cannot
+app/api/resources.py 2 NEG 483 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S8_assignment_revocation_immediate', 'S16_other_division_manager_cannot
+app/api/resources.py 3 UOI- 483 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S8_assignment_revocation_immediate', 'S16_other_division_manager_cannot
+app/api/resources.py 4 NEG 487 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S16_other_division_manager_cannot_revoke']
+app/api/resources.py 5 UOI- 487 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S16_other_division_manager_cannot_revoke']
+app/api/resources.py 6 ROR 488 - P E5_PROBE FAIL ['_crash']
+app/api/resources.py 7 NEG 489 - P E5_PROBE FAIL ['S8_assignment_revocation_immediate', 'L12_own_division_manager_revokes', 'S11_forced_race_no_stale_allow
+app/api/resources.py 8 ROR 489 - P E5_PROBE FAIL ['_crash']
+app/api/resources.py 9 NEG 490 - P E5_PROBE FAIL ['S8_assignment_revocation_immediate', 'L12_own_division_manager_revokes', 'S11_forced_race_no_stale_allow
+app/api/resources.py 10 NEG 491 - P E5_PROBE FAIL ['S8_assignment_revocation_immediate', 'L12_own_division_manager_revokes', 'S11_forced_race_no_stale_allow
+app/api/resources.py 11 LCR 492 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S16_other_division_manager_cannot_revoke']
+app/api/resources.py 12 ROR 492 - P E5_PROBE FAIL ['S8_assignment_revocation_immediate', 'L12_own_division_manager_revokes', 'S11_forced_race_no_stale_allow
+app/api/resources.py 13 LCR 493 - P E5_PROBE FAIL ['S8_assignment_revocation_immediate', 'L12_own_division_manager_revokes', 'S11_forced_race_no_stale_allow
+app/api/resources.py 14 LCR 493 - P E5_PROBE FAIL ['S16_other_division_manager_cannot_revoke']
+app/api/resources.py 15 ROR 493 - P E5_PROBE FAIL ['S8_assignment_revocation_immediate', 'S16_other_division_manager_cannot_revoke', 'S11_forced_race_no_sta
+app/api/resources.py 16 ROR 493 - P E5_PROBE FAIL ['S8_assignment_revocation_immediate', 'S11_forced_race_no_stale_allow']
+app/api/resources.py 17 LCR 494 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S16_other_division_manager_cannot_revoke']
+app/api/resources.py 18 ROR 494 - P E5_PROBE FAIL ['L12_own_division_manager_revokes']
+app/api/resources.py 19 ROR 494 - P E5_PROBE FAIL ['L12_own_division_manager_revokes']
+app/api/resources.py 20 ROR 495 - P E5_PROBE FAIL ['L12_own_division_manager_revokes']
+app/api/resources.py 21 ROR 495 - P E5_PROBE FAIL ['S16_other_division_manager_cannot_revoke', 'L12_own_division_manager_revokes']
+app/api/resources.py 22 NEG 496 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S8_assignment_revocation_immediate', 'S16_other_division_manager_cannot
+app/api/resources.py 23 UOI- 496 - P E5_PROBE FAIL ['S6_revocation_needs_authority', 'S8_assignment_revocation_immediate', 'S16_other_division_manager_cannot
+app/api/resources.py 24 CRPb 499 - P E5_PROBE FAIL ['S8_assignment_revocation_immediate', 'S11_forced_race_no_stale_allow']
+app/services/pip.py 0 NEG 168 - - E5_PROBE PASS []
+app/services/pip.py 1 UOI- 168 - - E5_PROBE PASS []
+app/services/pip.py 2 RET 169 T - E5_PROBE PASS []
+app/services/pip.py 3 CRP+ 171 - - E5_PROBE PASS []
+app/services/pip.py 4 CRP- 171 - - E5_PROBE PASS []
+app/services/pip.py 5 RET 174 - - E5_PROBE PASS []
+app/services/pip.py 6 NEG 176 T P E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', 'L2_mfa_director_allowed', 'L4_assigned_read_allowed', 'L5_delegation
+app/services/pip.py 7 ROR 176 T P E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', 'L2_mfa_director_allowed', 'L4_assigned_read_allowed', 'L5_delegation
+app/services/pip.py 8 NEG 180 - - E5_PROBE PASS []
+app/services/pip.py 9 UOI- 180 - - E5_PROBE PASS []
+app/services/pip.py 10 RET 181 - P E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', 'L4_assigned_read_allowed', 'L5_delegation_approved_and_usable', 'S7_
+app/services/pip.py 11 RET 185 - - E5_PROBE PASS []
+app/services/pip.py 12 NEG 187 - - E5_PROBE PASS []
+app/services/pip.py 13 LCR 187 - P E5_PROBE FAIL ['L2_mfa_director_allowed', 'L4_assigned_read_allowed', 'L6_cross_dept_read_via_delegation', 'S10_assignme
+app/services/pip.py 14 ROR 187 - P E5_PROBE FAIL ['L2_mfa_director_allowed', 'L4_assigned_read_allowed', 'L6_cross_dept_read_via_delegation', 'S10_assignme
+app/services/pip.py 15 ROR 187 - - E5_PROBE PASS []
+app/services/pip.py 16 RET 188 - - E5_PROBE PASS []
+app/services/pip.py 17 LCR 192 T - E5_PROBE PASS []
+app/services/pip.py 18 NEG 194 - - E5_PROBE PASS []
+app/services/pip.py 19 ROR 194 - - E5_PROBE PASS []
+app/services/pip.py 20 NEG 197 - - E5_PROBE PASS []
+app/services/pip.py 21 UOI- 197 - - E5_PROBE PASS []
+app/services/pip.py 22 CRP+ 199 - - E5_PROBE PASS []
+app/services/pip.py 23 CRP- 199 - - E5_PROBE PASS []
+app/services/pip.py 24 NEG 201 T P E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', 'L2_mfa_director_allowed', 'L4_assigned_read_allowed', 'L5_delegation
+app/services/pip.py 25 LCR 201 - P E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', 'L4_assigned_read_allowed', 'S9_no_cross_dept_write_via_delegation', 
+app/services/pip.py 26 ROR 201 - P E5_PROBE FAIL ['L1_doc_api_assigned_read_allowed', 'L4_assigned_read_allowed', 'S9_no_cross_dept_write_via_delegation', 
+app/services/pip.py 27 NEG 202 - - E5_PROBE PASS []
+app/services/pip.py 28 CRP+ 204 - - E5_PROBE PASS []
+app/services/pip.py 29 CRP- 204 - - E5_PROBE PASS []
+app/services/pip.py 30 NEG 205 - - E5_PROBE PASS []
+app/services/pip.py 31 ROR 205 - - E5_PROBE PASS []
+app/services/pip.py 32 CRP+ 205 - - E5_PROBE PASS []
+app/services/pip.py 33 CRP- 205 - - E5_PROBE PASS []
+app/services/pip_invalidation.py 0 NEG 39 T P 
+app/services/pip_invalidation.py 1 NEG 41 T P 
+app/services/pip_invalidation.py 2 NEG 47 - - E5_PROBE PASS []
+app/services/pip_invalidation.py 3 LCR 47 - - E5_PROBE PASS []
+app/services/pip_invalidation.py 4 NEG 49 - - E5_PROBE PASS []
+app/services/pip_invalidation.py 5 LCR 49 - - E5_PROBE PASS []
+app/services/pip_invalidation.py 6 ROR 49 - - E5_PROBE PASS []
+app/services/pip_invalidation.py 7 MEM 49 - - E5_PROBE PASS []
+app/services/pip_invalidation.py 8 NEG 56 - P E5_PROBE FAIL ['S7_delegation_revocation_immediate', 'S8_assignment_revocation_immediate', 'S11_forced_race_no_stale_all
+app/services/pip_invalidation.py 9 UOI- 56 - P E5_PROBE FAIL ['S7_delegation_revocation_immediate', 'S8_assignment_revocation_immediate', 'S11_forced_race_no_stale_all
+app/services/pip_invalidation.py 10 NEG 61 - - E5_PROBE PASS []
+app/services/pip_invalidation.py 11 ROR 61 - - E5_PROBE PASS []

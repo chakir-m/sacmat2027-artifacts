@@ -1,0 +1,439 @@
+{
+  "baseline_existing_tests_rc": 0,
+  "baseline_E1_rc": 0,
+  "mutation_points_total": 96,
+  "results": [
+    {
+      "id": 1,
+      "op": "CRP-",
+      "line": 34,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=22616/23040 rule=22128/23040 indet=0"
+    },
+    {
+      "id": 3,
+      "op": "CRP-",
+      "line": 34,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=22616/23040 rule=22128/23040 indet=0"
+    },
+    {
+      "id": 5,
+      "op": "CRP-",
+      "line": 34,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=22616/23040 rule=22128/23040 indet=0"
+    },
+    {
+      "id": 7,
+      "op": "CRP-",
+      "line": 35,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": false,
+      "killed_by_E1_full": false,
+      "E1_out": "E1_ORACLE agree=245760/245760 rule=245760/245760 indet=0"
+    },
+    {
+      "id": 9,
+      "op": "CRP-",
+      "line": 35,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": false,
+      "killed_by_E1_full": false,
+      "E1_out": "E1_ORACLE agree=245760/245760 rule=245760/245760 indet=0"
+    },
+    {
+      "id": 11,
+      "op": "CRP-",
+      "line": 35,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=22616/23040 rule=22128/23040 indet=0"
+    },
+    {
+      "id": 13,
+      "op": "CRP-",
+      "line": 35,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=22616/23040 rule=22128/23040 indet=0"
+    },
+    {
+      "id": 15,
+      "op": "CRP-",
+      "line": 39,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": false,
+      "killed_by_E1_full": false,
+      "E1_out": "E1_ORACLE agree=245760/245760 rule=245760/245760 indet=0"
+    },
+    {
+      "id": 17,
+      "op": "CRP-",
+      "line": 43,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": false,
+      "killed_by_E1_full": false,
+      "E1_out": "E1_ORACLE agree=245760/245760 rule=245760/245760 indet=0"
+    },
+    {
+      "id": 19,
+      "op": "NEG",
+      "line": 133,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=8856/23040 rule=0/23040 indet=0"
+    },
+    {
+      "id": 21,
+      "op": "LCR",
+      "line": 136,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=8856/23040 rule=0/23040 indet=23040"
+    },
+    {
+      "id": 23,
+      "op": "UOI-",
+      "line": 137,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=8856/23040 rule=0/23040 indet=0"
+    },
+    {
+      "id": 25,
+      "op": "EFF",
+      "line": 181,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=17280/23040 rule=23040/23040 indet=0"
+    },
+    {
+      "id": 27,
+      "op": "ROR",
+      "line": 185,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=21240/23040 rule=18720/23040 indet=0"
+    },
+    {
+      "id": 29,
+      "op": "UOI-",
+      "line": 186,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=20880/23040 rule=16128/23040 indet=0"
+    },
+    {
+      "id": 31,
+      "op": "LCR",
+      "line": 199,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=22200/23040 rule=21168/23040 indet=0"
+    },
+    {
+      "id": 33,
+      "op": "LCR",
+      "line": 201,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=22152/23040 rule=21168/23040 indet=0"
+    },
+    {
+      "id": 35,
+      "op": "ROR",
+      "line": 203,
+      "killed_by_existing_tests": false,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=22464/23040 rule=22176/23040 indet=0"
+    },
+    {
+      "id": 37,
+      "op": "LCR",
+      "line": 204,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=21888/23040 rule=21888/23040 indet=0"
+    },
+    {
+      "id": 39,
+      "op": "CRP+",
+      "line": 204,
+      "killed_by_existing_tests": false,
+      "killed_by_E1_fast": false,
+      "killed_by_E1_full": false,
+      "E1_out": "E1_ORACLE agree=245760/245760 rule=245760/245760 indet=0"
+    },
+    {
+      "id": 41,
+      "op": "UOI-",
+      "line": 204,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=20904/23040 rule=19440/23040 indet=0"
+    },
+    {
+      "id": 43,
+      "op": "NEG",
+      "line": 205,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=19224/23040 rule=14832/23040 indet=0"
+    },
+    {
+      "id": 45,
+      "op": "EFF",
+      "line": 209,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=20304/23040 rule=23040/23040 indet=0"
+    },
+    {
+      "id": 47,
+      "op": "LCR",
+      "line": 213,
+      "killed_by_existing_tests": false,
+      "killed_by_E1_fast": false,
+      "killed_by_E1_full": false,
+      "E1_out": "E1_ORACLE agree=245760/245760 rule=245760/245760 indet=0"
+    },
+    {
+      "id": 49,
+      "op": "LCR",
+      "line": 221,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=19944/23040 rule=16272/23040 indet=0"
+    },
+    {
+      "id": 51,
+      "op": "EFF",
+      "line": 223,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=19584/23040 rule=23040/23040 indet=0"
+    },
+    {
+      "id": 53,
+      "op": "LCR",
+      "line": 228,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=20088/23040 rule=17424/23040 indet=0"
+    },
+    {
+      "id": 55,
+      "op": "ROR",
+      "line": 230,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=21600/23040 rule=20160/23040 indet=0"
+    },
+    {
+      "id": 57,
+      "op": "NEG",
+      "line": 237,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=17640/23040 rule=14832/23040 indet=0"
+    },
+    {
+      "id": 59,
+      "op": "MEM",
+      "line": 237,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=19800/23040 rule=17856/23040 indet=0"
+    },
+    {
+      "id": 61,
+      "op": "EFF",
+      "line": 241,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=20736/23040 rule=23040/23040 indet=0"
+    },
+    {
+      "id": 63,
+      "op": "LCR",
+      "line": 246,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=22248/23040 rule=20340/23040 indet=0"
+    },
+    {
+      "id": 65,
+      "op": "EFF",
+      "line": 248,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=22068/23040 rule=23040/23040 indet=0"
+    },
+    {
+      "id": 67,
+      "op": "LCR",
+      "line": 253,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=20178/23040 rule=20178/23040 indet=0"
+    },
+    {
+      "id": 69,
+      "op": "EFF",
+      "line": 256,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=21528/23040 rule=23040/23040 indet=0"
+    },
+    {
+      "id": 71,
+      "op": "ROR",
+      "line": 264,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=23040/23040 rule=21330/23040 indet=0"
+    },
+    {
+      "id": 73,
+      "op": "EFF",
+      "line": 275,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=21330/23040 rule=23040/23040 indet=0"
+    },
+    {
+      "id": 75,
+      "op": "ROR",
+      "line": 287,
+      "killed_by_existing_tests": false,
+      "killed_by_E1_fast": false,
+      "killed_by_E1_full": false,
+      "E1_out": "E1_ORACLE agree=245760/245760 rule=245760/245760 indet=0"
+    },
+    {
+      "id": 77,
+      "op": "ROR",
+      "line": 289,
+      "killed_by_existing_tests": false,
+      "killed_by_E1_fast": false,
+      "killed_by_E1_full": false,
+      "E1_out": "E1_ORACLE agree=245760/245760 rule=245760/245760 indet=0"
+    },
+    {
+      "id": 79,
+      "op": "ROR",
+      "line": 291,
+      "killed_by_existing_tests": false,
+      "killed_by_E1_fast": false,
+      "killed_by_E1_full": false,
+      "E1_out": "E1_ORACLE agree=245760/245760 rule=245760/245760 indet=0"
+    },
+    {
+      "id": 81,
+      "op": "ROR",
+      "line": 295,
+      "killed_by_existing_tests": false,
+      "killed_by_E1_fast": false,
+      "killed_by_E1_full": false,
+      "E1_out": "E1_ORACLE agree=245760/245760 rule=245760/245760 indet=0"
+    },
+    {
+      "id": 83,
+      "op": "LCR",
+      "line": 300,
+      "killed_by_existing_tests": false,
+      "killed_by_E1_fast": false,
+      "killed_by_E1_full": false,
+      "E1_out": "E1_ORACLE agree=245760/245760 rule=245760/245760 indet=0"
+    },
+    {
+      "id": 85,
+      "op": "ROR",
+      "line": 310,
+      "killed_by_existing_tests": false,
+      "killed_by_E1_fast": false,
+      "killed_by_E1_full": false,
+      "E1_out": "E1_ORACLE agree=245760/245760 rule=245760/245760 indet=0"
+    },
+    {
+      "id": 87,
+      "op": "ROR",
+      "line": 312,
+      "killed_by_existing_tests": false,
+      "killed_by_E1_fast": false,
+      "killed_by_E1_full": false,
+      "E1_out": "E1_ORACLE agree=245760/245760 rule=245760/245760 indet=0"
+    },
+    {
+      "id": 89,
+      "op": "LCR",
+      "line": 316,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": false,
+      "killed_by_E1_full": false,
+      "E1_out": "E1_ORACLE agree=245760/245760 rule=245760/245760 indet=0"
+    },
+    {
+      "id": 91,
+      "op": "ROR",
+      "line": 324,
+      "killed_by_existing_tests": false,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=16632/23040 rule=12672/23040 indet=0"
+    },
+    {
+      "id": 93,
+      "op": "ROR",
+      "line": 326,
+      "killed_by_existing_tests": false,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=21528/23040 rule=19260/23040 indet=0"
+    },
+    {
+      "id": 95,
+      "op": "ROR",
+      "line": 327,
+      "killed_by_existing_tests": true,
+      "killed_by_E1_fast": true,
+      "killed_by_E1_full": true,
+      "E1_out": "E1_ORACLE agree=14184/23040 rule=5760/23040 indet=0"
+    }
+  ]
+}

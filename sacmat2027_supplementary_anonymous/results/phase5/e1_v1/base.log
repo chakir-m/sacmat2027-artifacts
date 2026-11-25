@@ -1,0 +1,11 @@
+SECURITY WARNING: Default/weak secrets in use for: FIRST_ADMIN_PASSWORD, HOCUSPOCUS_SECRET, MINIO_SECRET_KEY. These MUST be changed before production deployment.
+{
+  "worlds_evaluated": 245760,
+  "api_reachable_worlds": 53760,
+  "runtime_s": 20.2,
+  "indeterminate": 0,
+  "agreement_vs_M_IMPL_decision": 245760,
+  "agreement_vs_M_IMPL_rule": 245760,
+  "agreement_vs_R_PAPER_decision": 229176,
+  "agreement_vs_C9_FIX_decision": 190896
+}

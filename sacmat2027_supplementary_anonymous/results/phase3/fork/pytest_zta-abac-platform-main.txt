@@ -1,0 +1,24 @@
+SECURITY WARNING: Default/weak secrets in use for: FIRST_ADMIN_PASSWORD, HOCUSPOCUS_SECRET, MINIO_SECRET_KEY. These MUST be changed before production deployment.
+...........................................................ss........... [ 51%]
+....................................................................     [100%]
+=============================== warnings summary ===============================
+../venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:295: 12 warnings
+  /tmp/claude-0/-home-claude/9195d8fd-6523-5bc5-b17a-c0d649a3ec75/scratchpad/venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:295: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.10/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+tests/test_integration.py: 80 warnings
+  /tmp/claude-0/-home-claude/9195d8fd-6523-5bc5-b17a-c0d649a3ec75/scratchpad/venv/lib/python3.12/site-packages/jose/jwt.py:311: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    now = timegm(datetime.utcnow().utctimetuple())
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+138 passed, 2 skipped, 92 warnings in 25.32s
+Exception ignored in: <function AbstractConnection.__del__ at 0x7f32539e68e0>
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-claude/9195d8fd-6523-5bc5-b17a-c0d649a3ec75/scratchpad/venv/lib/python3.12/site-packages/redis/asyncio/connection.py", line 217, in __del__
+  File "/tmp/claude-0/-home-claude/9195d8fd-6523-5bc5-b17a-c0d649a3ec75/scratchpad/venv/lib/python3.12/site-packages/redis/asyncio/connection.py", line 224, in _close
+  File "/usr/lib/python3.12/asyncio/streams.py", line 358, in close
+  File "/usr/lib/python3.12/asyncio/selector_events.py", line 1211, in close
+  File "/usr/lib/python3.12/asyncio/selector_events.py", line 875, in close
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 795, in call_soon
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 541, in _check_closed
+RuntimeError: Event loop is closed

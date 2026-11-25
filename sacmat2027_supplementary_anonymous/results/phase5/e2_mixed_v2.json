@@ -1,0 +1,728 @@
+{
+ "backend": "/home/claude/paper-work/forks/eval-fork-fb7f20d1/backend",
+ "n": 10,
+ "trials": [
+  {
+   "trial": 0,
+   "log": [
+    {
+     "t": 0.17,
+     "event": "assign {write}, valid 10 s",
+     "status": 201,
+     "committed": {
+      "asg": [
+       "write"
+      ],
+      "del": []
+     }
+    },
+    {
+     "t": 0.32,
+     "event": "decide write (warm)",
+     "decision": "deny",
+     "rule": "P1 \u2013 Inter-Department Segmentation",
+     "reference_committed": [
+      "deny",
+      "P1"
+     ]
+    },
+    {
+     "t": 62.06,
+     "event": "assignment expired at t=10 (no commit)",
+     "committed": {
+      "asg": [],
+      "del": []
+     },
+     "reference_committed": [
+      "deny",
+      "P1"
+     ]
+    },
+    {
+     "t": 62.38,
+     "event": "read delegation requested and approved",
+     "status": [
+      201,
+      200
+     ],
+     "committed": {
+      "asg": [],
+      "del": [
+       "read"
+      ]
+     },
+     "reference_committed": [
+      "deny",
+      "P5"
+     ]
+    },
+    {
+     "t": 63.02,
+     "event": "decide write",
+     "decision": "deny",
+     "rule": "P5 \u2013 Intra-Division Zero Trust",
+     "pep_access_write_status": 400,
+     "reference_committed": [
+      "deny",
+      "P5"
+     ]
+    }
+   ],
+   "final_decision": "deny",
+   "final_rule": "P5 \u2013 Intra-Division Zero Trust",
+   "pep_status": 400,
+   "any_committed_state_allows": false,
+   "unjustified_allow": false
+  },
+  {
+   "trial": 1,
+   "log": [
+    {
+     "t": 0.14,
+     "event": "assign {write}, valid 10 s",
+     "status": 201,
+     "committed": {
+      "asg": [
+       "write"
+      ],
+      "del": []
+     }
+    },
+    {
+     "t": 0.28,
+     "event": "decide write (warm)",
+     "decision": "deny",
+     "rule": "P1 \u2013 Inter-Department Segmentation",
+     "reference_committed": [
+      "deny",
+      "P1"
+     ]
+    },
+    {
+     "t": 62.03,
+     "event": "assignment expired at t=10 (no commit)",
+     "committed": {
+      "asg": [],
+      "del": []
+     },
+     "reference_committed": [
+      "deny",
+      "P1"
+     ]
+    },
+    {
+     "t": 62.33,
+     "event": "read delegation requested and approved",
+     "status": [
+      201,
+      200
+     ],
+     "committed": {
+      "asg": [],
+      "del": [
+       "read"
+      ]
+     },
+     "reference_committed": [
+      "deny",
+      "P5"
+     ]
+    },
+    {
+     "t": 63.14,
+     "event": "decide write",
+     "decision": "deny",
+     "rule": "P5 \u2013 Intra-Division Zero Trust",
+     "pep_access_write_status": 400,
+     "reference_committed": [
+      "deny",
+      "P5"
+     ]
+    }
+   ],
+   "final_decision": "deny",
+   "final_rule": "P5 \u2013 Intra-Division Zero Trust",
+   "pep_status": 400,
+   "any_committed_state_allows": false,
+   "unjustified_allow": false
+  },
+  {
+   "trial": 2,
+   "log": [
+    {
+     "t": 0.14,
+     "event": "assign {write}, valid 10 s",
+     "status": 201,
+     "committed": {
+      "asg": [
+       "write"
+      ],
+      "del": []
+     }
+    },
+    {
+     "t": 0.28,
+     "event": "decide write (warm)",
+     "decision": "deny",
+     "rule": "P1 \u2013 Inter-Department Segmentation",
+     "reference_committed": [
+      "deny",
+      "P1"
+     ]
+    },
+    {
+     "t": 62.02,
+     "event": "assignment expired at t=10 (no commit)",
+     "committed": {
+      "asg": [],
+      "del": []
+     },
+     "reference_committed": [
+      "deny",
+      "P1"
+     ]
+    },
+    {
+     "t": 62.32,
+     "event": "read delegation requested and approved",
+     "status": [
+      201,
+      200
+     ],
+     "committed": {
+      "asg": [],
+      "del": [
+       "read"
+      ]
+     },
+     "reference_committed": [
+      "deny",
+      "P5"
+     ]
+    },
+    {
+     "t": 63.13,
+     "event": "decide write",
+     "decision": "deny",
+     "rule": "P5 \u2013 Intra-Division Zero Trust",
+     "pep_access_write_status": 400,
+     "reference_committed": [
+      "deny",
+      "P5"
+     ]
+    }
+   ],
+   "final_decision": "deny",
+   "final_rule": "P5 \u2013 Intra-Division Zero Trust",
+   "pep_status": 400,
+   "any_committed_state_allows": false,
+   "unjustified_allow": false
+  },
+  {
+   "trial": 3,
+   "log": [
+    {
+     "t": 0.15,
+     "event": "assign {write}, valid 10 s",
+     "status": 201,
+     "committed": {
+      "asg": [
+       "write"
+      ],
+      "del": []
+     }
+    },
+    {
+     "t": 0.29,
+     "event": "decide write (warm)",
+     "decision": "deny",
+     "rule": "P1 \u2013 Inter-Department Segmentation",
+     "reference_committed": [
+      "deny",
+      "P1"
+     ]
+    },
+    {
+     "t": 62.03,
+     "event": "assignment expired at t=10 (no commit)",
+     "committed": {
+      "asg": [],
+      "del": []
+     },
+     "reference_committed": [
+      "deny",
+      "P1"
+     ]
+    },
+    {
+     "t": 62.35,
+     "event": "read delegation requested and approved",
+     "status": [
+      201,
+      200
+     ],
+     "committed": {
+      "asg": [],
+      "del": [
+       "read"
+      ]
+     },
+     "reference_committed": [
+      "deny",
+      "P5"
+     ]
+    },
+    {
+     "t": 63.12,
+     "event": "decide write",
+     "decision": "deny",
+     "rule": "P5 \u2013 Intra-Division Zero Trust",
+     "pep_access_write_status": 400,
+     "reference_committed": [
+      "deny",
+      "P5"
+     ]
+    }
+   ],
+   "final_decision": "deny",
+   "final_rule": "P5 \u2013 Intra-Division Zero Trust",
+   "pep_status": 400,
+   "any_committed_state_allows": false,
+   "unjustified_allow": false
+  },
+  {
+   "trial": 4,
+   "log": [
+    {
+     "t": 0.13,
+     "event": "assign {write}, valid 10 s",
+     "status": 201,
+     "committed": {
+      "asg": [
+       "write"
+      ],
+      "del": []
+     }
+    },
+    {
+     "t": 0.28,
+     "event": "decide write (warm)",
+     "decision": "deny",
+     "rule": "P1 \u2013 Inter-Department Segmentation",
+     "reference_committed": [
+      "deny",
+      "P1"
+     ]
+    },
+    {
+     "t": 62.02,
+     "event": "assignment expired at t=10 (no commit)",
+     "committed": {
+      "asg": [],
+      "del": []
+     },
+     "reference_committed": [
+      "deny",
+      "P1"
+     ]
+    },
+    {
+     "t": 62.33,
+     "event": "read delegation requested and approved",
+     "status": [
+      201,
+      200
+     ],
+     "committed": {
+      "asg": [],
+      "del": [
+       "read"
+      ]
+     },
+     "reference_committed": [
+      "deny",
+      "P5"
+     ]
+    },
+    {
+     "t": 63.13,
+     "event": "decide write",
+     "decision": "deny",
+     "rule": "P5 \u2013 Intra-Division Zero Trust",
+     "pep_access_write_status": 400,
+     "reference_committed": [
+      "deny",
+      "P5"
+     ]
+    }
+   ],
+   "final_decision": "deny",
+   "final_rule": "P5 \u2013 Intra-Division Zero Trust",
+   "pep_status": 400,
+   "any_committed_state_allows": false,
+   "unjustified_allow": false
+  },
+  {
+   "trial": 5,
+   "log": [
+    {
+     "t": 0.14,
+     "event": "assign {write}, valid 10 s",
+     "status": 201,
+     "committed": {
+      "asg": [
+       "write"
+      ],
+      "del": []
+     }
+    },
+    {
+     "t": 0.28,
+     "event": "decide write (warm)",
+     "decision": "deny",
+     "rule": "P1 \u2013 Inter-Department Segmentation",
+     "reference_committed": [
+      "deny",
+      "P1"
+     ]
+    },
+    {
+     "t": 62.02,
+     "event": "assignment expired at t=10 (no commit)",
+     "committed": {
+      "asg": [],
+      "del": []
+     },
+     "reference_committed": [
+      "deny",
+      "P1"
+     ]
+    },
+    {
+     "t": 62.34,
+     "event": "read delegation requested and approved",
+     "status": [
+      201,
+      200
+     ],
+     "committed": {
+      "asg": [],
+      "del": [
+       "read"
+      ]
+     },
+     "reference_committed": [
+      "deny",
+      "P5"
+     ]
+    },
+    {
+     "t": 63.12,
+     "event": "decide write",
+     "decision": "deny",
+     "rule": "P5 \u2013 Intra-Division Zero Trust",
+     "pep_access_write_status": 400,
+     "reference_committed": [
+      "deny",
+      "P5"
+     ]
+    }
+   ],
+   "final_decision": "deny",
+   "final_rule": "P5 \u2013 Intra-Division Zero Trust",
+   "pep_status": 400,
+   "any_committed_state_allows": false,
+   "unjustified_allow": false
+  },
+  {
+   "trial": 6,
+   "log": [
+    {
+     "t": 0.14,
+     "event": "assign {write}, valid 10 s",
+     "status": 201,
+     "committed": {
+      "asg": [
+       "write"
+      ],
+      "del": []
+     }
+    },
+    {
+     "t": 0.29,
+     "event": "decide write (warm)",
+     "decision": "deny",
+     "rule": "P1 \u2013 Inter-Department Segmentation",
+     "reference_committed": [
+      "deny",
+      "P1"
+     ]
+    },
+    {
+     "t": 62.02,
+     "event": "assignment expired at t=10 (no commit)",
+     "committed": {
+      "asg": [],
+      "del": []
+     },
+     "reference_committed": [
+      "deny",
+      "P1"
+     ]
+    },
+    {
+     "t": 62.32,
+     "event": "read delegation requested and approved",
+     "status": [
+      201,
+      200
+     ],
+     "committed": {
+      "asg": [],
+      "del": [
+       "read"
+      ]
+     },
+     "reference_committed": [
+      "deny",
+      "P5"
+     ]
+    },
+    {
+     "t": 63.13,
+     "event": "decide write",
+     "decision": "deny",
+     "rule": "P5 \u2013 Intra-Division Zero Trust",
+     "pep_access_write_status": 400,
+     "reference_committed": [
+      "deny",
+      "P5"
+     ]
+    }
+   ],
+   "final_decision": "deny",
+   "final_rule": "P5 \u2013 Intra-Division Zero Trust",
+   "pep_status": 400,
+   "any_committed_state_allows": false,
+   "unjustified_allow": false
+  },
+  {
+   "trial": 7,
+   "log": [
+    {
+     "t": 0.12,
+     "event": "assign {write}, valid 10 s",
+     "status": 201,
+     "committed": {
+      "asg": [
+       "write"
+      ],
+      "del": []
+     }
+    },
+    {
+     "t": 0.28,
+     "event": "decide write (warm)",
+     "decision": "deny",
+     "rule": "P1 \u2013 Inter-Department Segmentation",
+     "reference_committed": [
+      "deny",
+      "P1"
+     ]
+    },
+    {
+     "t": 62.01,
+     "event": "assignment expired at t=10 (no commit)",
+     "committed": {
+      "asg": [],
+      "del": []
+     },
+     "reference_committed": [
+      "deny",
+      "P1"
+     ]
+    },
+    {
+     "t": 62.32,
+     "event": "read delegation requested and approved",
+     "status": [
+      201,
+      200
+     ],
+     "committed": {
+      "asg": [],
+      "del": [
+       "read"
+      ]
+     },
+     "reference_committed": [
+      "deny",
+      "P5"
+     ]
+    },
+    {
+     "t": 63.12,
+     "event": "decide write",
+     "decision": "deny",
+     "rule": "P5 \u2013 Intra-Division Zero Trust",
+     "pep_access_write_status": 400,
+     "reference_committed": [
+      "deny",
+      "P5"
+     ]
+    }
+   ],
+   "final_decision": "deny",
+   "final_rule": "P5 \u2013 Intra-Division Zero Trust",
+   "pep_status": 400,
+   "any_committed_state_allows": false,
+   "unjustified_allow": false
+  },
+  {
+   "trial": 8,
+   "log": [
+    {
+     "t": 0.13,
+     "event": "assign {write}, valid 10 s",
+     "status": 201,
+     "committed": {
+      "asg": [
+       "write"
+      ],
+      "del": []
+     }
+    },
+    {
+     "t": 0.29,
+     "event": "decide write (warm)",
+     "decision": "deny",
+     "rule": "P1 \u2013 Inter-Department Segmentation",
+     "reference_committed": [
+      "deny",
+      "P1"
+     ]
+    },
+    {
+     "t": 62.01,
+     "event": "assignment expired at t=10 (no commit)",
+     "committed": {
+      "asg": [],
+      "del": []
+     },
+     "reference_committed": [
+      "deny",
+      "P1"
+     ]
+    },
+    {
+     "t": 62.31,
+     "event": "read delegation requested and approved",
+     "status": [
+      201,
+      200
+     ],
+     "committed": {
+      "asg": [],
+      "del": [
+       "read"
+      ]
+     },
+     "reference_committed": [
+      "deny",
+      "P5"
+     ]
+    },
+    {
+     "t": 63.13,
+     "event": "decide write",
+     "decision": "deny",
+     "rule": "P5 \u2013 Intra-Division Zero Trust",
+     "pep_access_write_status": 400,
+     "reference_committed": [
+      "deny",
+      "P5"
+     ]
+    }
+   ],
+   "final_decision": "deny",
+   "final_rule": "P5 \u2013 Intra-Division Zero Trust",
+   "pep_status": 400,
+   "any_committed_state_allows": false,
+   "unjustified_allow": false
+  },
+  {
+   "trial": 9,
+   "log": [
+    {
+     "t": 0.12,
+     "event": "assign {write}, valid 10 s",
+     "status": 201,
+     "committed": {
+      "asg": [
+       "write"
+      ],
+      "del": []
+     }
+    },
+    {
+     "t": 0.26,
+     "event": "decide write (warm)",
+     "decision": "deny",
+     "rule": "P1 \u2013 Inter-Department Segmentation",
+     "reference_committed": [
+      "deny",
+      "P1"
+     ]
+    },
+    {
+     "t": 62.01,
+     "event": "assignment expired at t=10 (no commit)",
+     "committed": {
+      "asg": [],
+      "del": []
+     },
+     "reference_committed": [
+      "deny",
+      "P1"
+     ]
+    },
+    {
+     "t": 62.32,
+     "event": "read delegation requested and approved",
+     "status": [
+      201,
+      200
+     ],
+     "committed": {
+      "asg": [],
+      "del": [
+       "read"
+      ]
+     },
+     "reference_committed": [
+      "deny",
+      "P5"
+     ]
+    },
+    {
+     "t": 63.12,
+     "event": "decide write",
+     "decision": "deny",
+     "rule": "P5 \u2013 Intra-Division Zero Trust",
+     "pep_access_write_status": 400,
+     "reference_committed": [
+      "deny",
+      "P5"
+     ]
+    }
+   ],
+   "final_decision": "deny",
+   "final_rule": "P5 \u2013 Intra-Division Zero Trust",
+   "pep_status": 400,
+   "any_committed_state_allows": false,
+   "unjustified_allow": false
+  }
+ ],
+ "unjustified_allows": 0,
+ "pep_200": 0
+}

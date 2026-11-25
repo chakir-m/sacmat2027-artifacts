@@ -1,0 +1,220 @@
+{
+ "S1_doc_api_top_secret_denied": {
+  "pass": true,
+  "detail": 403
+ },
+ "L1_doc_api_assigned_read_allowed": {
+  "pass": true,
+  "detail": 200
+ },
+ "S2_mfa_obligation_all_endpoints": {
+  "pass": true,
+  "detail": [
+   403,
+   403,
+   403
+  ]
+ },
+ "L2_mfa_director_allowed": {
+  "pass": true,
+  "detail": [
+   200,
+   200,
+   200
+  ]
+ },
+ "S3_owner_cross_dept_denied": {
+  "pass": true,
+  "detail": [
+   400,
+   403
+  ]
+ },
+ "L3_owner_same_dept_allowed": {
+  "pass": true,
+  "detail": null
+ },
+ "S4_download_needs_download_action": {
+  "pass": true,
+  "detail": 403
+ },
+ "L4_assigned_read_allowed": {
+  "pass": true,
+  "detail": 200
+ },
+ "S5_denials_persisted": {
+  "pass": true,
+  "detail": [
+   3,
+   3
+  ]
+ },
+ "L5_delegation_approved_and_usable": {
+  "pass": true,
+  "detail": null
+ },
+ "S6_revocation_needs_authority": {
+  "pass": true,
+  "detail": [
+   403,
+   403
+  ]
+ },
+ "S7_delegation_revocation_immediate": {
+  "pass": true,
+  "detail": 200
+ },
+ "S8_assignment_revocation_immediate": {
+  "pass": true,
+  "detail": 204
+ },
+ "S9_no_cross_dept_write_via_delegation": {
+  "pass": true,
+  "detail": null
+ },
+ "L6_cross_dept_read_via_delegation": {
+  "pass": true,
+  "detail": null
+ },
+ "S10_assignment_expiry_honoured": {
+  "pass": true,
+  "detail": "allow"
+ },
+ "S12_published_unassigned_denied_via_pdp": {
+  "pass": true,
+  "detail": 403
+ },
+ "L7_admin_reads_top_secret_doc": {
+  "pass": true,
+  "detail": 200
+ },
+ "L8_owner_reads_own_published_doc": {
+  "pass": true,
+  "detail": 200
+ },
+ "S13_collaborator_needs_clearance_on_draft": {
+  "pass": true,
+  "detail": 403
+ },
+ "L9_cleared_collaborator_reads_draft": {
+  "pass": true,
+  "detail": 200
+ },
+ "S14_manager_needs_clearance_on_dept_doc_in_review": {
+  "pass": true,
+  "detail": 403
+ },
+ "L10_cleared_manager_reads_dept_doc_in_review": {
+  "pass": true,
+  "detail": 200
+ },
+ "S15_foreign_director_cannot_revoke_delegation": {
+  "pass": true,
+  "detail": 403
+ },
+ "L11_resource_owner_revokes_delegation": {
+  "pass": true,
+  "detail": 200
+ },
+ "S16_other_division_manager_cannot_revoke": {
+  "pass": true,
+  "detail": 403
+ },
+ "L12_own_division_manager_revokes": {
+  "pass": true,
+  "detail": 204
+ },
+ "S17_audit_outcome_matches_decision": {
+  "pass": true,
+  "detail": [
+   [
+    "deny",
+    "deny",
+    "deny"
+   ],
+   [
+    "deny",
+    "allow"
+   ]
+  ]
+ },
+ "S18_moved_owner_published_doc_denied": {
+  "pass": true,
+  "detail": 403
+ },
+ "L13_dept_director_reads_ts_draft": {
+  "pass": true,
+  "detail": 200
+ },
+ "L14_own_division_manager_reads_ts_draft": {
+  "pass": true,
+  "detail": 200
+ },
+ "S19_manager_without_division_not_exempt": {
+  "pass": true,
+  "detail": 403
+ },
+ "S20_non_collaborator_cannot_read_draft": {
+  "pass": true,
+  "detail": 403
+ },
+ "L15_resource_dept_director_revokes": {
+  "pass": true,
+  "detail": [
+   200,
+   200
+  ]
+ },
+ "S21_bulk_grant_update_takes_effect": {
+  "pass": true,
+  "detail": "allow"
+ },
+ "S22_high_risk_owner_denied_at_gate": {
+  "pass": true,
+  "detail": 403
+ },
+ "S23_high_risk_owner_denied_on_document": {
+  "pass": true,
+  "detail": 403
+ },
+ "S24_ip_change_counts_at_gate": {
+  "pass": true,
+  "detail": 403
+ },
+ "S25_ip_change_counts_on_document": {
+  "pass": true,
+  "detail": 403
+ },
+ "L16_known_address_allowed": {
+  "pass": true,
+  "detail": [
+   200,
+   200
+  ]
+ },
+ "S26_owner_decided_by_pdp_at_gate": {
+  "pass": true,
+  "detail": [
+   "P_own \u2013 Owner Access"
+  ]
+ },
+ "L17_owner_reads_own_object_above_clearance": {
+  "pass": true,
+  "detail": 200
+ },
+ "S27_deleted_object_keeps_document_closed": {
+  "pass": false,
+  "detail": [
+   204,
+   200
+  ]
+ },
+ "L18_owner_reads_document_of_deleted_object": {
+  "pass": true,
+  "detail": 200
+ },
+ "S11_forced_race_no_stale_allow": {
+  "pass": true,
+  "detail": null
+ }
+}
