@@ -1,0 +1,1183 @@
+% Build: `pdflatex main` gives the working draft (system named OpenZTAC);
+%        `pdflatex main_anon` (which defines \ANON) gives the double-blind submission.
+\ifdefined\ANON
+  \documentclass[sigconf,review,anonymous]{acmart}
+\else
+  \documentclass[sigconf,review]{acmart}
+\fi
+
+\settopmatter{printacmref=false}
+\setcopyright{none}
+\renewcommand\footnotetextcopyrightpermission[1]{}
+\acmConference[SACMAT '27]{The 32nd ACM Symposium on Access Control Models and Technologies}{July 19--21, 2027}{Durham, UK}
+
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit,backgrounds,arrows.meta,calc,shapes.multipart,shapes.geometric,decorations.pathreplacing}
+\usepackage[ruled,linesnumbered,vlined]{algorithm2e}
+\SetAlFnt{\small}
+\SetAlCapFnt{\small}
+\usepackage{xspace}
+\usepackage{enumitem}
+\usepackage{pifont}
+
+\setlength{\emergencystretch}{2em}
+\newif\ifanon
+\ifdefined\ANON \anontrue \else \anonfalse \fi
+% Name of our system: anonymised in the submission build only.
+\ifanon
+  \newcommand{\sysname}{\textsc{OpenZTAC}\xspace}
+\else
+  \newcommand{\sysname}{\textsc{OpenZTAC}\xspace}
+\fi
+\newcommand{\chain}{\textsc{Chain-9}\xspace}
+\newcommand{\Pc}{P_{\mathrm{class}}}
+\newcommand{\Px}{P_{\mathrm{ctx}}}
+\newcommand{\Po}{P_{\mathrm{own}}}
+\newcommand{\ow}{\mathsf{ow}}
+\newcommand{\Gasg}{G^{\mathrm{asg}}}
+\newcommand{\Gdel}{G^{\mathrm{del}}}
+\newcommand{\sameDept}{\mathsf{sameDept}}
+\newcommand{\sameDiv}{\mathsf{sameDiv}}
+\newcommand{\role}{\mathsf{role}}
+\newcommand{\decide}{\mathsf{decide}}
+\newcommand{\obs}{\mathsf{obs}}
+\newcommand{\allowv}{\mathtt{allow}}
+\newcommand{\denyv}{\mathtt{deny}}
+\newcommand{\emp}{\mathrm{emp}}
+\newcommand{\ev}[1]{\mathsf{#1}}
+\newcommand{\Routes}{\mathcal{R}}
+\newcommand{\ok}{\ding{51}}
+\newcommand{\no}{\ding{55}}
+\newcommand{\RQ}[1]{\textbf{RQ#1}}
+\newcommand{\answer}[2]{\par\smallskip\noindent\fbox{\parbox{\dimexpr\columnwidth-2\fboxsep-2\fboxrule\relax}{%
+\textbf{Answer to RQ#1.} #2}}\par\smallskip}
+% Notes for the authors: shown in the working draft, removed from the submission build.
+\ifanon \newcommand{\TODO}[1]{} \else \newcommand{\TODO}[1]{\textcolor{red}{[#1]}} \fi
+
+\begin{document}
+
+\title[Beyond the Decision Point]{Beyond the Decision Point:\\
+Layered Conformance Checking of a Zero-Trust ABAC System}
+
+\ifanon
+\author{Anonymous Author(s)}
+\affiliation{\institution{Anonymous Institution}\country{}}
+\else
+\author{\TODO{Author names}}
+\affiliation{\institution{\TODO{Affiliation}}\country{\TODO{Country}}}
+\fi
+
+\begin{abstract}
+We designed and built \sysname, a zero-trust ABAC system whose decision point applies a first-applicable
+chain of nine rules. We proved properties of the chain and tested the decision point thoroughly, yet several of
+these guarantees failed for the system as a whole. We turn the lesson into a method that checks a deployment at
+three levels: the rules (L1), the stored state they read (L2), and every path that enforces a decision (L3). Under
+stated assumptions, the three levels together guarantee that every effect is justified by a committed state at most
+$\Delta$ old, and no two of them suffice. At L1, a syntactic criterion checked on the code and an SMT coverage query
+make bounded testing complete; at L2, a theorem predicts how long a revoked or expired grant keeps working under
+caching; at L3, probes and sweeps exercise a route inventory generated from the routing table. In \sysname v1 the
+decision point matched its model on all 368{,}640 worlds, but the risk rule never took effect, revoked grants kept
+working for up to the cache lifetime (a race re-admitted them in 44--53\,\% of trials), denials were never logged,
+and several paths skipped the decision point: 18 findings, 14 outside the decision function. The repaired v2
+passes every oracle, at a median cost of 47\,\% on document reads and 32\,\% on denied file requests. A preliminary
+transfer to OpenFGA, Cedar's TinyTodo and Backstage RBAC found their rules correct on every sampled case, and
+state-level behaviours by which permission changes take effect late or not at all.
+\end{abstract}
+
+\ccsdesc[500]{Security and privacy~Access control}
+\ccsdesc[300]{Security and privacy~Logic and verification}
+\ccsdesc[300]{Security and privacy~Software security engineering}
+
+\keywords{attribute-based access control, zero trust, conformance testing, data independence, SMT,
+authorization caching, revocation, complete mediation}
+
+\maketitle
+
+% =====================================================================================
+\section{Introduction}
+% =====================================================================================
+
+Zero Trust Architecture (ZTA) asks a policy decision point (PDP) to evaluate every request against the current
+state of subjects, resources and context \cite{rose2020zta,chandramouli2023sp800207a,kerman2025sp180035}, usually
+under an attribute-based access control (ABAC) model \cite{hu2014sp800162,jin2012abac}. There is a long tradition
+of verifying such policies \cite{fisler2005margrave,turkmen2017xacmlsmt,backes2018zelkova,hu2011anomaly}, and
+Cedar's authorizer was recently proved correct in Lean and tested against its production code
+\cite{cutler2024cedar,disselkoen2024vgd}.
+
+All of these results are about a function, $\decide(q)$. Nobody deploys a function. A deployed system reads
+attributes and grants from a database, caches them, enforces decisions at several endpoints, and writes an audit
+trail. A property of $\decide$ becomes a property of the system only if the PDP sees the state the specification
+talks about, every path to a protected object goes through the PDP (complete mediation
+\cite{saltzer1975protection}), and the record of each decision survives. Everyone assumes these; few check them,
+and almost never together.
+
+We learned this on our own system. \sysname is a ZTA/ABAC system we built, with a Python backend of about
+16.8\,kLOC (FastAPI, PostgreSQL, Redis), a document service with real-time collaboration, and a PDP that evaluates
+a first-applicable chain we call \chain. We wrote down security invariants, proved five properties of the chain on
+paper, wrote 140 tests covering 95\,\% of the PDP, and ran it. When we finally checked the running system as a
+whole, the PDP was exactly right, and the system was not.
+
+\paragraph{Approach.} We model a deployment by its runs, the sequences of requests, decisions, effects, records and
+commits it produces (\S\ref{sec:system}), state an insider threat model over them (\S\ref{sec:threat}), and define
+conformance at three levels (\S\ref{sec:levels}). \textbf{L1, rules:} does the decision code match the rule model,
+and do the rules satisfy the requirements? \textbf{L2, state:} does the decision use state at most $\Delta$ old?
+\textbf{L3, enforcement:} does every path ask the PDP for the right action, meet its obligations and record the
+decision? For each level we build an \emph{oracle} that decides whether observed behaviour is correct.
+
+\paragraph{Questions.} \RQ1: Can rule-level conformance be established \emph{completely} by bounded checking, and
+what does it find? \RQ2: What goes wrong between stored state and decisions, and does our staleness bound predict
+it? \RQ3: Which enforcement failures escape L1 and L2? \RQ4: Do our existing tests, and each level's oracle, catch
+faults at that level? \RQ5: Do the fixes work, what do they cost, and how does \sysname compare with OpenFGA, Cedar
+and Backstage RBAC? \S\ref{sec:l1}--\S\ref{sec:rq5} answer them in turn.
+
+\paragraph{Contributions.} Verified authorizers tested against their model \cite{cutler2024cedar,disselkoen2024vgd},
+model-based security testing \cite{mouelhi2008models} and data independence \cite{wolper1986,lazic2003semantic}
+are precedents; we contribute (1) contracts for rules, state and enforcement over runs, with a composition theorem
+and an independence result ; (2) a tool-checked syntactic criterion and an SMT coverage query
+that together make a finite differential test of ordinary PDP code complete, which exposed two holes in the world
+space we had used; (3) a tight staleness theorem for TTL-cached grants, matched
+by measurement within 0.63\,s over 100 trials, a mixed-view result, and a freshness result for a versioned cache;
+(4) an L3 check over a route inventory generated from the routing table, which found four failures our hand-built
+inventory had missed; (5) 18 findings on \sysname v1, each backed by a proof, an exhaustive count or
+a reproduction, and mutation evidence, including held-out operators, that the faults that matter are invisible to
+rule-level oracles and to our own tests; and (6) a repaired v2 that passes every oracle, an exact compilation of
+first-applicable chains to Cedar, and a preliminary transfer to three independent systems (\S\ref{sec:rq5}). Every
+experiment ran on isolated local deployments of frozen versions of \sysname; the artifact recomputes every number
+reported (Appendix~\ref{app:artifact}).
+
+% =====================================================================================
+\section{Related Work}
+\label{sec:related}
+% =====================================================================================
+
+\paragraph{ABAC, zero trust and freshness.} XACML and NGAC standardise ABAC
+\cite{oasis2013xacml,ferraiolo2016sp800178}; ZTA adds per-request decisions and enforcement points (PEPs)
+\cite{rose2020zta}. Risk-adaptive models feed a risk estimate into the decision
+\cite{cheng2007fuzzymls,ameer2022bluesky}. Temporal models and usage control \cite{bertino2001trbac,park2004ucon}
+make validity intervals and \emph{ongoing} authorization first-class; the second is what breaks at our L2. SAAM
+and authorization recycling \cite{crampton2006saam,wei2008recycling} reuse cached decisions. Zanzibar
+\cite{pang2019zanzibar} avoids the ``new enemy'' problem with snapshot reads at the timestamps of consistency
+tokens; OpenFGA \cite{openfga} implements its model. We bound staleness for the plain TTL cache most applications
+use.
+
+\paragraph{Analysing and testing access control.} Margrave, SMT encodings of XACML, Zelkova and anomaly detection
+reason about policies, not the code that runs them
+\cite{fisler2005margrave,turkmen2017xacmlsmt,backes2018zelkova,hu2011anomaly}. Cedar's verification-guided
+development \cite{cutler2024cedar,disselkoen2024vgd} is closest to our L1: it gives proofs about a model and sampled
+agreement of code and model, relative to the entities the application supplies. Our L1 takes ordinary PDP code and
+yields agreement on every world once criterion G and coverage hold. Policy mutation \cite{martin2007mutation} and model-based security testing
+\cite{mouelhi2008models} qualify tests of policies or applications; RoleCast \cite{son2011rolecast} and MACE
+\cite{monshizadeh2014mace} find missing checks statically; ACtest \cite{xiang2025actest} reports decisions that a
+configuration change flips. Closest to our L3, BACScan \cite{liu2025bacscan} crawls a running application as
+several users and replays changes as the wrong one, and BACFuzz \cite{dharmaadi2025bacfuzz} fuzzes PHP
+applications and judges success by the SQL they cause. Both find routes and fixtures without a specification;
+our L3 instead checks each route against a specified PDP, including liveness and the audit record. Bounded checking is usually justified by the
+small-scope hypothesis \cite{jackson2012alloy}; we replace it with a data-independence argument
+\cite{wolper1986,lazic2003semantic} whose premise a tool checks.
+
+
+
+% =====================================================================================
+\section{\sysname and Its Model}
+\label{sec:system}
+% =====================================================================================
+
+\paragraph{Architecture.} An administration interface (PAP) manages subjects, objects, grants and the policy chain
+(Figure~\ref{fig:system}). The PDP loads subject and object attributes from PostgreSQL on every decision and reads
+assignment and delegation grants through a Redis cache keyed by (subject, object), with lifetimes
+$\tau_{\mathrm{asg}}=120$\,s and $\tau_{\mathrm{del}}=60$\,s. Three PEP endpoints serve files; a document service
+and a collaboration server have their own entry points. Decisions go to a ledger. We analyse v1 as frozen at the
+start of the study; v2 is the repaired version of \S\ref{sec:rq5}.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[
+  font=\scriptsize, node distance=1.6mm,
+  box/.style={draw, rounded corners=1.5pt, align=center, inner sep=1.5pt, minimum height=4.4mm},
+  pep/.style={box, fill=blue!6, text width=19mm},
+  dp/.style={box, fill=green!8, text width=17mm},
+  st/.style={box, fill=orange!10, text width=17mm},
+  bad/.style={box, fill=red!8, text width=17mm},
+  arr/.style={-{Stealth[length=1.5mm]}, semithick}]
+  \node[pep] (a1) {\texttt{/access/decide}};
+  \node[pep, below=of a1] (a2) {\texttt{/pep/access}\\(+owner bypass)};
+  \node[pep, below=of a2] (a3) {\texttt{/pep/preview}, \texttt{/download}};
+  \node[pep, below=of a3] (a4) {\texttt{/documents/\{id\}}};
+  \node[pep, below=of a4] (a5) {collab.\ WebSocket};
+  \node[dp, right=9mm of a2] (pdp) {\chain PDP};
+  \node[box, fill=gray!10, text width=17mm, above=3mm of pdp] (pap) {PAP\\(policies, grants)};
+  \node[bad, right=9mm of a4] (dr) {document rules};
+  \node[bad, right=9mm of a5] (cr) {connect-time check};
+  \node[st, right=7mm of pdp, yshift=4mm] (redis) {Redis grant cache\\$\tau_{\mathrm{asg}}{=}120$\,s, $\tau_{\mathrm{del}}{=}60$\,s};
+  \node[st, below=3mm of redis] (pg) {PostgreSQL\\subjects, objects, grants};
+  \node[st, below=3mm of pg] (log) {decision ledger};
+  \draw[arr] (a1) -- (pdp); \draw[arr] (a2) -- (pdp); \draw[arr] (a3.east) -- (pdp.south west);
+  \draw[arr] (a4) -- (dr); \draw[arr] (a5) -- (cr);
+  \draw[arr] (pdp) -- (redis); \draw[arr] (redis) -- node[right]{miss} (pg); \draw[arr] (pdp) -- (pg);
+  \draw[arr] (pap.east) -| (pg.north west);
+  \draw[arr, dashed] (pdp.south east) -- (log);
+  \draw[arr] (dr) -- (pg); \draw[arr] (cr.east) -- (pg.south west);
+  \begin{scope}[on background layer]
+    \node[draw=gray, dashed, inner sep=2pt, fit=(pdp)] (L1) {};
+    \node[draw=gray, dashed, inner sep=3pt, fit=(redis)(pg)] (L2) {};
+    \node[draw=gray, dashed, inner sep=3pt, fit=(a1)(a5)(dr)(cr)(log)] (L3) {};
+  \end{scope}
+  \node[anchor=south west, gray] at (L1.south east) {L1};
+  \node[anchor=south, gray] at (L2.north) {L2};
+  \node[anchor=north east, gray] at (L3.south east) {L3};
+\end{tikzpicture}
+\caption{\sysname~v1: request paths, decision procedures (green: the PDP; red: hand-written rules) and state. The
+document API and the collaboration channel never reach the PDP; the file endpoints skip it for owners.}
+\label{fig:system}
+\end{figure}
+
+\paragraph{Notation.} $\mathbb{T}$ is the set of time instants (non-negative reals, in seconds),
+$\mathbb{B}=\{\mathit{true},\mathit{false}\}$, $\mathbb{N}$ the natural numbers and $2^X$ the set of subsets of $X$;
+$\bot$ marks an undefined value, and $[\varphi]$ is 1 if $\varphi$ holds and 0 otherwise. Let $U$, $O$, $A$, $D$ and
+$V$ be the sets of subjects, objects, actions, departments and divisions, with
+$\{\mathit{read},\mathit{write},\mathit{download},\mathit{delete}\}\subseteq A$, $\mathit{IP}$ the set of network
+addresses, and $\mathit{St}=\{\mathit{pending},\mathit{approved},\mathit{rejected},\mathit{expired},\mathit{revoked}\}$
+the statuses of a delegation. Clearances $C=\{\mathit{normal}\prec\mathit{elevated}\prec\mathit{delegated}\}$ and
+sensitivities $S=\{\mathit{public}\prec\mathit{internal}\prec\mathit{sensitive}\prec\mathit{top\_secret}\}$ are
+compared through the ranks $\kappa_C:C\to\{1,2,3\}$ and $\kappa_S:S\to\{0,1,2,3\}$ of the implementation.
+
+\begin{definition}[State]\label{def:state}
+A state $\sigma\in\Sigma$ consists of the attribute functions
+$\role:U\to\{\mathrm{adm},\mathrm{dir},\mathrm{dm},\emp,\mathrm{cust}\}$, $\mathsf{dept}:U\cup O\to D$,
+$\mathsf{div}:U\cup O\to V\cup\{\bot\}$, $\mathsf{clr}:U\to C$, $\mathsf{sens}:O\to S$, $\mathsf{own}:O\to U$, the
+risk inputs $\mathsf{fl}:U\to\mathbb{N}$ (failed logins) and $\mathsf{ip}:U\to\mathit{IP}\cup\{\bot\}$ (last known
+address), and two grant relations: assignments $\mathit{Asg}\subseteq U\times O\times 2^A\times\mathbb{T}\times
+(\mathbb{T}\cup\{\infty\})\times\mathbb{B}$, whose elements $(u,o,B,t_f,t_u,b)$ give the granted action set $B$,
+the validity interval $[t_f,t_u)$ and an active flag $b$; and delegations
+$\mathit{Del}\subseteq U\times O\times 2^A\times\mathit{St}\times\mathbb{T}$, whose elements $(u,o,B,s,t_e)$ give
+the action set, the status and the expiry $t_e$. It also contains the parts that only procedures other than the
+PDP read: the policy store (whether the PAP shows each rule as active), the document workflow status and
+collaborators, the open collaboration sessions, and the ledger $\mathit{Led}$ of decision records.
+\end{definition}
+
+The roles are administrator, director, division manager, employee, and $\mathrm{cust}$ for any custom role an
+administrator created. Grants become sets of actions at time $t$:
+\begin{align*}
+\Gasg_t(u,o) &= \textstyle\bigcup\{B \mid (u,o,B,t_f,t_u,\mathit{true})\in\mathit{Asg},\ t_f\le t<t_u\},\\
+\Gdel_t(u,o) &= \textstyle\bigcup\{B \mid (u,o,B,\mathit{approved},t_e)\in\mathit{Del},\ t<t_e\}.
+\end{align*}
+The delegation workflow always sets $B=\{\mathit{read}\}$. A request is $q=(u,o,a,c)\in Q=U\times O\times A\times
+\mathit{Ctx}$, where the context $c$ carries the hour of day $h(c)$ and the source address $\mathit{ip}(c)$. The
+risk score is
+\begin{align*}
+\rho(u,c)=\min\bigl(100,\;&30\,[h(c)\notin[7,19)]+40\,[\mathsf{fl}(u)\ge5]\\
+&+15\,[2\le\mathsf{fl}(u)\le4]+25\,[\bot\neq\mathsf{ip}(u)\neq\mathit{ip}(c)]\bigr),
+\end{align*}
+and the threshold is $\theta=70$. We write $\sameDept(u,o)$ for $\mathsf{dept}(u)=\mathsf{dept}(o)$, $\sameDiv(u,o)$
+for $\mathsf{div}(u)\neq\bot\wedge\mathsf{div}(u)=\mathsf{div}(o)$, and $\sameDiv^\circ$ for plain equality of
+divisions, under which $\bot=\bot$.
+
+\begin{definition}[Rule chain]\label{def:chain}
+A chain $\Pi=\langle(r_i,e_i,\gamma_i)\rangle_{i=1}^{n}$ lists rule names $r_i$, effects
+$e_i\in\{\allowv,\denyv\}$ and guards $\gamma_i:\Sigma\times\mathbb{T}\times Q\to\mathbb{B}$, with
+$\gamma_n\equiv\mathit{true}$. Its first-applicable semantics is
+\[
+\decide^\Pi_{\sigma,t}(q)=\bigl(e_k,r_k\bigr)\quad\text{where}\quad k=\min\{i\mid\gamma_i(\sigma,t,q)\}.
+\]
+\end{definition}
+
+\chain is the chain of Table~\ref{tab:chain}; the administrator rule is implemented as a bypass before the chain,
+which is the same as a first rule. A \emph{world} $w=(\sigma,t,q)$ is a state, a time and a request. We write
+$\mathcal{M}$ for \chain read as a reference model and $\mathcal{I}$ for the decision procedure of the PDP code,
+both as functions of the world.
+
+\begin{table}[t]
+\caption{\chain in v1, first-applicable from top to bottom ($\pi$: documented priority).}
+\label{tab:chain}
+\small
+\begin{tabular}{@{}l@{\;}r@{\;}l@{\;}l@{}}
+\toprule
+Rule & $\pi$ & Eff. & Guard (for $q=(u,o,a,c)$ at time $t$) \\
+\midrule
+Admin & -- & allow & $\role(u)=\mathrm{adm}$ \\
+$P_1$ & 10 & deny & $\neg\sameDept\wedge\Gdel_t(u,o)=\emptyset$ \\
+$\Pc$ & 15 & deny & $\kappa_S(\mathsf{sens}(o))>0\wedge\kappa_C(\mathsf{clr}(u))<\kappa_S(\mathsf{sens}(o))$ \\
+ & & & $\;\wedge\neg(\mathrm{dir}\wedge\sameDept)\wedge\neg(\mathrm{dm}\wedge\sameDept\wedge\sameDiv^\circ)$ \\
+$P_2$ & 20 & allow & $\role(u)=\mathrm{dir}\wedge\sameDept$ \\
+$P_3$ & 30 & allow & $\role(u)=\mathrm{dm}\wedge\sameDept\wedge\sameDiv^\circ$ \\
+$P_4$ & 40 & allow & $\role(u)\in\{\emp,\mathrm{dm}\}\wedge a\in\Gasg_t(u,o)$ \\
+$P_5$ & 45 & deny & $\role(u)=\emp\wedge\Gasg_t(u,o)=\emptyset$ \\
+$P_6$ & 50 & allow & $a\in\Gdel_t(u,o)$ \\
+$\Px$ & 60 & deny & $\rho(u,c)\ge\theta$ \\
+$P_7$ & 99 & deny & $\mathit{true}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Routes and runs.} The PDP is one of several components that decide, so we model the whole deployment
+by the sequences of events it produces.
+
+\begin{definition}[Routes]\label{def:routes}
+A route $r\in\Routes$ is an externally reachable operation, given by a decision procedure
+$D_r:\Sigma\times\mathbb{T}\times Q\to\{\allowv,\denyv\}$; an action map $\alpha_r:A\cup\{\bot\}\to A$ that gives
+the action the procedure evaluates, possibly from an action $a_c$ sent by the client ($\bot$ if none); a set of
+obligations $\mathit{Ob}_r$ (such as multi-factor authentication); and an effect: returning content of $o$ or
+changing $\sigma$.
+\end{definition}
+
+\begin{definition}[Runs]\label{def:runs}
+A run is a finite sequence of timestamped events, each tagged with the identifier $k$ of its request:
+$\ev{req}_k(r,u,o,a_c,c)$, a request on route $r$ by an authenticated principal $u$; $\ev{dec}_k(u,o,a,d)$, a
+decision $d$ by some decision procedure; $\ev{eff}_k(r,u,o,a)$, an effect (content returned, or state changed) on
+behalf of $u$; $\ev{rec}(e)$, the durable commit of a record of decision event $e$; $\ev{com}_k(\Delta\sigma)$, the
+commit of a state change; and $\ev{resp}_k$, the response that ends request $k$. The committed state $\sigma_t$
+applies, in order, every $\ev{com}$ event up to time $t$ to an initial state $\sigma_0$. A run is
+\emph{well-formed} if (W1) each $k$ has exactly one $\ev{req}_k$, which precedes every other event tagged $k$, and
+at most one $\ev{resp}_k$, which follows every $\ev{dec}_k$, $\ev{eff}_k$ and $\ev{com}_k$; (W2) every
+state-changing $\ev{com}_k$ is preceded in request $k$ by an $\ev{eff}_k$ for that change; and (W3) every
+$\ev{rec}(e)$ follows the event $e$ it records.
+\end{definition}
+
+We consider well-formed runs only; the logs of a web server with one transaction per request have this shape.
+Expiry needs no event, being a function of time. In v1, $D_r$ is the PDP for the decision API and for non-owners on
+the file endpoints, a constant $\allowv$ for owners, hand-written workflow rules for the document API, and a
+connect-time check for collaboration (Figure~\ref{fig:system}).
+
+\paragraph{Running example.} Department Finance has divisions Accounting and Audit; Legal has Compliance. Ana is an
+employee in Accounting with \emph{normal} clearance, Dan manages Audit, and Lea directs Legal; $r$ is an internal
+Accounting report and $o$ an internal Legal contract. Figure~\ref{fig:example} traces five requests. (a) Ana,
+assigned $\{\mathit{read}\}$ on $r$, reads it. (b$_1$) Dan asks to write $o$. (b$_2$) Lea then assigns Dan
+$\{\mathit{read},\mathit{write}\}$ on $o$ and approves his read-only delegation; in v1 the write passes $P_1$, since
+a delegation exists, and $P_4$ allows it. (c$_1$) Ana, unassigned, asks for $r$ at 02:00 after five failed logins,
+so $\rho=30+40=70\ge\theta$, and $P_5$ denies. (c$_2$) Had she been assigned, v1 would allow her by $P_4$ without
+consulting the risk rule. \S\ref{sec:l1} proves that (b$_2$) and (c$_2$) are general phenomena.
+
+\begin{figure}[t]
+\centering\scriptsize\setlength{\tabcolsep}{2.2pt}
+\input{figs/runex_trace.tex}
+\caption{Running example, rule by rule, in v1 (\chain) and v2 (the repaired chain $\mathcal{F}$): $\cdot$ marks a
+false guard, the coloured cell the first applicable rule, blank cells rules never reached. In v1, (b$_2$) violates
+R5 and (c$_2$) violates R6 (Table~\ref{tab:req}).}
+\label{fig:example}
+\end{figure}
+
+\paragraph{Requirements.} Since we audit our own system, we took every requirement from text written before the study: the ``hard invariants'' of our developer
+guide (G), the policy descriptions the PAP displays (S), and our design document (M); Appendix~\ref{app:prov}
+quotes each source. The design document also formalized the chain, with three differences from the code that
+define our design specification $\mathcal{S}_{\mathrm{doc}}$: (D1) $P_4$ requires $a=\mathit{read}$; (D2) $P_3$ and
+$\Pc$ use $\sameDiv$; (D3) a typing slip in clearance. It proves five properties, among them an employee
+least-privilege theorem (LP). Our documents conflict in four places; as the designers we
+resolved each, reporting the other reading where it matters. (C1) The invariant ``[employee] access $\leftrightarrow$ assigned or
+delegated'' gives R4, but $P_5$'s description denies every unassigned employee. (C2) $\Px$'s description says it
+denies whenever risk meets the threshold (R6), but M places it after every allow rule. (C3) G's decision order
+``Admin $\to$ Owner $\to\ldots$'' lets an owner open her own object, which the employee invariant and $\Pc$'s
+description do not mention; we read it as a narrow exception
+$\ow(u,o,a)\equiv\mathsf{own}(o)=u\wedge\sameDept\wedge a\in\{\mathit{read},\mathit{download}\}$, since isolation
+(R1) has no exception. (C4) G and M say assignments grant read only; S says ``only for actions included in the
+assignment''. Two documents against one: assignments grant read, which makes LP a requirement.
+Table~\ref{tab:req} lists the resulting set $R$, each a predicate $\phi(\sigma,t,q,d)$; $\mathsf{cls}(u,o)$ is
+$\Pc$'s guard with $\sameDiv$.
+
+\begin{table}[t]
+\caption{Requirements for $\role(u)\neq\mathrm{adm}$, with their sources (Appendix~\ref{app:prov}).}
+\label{tab:req}
+\small
+\begin{tabularx}{\columnwidth}{@{}l@{\;}>{\raggedright\arraybackslash}X@{\;}l@{}}
+\toprule
+ & Requirement & Src. \\
+\midrule
+R1 & $\neg\sameDept\wedge\Gdel_t=\emptyset\Rightarrow\denyv$ (isolation) & G, S \\
+R2 & $\mathsf{cls}(u,o)\wedge\neg\ow\Rightarrow\denyv$ (classification) & S, G \\
+R3 & $\emp\wedge\allowv\Rightarrow a\in\Gasg_t\cup\Gdel_t\vee\ow$ (need-to-know) & G, S \\
+R4 & $\emp\wedge a\in\Gdel_t\wedge\rho<\theta\wedge\neg\mathsf{cls}\Rightarrow\allowv$ (delegation suffices) & G \\
+R5 & $\neg\sameDept\wedge\allowv\Rightarrow a\in\Gdel_t$ (cross-dept.\ only via delegation) & G \\
+R6 & $\rho\ge\theta\Rightarrow\denyv$ (risk) & S \\
+R7 & $\allowv\Rightarrow(\mathrm{dir}\wedge\sameDept)\vee(\mathrm{dm}\wedge\sameDept\wedge\sameDiv)\vee((\emp\vee\mathrm{dm})\wedge a\in\Gasg_t)\vee a\in\Gdel_t\vee\ow$ (scope) & S, G \\
+\midrule
+LP & $\emp\wedge\sameDept\wedge\Gdel_t=\emptyset\wedge\allowv\Rightarrow(a=\mathit{read}\wedge\Gasg_t\neq\emptyset)\vee\ow$ & M, G \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% =====================================================================================
+\section{Threat Model}
+\label{sec:threat}
+% =====================================================================================
+
+A zero-trust system must hold up against its own users, so we model an insider. The assets are object content
+in every workflow state, the grant relations $\mathit{Asg}$ and $\mathit{Del}$, and the ledger. We trust administrators and the PAP, the database,
+the cache, the deployed code and TLS; trusting the code means it runs what is in the repository, not that it is
+correct. Injection, cross-site attacks, denial of service, side channels and a compromised trusted base are out
+of scope.
+
+\begin{definition}[Adversary]\label{def:adv}
+The adversary $\mathcal{A}$ controls principals $U_{\mathcal{A}}\subseteq U$ with $\role(u)\neq\mathrm{adm}$ and
+holds valid credentials for them. \textbf{Cap1, requests:} for any $r\in\Routes$, $u\in U_{\mathcal{A}}$, $o\in O$,
+$a_c\in A\cup\{\bot\}$, $\mathcal{A}$ can emit $\ev{req}(r,u,o,a_c,c)$, choosing every client-controlled field of
+$c$; server-derived context (time, failed logins) is not its to choose. \textbf{Cap2, scheduling:} $\mathcal{A}$
+chooses when to send requests, including concurrently with others' transactions such as a revocation, but not the
+server's scheduler. \textbf{Cap3, persistence:} credentials and open sessions stay valid until they expire;
+revoking a grant does not revoke them. \textbf{Cap4, workflow:} $\mathcal{A}$ can use every workflow open to $u$
+(request delegations, own objects, edit drafts, join collaborations); it benefits from, but cannot make,
+administrative changes such as moving $u$ to another department.
+\end{definition}
+
+\begin{definition}[Attack goals]\label{def:goals}
+Let $\Delta^\ast\ge0$ be the staleness the operator tolerates. A run is an \emph{attack} if it contains:
+\textbf{G1, unjustified effect:} $\ev{eff}(r,u,o,a)$ at $t$ with $u\in U_{\mathcal{A}}$ such that $\mathcal{M}$
+denies $(u,o,a,c)$ in $\sigma_{t'}$ for every $t'\in[t-\Delta^\ast,t]$;
+\textbf{G2, requirement violation:} an $\allowv$ for a request $q$ of $u\in U_{\mathcal{A}}$ at $t$ and some
+$\phi\in R$ with $\neg\phi(\sigma_{t'},t',q,\allowv)$ for every $t'\in[t-\Delta^\ast,t]$;
+\textbf{G3, unrecorded decision:} a decision event $e$ of a request $k$ of $u\in U_{\mathcal{A}}$ whose
+$\ev{resp}_k$ is not preceded by $\ev{rec}(e)$;
+\textbf{G4, lingering access:} a G1 effect whose only justification in $\mathcal{M}$ was a grant that ended before
+$t-\Delta^\ast$;
+\textbf{G5, unauthorised administration:} a $\ev{com}$ changing $\mathit{Asg}$ or $\mathit{Del}$ on behalf of
+$u\in U_{\mathcal{A}}$ that the administrative policy $\Pi_{\mathrm{adm}}$ (approver, owner, the object's director,
+administrators) does not authorise.
+\end{definition}
+
+G1 and G2 are \emph{historical}: with caching, no $\Delta^\ast>0$ can promise more, since a grant may end between
+the state a decision reads and the decision.
+Table~\ref{tab:adv} groups attacks into seven classes; each has a \emph{primary} level whose oracle observes it on
+its own. Only A1 is visible to an oracle that tests the decision function.
+
+\begin{table}[t]
+\caption{Adversary classes: capabilities, goal, primary level.}
+\label{tab:adv}
+\small
+\begin{tabularx}{\columnwidth}{@{}l@{\;}X@{\;}l@{\;}l@{\;}l@{}}
+\toprule
+ & Class & Cap. & Goal & Lvl \\
+\midrule
+A1 & over-privileged insider: the chain allows too much & 1, 4 & G2 & L1 \\
+A2 & lingering grantee: uses a revoked or expired grant & 1, 3 & G4 & L2 \\
+A3 & racer: decides concurrently with a revocation & 2 & G4 & L2 \\
+A4 & path shopper: a route or action the PDP does not see & 1 & G1 & L3 \\
+A5 & owner and mover: ownership, also after moving & 1, 4 & G1 & L3 \\
+A6 & silent prober: denials leave no record & 1 & G3 & L3 \\
+A7 & unauthorised revoker: removes others' grants & 1 & G5 & L3 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% =====================================================================================
+\section{Layered Conformance}
+\label{sec:levels}
+% =====================================================================================
+
+\begin{definition}[Conformance levels]\label{def:levels}
+A deployment is
+\emph{L1-conformant} if for every world $w$, $\mathcal{I}(w)=\mathcal{M}(w)$ (decision and deciding rule) and
+$\phi(w,\mathcal{M}(w))$ holds for every $\phi\in R$;
+\emph{L2$_\Delta$-conformant} if in every run each PDP event $\ev{dec}(u,o,a,d)$ at $t$ satisfies
+$d=\mathcal{I}(\sigma_{t'},t',q)$ for some $t'\in[t-\Delta,t]$; L2$^+_\Delta$ requires this of allows only, and
+L2$^c_\Delta$ (\emph{componentwise}) only for a \emph{view} that takes attributes from $\sigma_t$ and each grant set
+$G^g$ from some $\sigma_{t_g}$, $t_g\in[t-\Delta,t]$;
+\emph{L3-conformant} if in every run (i) every $\ev{eff}_k(r,u,o,a)$ at $t$ is preceded in request
+$\ev{req}_k(r,u,o,a_c,c)$ by a PDP event $\ev{dec}_k(u,o,a,\allowv)$ for the request's own principal, object and
+context, where $a=\alpha_r(a_c)$ and $\alpha_r$ is constant in $a_c$ on routes with effects, and every obligation
+of that decision is discharged before $t$; (ii) the same holds with $\Pi_{\mathrm{adm}}$ in place of the PDP for
+routes that change grants; and (iii) every $\ev{dec}_k$ event $e$ is followed by $\ev{rec}(e)$ before
+$\ev{resp}_k$, whatever the outcome.
+\end{definition}
+
+L3 is a safety property in
+Schneider's sense \cite{schneider2000enforceable}: every violation shows in a finite prefix, so a monitor or probe
+can detect it. L2$_\Delta$ implies L2$^+_\Delta$ and L2$^c_\Delta$, but L2$^c_\Delta$ implies neither: a view may
+combine grant sets that never held together (Proposition~\ref{prop:mixed}).
+
+\begin{theorem}[Composition]\label{thm:compose}
+If a deployment is L1-, L2$^+_\Delta$- and L3-conformant, then in every run (a) every effect $\ev{eff}(r,u,o,a)$ is
+justified: $\mathcal{M}(\sigma_{t'},t',(u,o,\alpha_r,c))=\allowv$ and all $\phi\in R$ hold there, for some $t'$ at
+most $\Delta$ before the decision that preceded the effect; and (b) every decision is recorded. Hence no run
+reaches G1 or G2 with $\Delta^\ast\ge\Delta+d$, where $d$ bounds the time from a decision to its effect, and no
+run reaches G3 or G5.
+\end{theorem}
+\begin{proof}
+Take $\ev{eff}_k(r,u,o,a)$ at $t$. By L3(i) it is preceded in request $k$ by $\ev{dec}_k(u,o,a,\allowv)$ at some
+$t_d\le t$, with $a=\alpha_r(a_c)$, $q=(u,o,a,c)$ and $t-t_d\le d$. By L2$^+_\Delta$,
+$\mathcal{I}(\sigma_{t'},t',q)=\allowv$ for some $t'\in[t_d-\Delta,t_d]$. By L1, $\mathcal{M}$ returns the same
+decision there, and every $\phi\in R$ holds. Since $t'\ge t-\Delta-d$, the effect is no G1 event for
+$\Delta^\ast\ge\Delta+d$, and the same witness shows that no PDP allow is a G2 event. L3(iii) excludes G3 and L3(ii)
+excludes G5. G4 is a case of G1.
+\end{proof}
+
+\begin{proposition}[Independence]\label{prop:indep}
+For each level there is a deployment that conforms at the other two and not at it.
+\end{proposition}
+(Proof in Appendix~\ref{app:proofs}.)
+Each construction is one we observed (F1, the v1 delegation cache, OpenFGA's check cache): one
+oracle, however thorough, cannot replace the three.
+
+% =====================================================================================
+\section{Method}
+\label{sec:method}
+% =====================================================================================
+
+\paragraph{One semantics, three readings.} We write each chain once, as (rule, effect, guard) triples whose guards
+are functions of an abstract environment and a logic interface. With Python booleans the code is a test oracle;
+with z3 \cite{demoura2008z3} terms over uninterpreted sorts it yields proofs for any number of departments,
+divisions and actions; as Cedar expressions it compiles to Cedar policies. The proofs are therefore about the very
+semantics the tests compare with the implementation.
+
+\paragraph{L1: making a bounded check complete.} The L1 oracle runs the \emph{unmodified} PDP, including the code
+that builds its context, over a bounded world space $W$, and compares decision and deciding rule with $\mathcal{M}$;
+only the data sources are stubbed (the grant cache returns the world's grant sets). The obvious objection is that
+$W$ is small. The answer is that the PDP cannot tell apart worlds that look the same through a fixed set of
+observations. The \emph{observation vector} of a world is
+\[
+\obs(w)=\bigl(\role(u),\kappa_C(\mathsf{clr}(u)),\kappa_S(\mathsf{sens}(o)),\,b_1,\dots,b_9\bigr),
+\]
+where $b_1..b_9$ are the atoms $\sameDept$, $\mathsf{div}(u)=\bot$, $\sameDiv^\circ$, $\rho\ge\theta$,
+$a=\mathit{read}$, $a\in\Gasg_t$, $a\in\Gdel_t$, $\Gasg_t\neq\emptyset$, $\Gdel_t\neq\emptyset$; for the owner
+exception, $\mathcal{M}$, $R$ and the v2 PDP also use $[\mathsf{own}(o)=u]$ and $[a=\mathit{download}]$.
+\emph{Criterion G} fixes the language decision code may use: (a) values of open sorts (departments, divisions,
+identifiers, actions, grant sets) only through observations, i.e.\ (in)equality or \texttt{is None} against a
+non-constant term of the same sort, comparison of the action with a constant obs represents, membership of the
+action in a grant set, non-emptiness of a grant set; (b) closed attributes only if obs represents them; (c) the
+request context only through the risk helper, whose result is compared only with $\theta$; (d) anything else only
+into sinks (strings, trace, logs), which no branch condition reads; (e) helpers receiving an entity read no
+open-sort attribute.
+
+\begin{lemma}[Data independence]\label{lem:di}
+If the decision procedure is loop-free and satisfies G, checked over its decision functions and every helper that
+receives an entity, then, assuming the language's semantics of equality and membership, $\mathcal{I}(w)=g(\obs(w))$
+for some $g$ and all worlds $w$, whatever the domain sizes.
+\end{lemma}
+(Proof in Appendix~\ref{app:proofs}.)
+
+\begin{theorem}[Completeness of bounded checking]\label{thm:complete}
+Let $V_{\mathrm{sat}}$ be the observation vectors satisfiable over unbounded domains. If
+$V_{\mathrm{sat}}\subseteq\obs(W)$ and $\mathcal{I}=\mathcal{M}$ on $W$, then $\mathcal{I}=\mathcal{M}$ on all
+worlds, and a requirement is violated by some world iff it is violated in $W$.
+\end{theorem}
+\begin{proof}
+For any $w$ pick $w'\in W$ with $\obs(w')=\obs(w)$. Then $\mathcal{I}(w)=g(\obs(w))=\mathcal{I}(w')=\mathcal{M}(w')
+=\mathcal{M}(w)$, and every requirement is a function of $\obs$ and the decision.
+\end{proof}
+
+Both premises are checked by tools, not argued. An AST checker verifies G and exports a certificate listing every
+open-sort occurrence with its observation class. To show the checker is not vacuous we seeded ten violations, from an ordering on
+departments and a grant-set cardinality to a context value deciding outside the risk helper. Our first checker
+accepted three of them; the revised one flags all ten and still accepts both unmodified PDPs. A z3 enumeration
+lists $V_{\mathrm{sat}}$ and compares it with $\obs(W)$. Counts of violating worlds stay specific to $W$; what
+transfers is whether a requirement holds at all.
+
+\paragraph{L2: state.} A \emph{cold-cache} oracle inserts grants in every lifecycle state into the real database
+and compares the PDP's queries with $\Gasg_t,\Gdel_t$. With the cache, the question is how stale a decision can
+be. For the plain TTL cache of v1 and most applications the answer is exact.
+
+\begin{theorem}[Bounded staleness, per component]\label{thm:stale}
+Suppose the cache stores, per $(u,o)$ and grant kind $g$, the action set read from committed state at $t_r$, writes
+it at $t_w\le t_r+\epsilon$ with lifetime $\tau_g$, and checks validity bounds only on a miss, while attributes
+are read at decision time. Then every decision at $t$ reads, for each $g$, $G^g_{t_g}(u,o)$ for some
+$t_g\in(t-\tau_g-\epsilon,t]$: the deployment is L2$^c_{\tau+\epsilon}$ with $\tau=\max_g\tau_g$. If a grant of kind
+$g$ stops holding at $t_{\mathrm{end}}$ without invalidation (expiry, or a revocation that does not invalidate)
+while the live entry has age $\delta<\tau_g$, and the entry is neither refilled nor invalidated, it returns the
+ended grant for exactly $\tau_g-\delta$, and a request only this grant allows is allowed for that long.
+Invalidating \emph{before} the commit does not improve the worst case; the bound is tight.
+\end{theorem}
+(Proof in Appendix~\ref{app:proofs}.)
+
+A componentwise bound is not a bound on the state a decision uses, because a chain may combine grant sets cached
+from different states.
+
+\begin{proposition}[Mixed views]\label{prop:mixed}
+With per-component caches as in Theorem~\ref{thm:stale}, \chain is L2$^c_{\tau+\epsilon}$ but not L2$^+_\Delta$ for
+any $\Delta$: some API-reachable run contains an allow that $\mathcal{M}$ gives in no committed state.
+\end{proposition}
+\begin{proof}
+Let employee $u$ belong to another department than $o$. At $t_0$ the object's director assigns $u$
+$\{\mathit{write}\}$ until $t_0+10$\,s, and a write decision caches $\Gasg=\{\mathit{write}\}$ for 120\,s and
+$\Gdel=\emptyset$ for 60\,s ($P_1$ denies). The assignment expires; after the delegation entry has expired, a read
+delegation is approved, which invalidates nothing. A write decision now reads $\Gdel=\{\mathit{read}\}$ from the
+database and $\Gasg=\{\mathit{write}\}$ from the cache: $P_1$ passes and $P_4$ allows. The committed states of the
+run are $(\{\mathit{write}\},\emptyset)$, $(\emptyset,\emptyset)$ and $(\emptyset,\{\mathit{read}\})$, in which
+$\mathcal{M}$ denies by $P_1$, $P_1$ and $P_5$.
+\end{proof}
+
+\begin{proposition}[Single witness]\label{prop:witness}
+Suppose every allow rule's guard reads at most one grant set, and every deny rule before it reads none or is false
+whenever that guard holds. Then each allow computed on a view is also an allow in the committed state
+$\sigma_{t_g}$ of the grant set its deciding rule reads, provided the attributes of $u$ and $o$ did not change in
+$(t_g,t]$. $\mathcal{F}$ satisfies the premise; \chain does not ($P_1$ reads $\Gdel$, the later $P_4$ reads
+$\Gasg$).
+\end{proposition}
+(Proof in Appendix~\ref{app:proofs}.)
+
+The \emph{staleness} experiments warm the cache $\delta$ seconds before a grant ends, end it by revocation or expiry,
+and poll the decision API at 4\,Hz until it denies. For races, we revoke while decisions are in flight, once with a
+decision injected between invalidation and commit, and once under real concurrency.
+
+\paragraph{L3: enforcement.} We list every route that returns protected content, changes state or opens a session,
+record which decision procedures each handler can reach, and probe each route on the running system with fixtures
+chosen to make procedures disagree; ledger rows are counted after allowed and denied requests. Each check is a
+\emph{safety} check (the PDP denies, so no effect may happen) or a \emph{liveness} check (the PDP allows, so the
+effect must happen), so a fix cannot pass by refusing everything. The inventory is generated from the web
+framework's routing table; paths outside it (the collaboration server, scheduled jobs) are added by hand. Two
+sweeps need no per-route fixtures: a \emph{stranger sweep} sends every in-scope GET route, with real object
+identifiers, as subjects who must be refused, and flags any response that contains marked content; a \emph{state
+sweep} sends every state-changing route as such subjects and flags any database change.
+
+\paragraph{Adequacy.} We apply first-order mutation (relational, connective, negation, membership, constant, effect
+and condition operators) to the decision logic, and separately to the enforcement and cache code. A mutant is
+killed if a test or oracle fails on it; the score is the share of non-equivalent mutants killed. Because an oracle
+built while studying survivors can fit its operators, we also apply \emph{held-out} operators (statement deletion,
+swallowed exceptions, swapped arguments) to the frozen L3 probe.
+
+\paragraph{Setup.} Python 3.12.3, FastAPI 0.115.5, SQLAlchemy 2.0.36, PostgreSQL 16.15, Redis 7.0.15, z3 5.3.3 and
+cedarpy 4.12.2, on a container with 2 vCPUs and 8\,GB. Fixtures go through the API wherever an endpoint exists.
+
+% =====================================================================================
+\section{Evaluation}
+\label{sec:eval}
+% =====================================================================================
+
+\subsection{RQ1: The Rule Level}
+\label{sec:l1}
+
+\paragraph{Completeness.} Criterion G holds for the v1 PDP (82 open-sort occurrences, three entity-passing helpers,
+all checked). The coverage step then caught us out: our world space missed custom roles, which administrators can
+create, and an object in another department carrying the subject's division identifier, which the API does not
+prevent. With both added, $W$ (5 roles, 2 subject divisions, 6 object placements, all clearance--sensitivity pairs,
+all 64 grant-set pairs over three actions, 4 actions, 2 risk levels; 368{,}640 worlds, 82{,}944 API-reachable)
+realises all 1{,}440 satisfiable vectors and all 864 API-reachable ones. By Theorem~\ref{thm:complete}, the results
+below hold for domains of any size (Table~\ref{tab:verdict}).
+
+\begin{table}[t]
+\caption{Verdicts. Impl.: \chain v1 under API-reachable states. Doc.: $\mathcal{S}_{\mathrm{doc}}$. v2: $\mathcal{F}$.
+\ok\ proved for unbounded domains (z3); \no\ counterexample, with the number of API-reachable violating worlds.}
+\label{tab:verdict}
+\small
+\begin{tabular}{@{}l@{\;}l@{\;}c@{\;}c@{\;}c@{}}
+\toprule
+ & Requirement & Impl. & Doc. & v2 \\
+\midrule
+R1 & isolation & \ok & \ok & \ok \\
+R2 & classification & \ok & \ok & \ok \\
+R3 & need-to-know & \ok & \no & \ok \\
+R4 & delegation suffices & \no\,108 & \no & \ok \\
+R5 & cross-dept.\ only via delegation & \no\,1{,}296 & \ok & \ok \\
+R6 & risk & \no\,9{,}876 & \no & \ok \\
+R7 & every allow within a rule's scope & \ok & \no & \ok \\
+LP & employee least privilege (with $\ow$) & \no\,864 & \ok & \ok \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Fidelity and drift.} On all 368{,}640 worlds the PDP returned $\mathcal{M}$'s decision and deciding rule,
+with no indeterminate result (24.5\,s). $\mathcal{S}_{\mathrm{doc}}$ disagrees with it on 18{,}960 worlds; D1 explains
+all 4{,}032 API-reachable ones. D2 matters only for division managers without a division, which the PAP forbids; so
+R2 depends on an administrative check (it would fail in 1{,}536 worlds without it).
+
+\begin{theorem}[What v1 gets right]\label{thm:pos}
+Under API-reachable states, \chain satisfies R1, R2, R3 and R7 for any number of departments, divisions and actions.
+\end{theorem}
+(Proof in Appendix~\ref{app:proofs}.)
+
+\begin{proposition}[The risk rule never changes a decision]\label{prop:inert}
+For all $u,o,a$ and contexts $c,c'$ that differ only in risk signals,
+$\pi_d(\decide_{\sigma,t}(u,o,a,c))=\pi_d(\decide_{\sigma,t}(u,o,a,c'))$, where $\pi_d$ projects onto the decision.
+\end{proposition}
+\begin{proof}
+Every allow rule comes before $\Px$, and no guard before $\Px$ mentions $\rho$, so the first applicable rule among
+those before $\Px$ is the same in both contexts. If it exists, both results agree. Otherwise both evaluations reach
+$\Px$, and whether $\Px$ or $P_7$ then applies, both deny.
+\end{proof}
+\noindent The deciding rule can differ (a custom-role subject without grants is denied by $P_7$ at low risk and by
+$\Px$ at high risk); what is ruled out is that risk ever turns an allow into a deny. All 184{,}320 pairs of worlds that differ only in risk get the same decision. Reading C2 the other way does not
+help: R6 then holds only because $P_7$ already implies it, so the rule is dead under either reading. Our own unit
+test for $\Px$ passes \emph{because} of this: it checks that a low-risk director is allowed, which $P_2$ settles.
+
+\begin{proposition}[A read delegation unlocks writes]\label{prop:unlock}
+In some API-reachable state, a non-administrator holding only a read delegation for an object of another
+department is allowed to \emph{write} it.
+\end{proposition}
+\begin{proof}
+$P_1$ only checks $\Gdel\neq\emptyset$, and $P_4$ has no department condition. A division manager $u$ with
+$\Gdel_t(u,o)=\{\mathit{read}\}$ and $\mathit{write}\in\Gasg_t(u,o)$ passes $P_1$--$P_3$ and is allowed by $P_4$.
+\end{proof}
+\noindent This is case (b$_2$); the object's director may assign anyone. We reproduced it through the API: the write is denied by $P_1$ before the
+delegation and allowed by $P_4$ after it (R5, 1{,}296 reachable worlds). Further, an employee holding only a read
+delegation is denied by $P_5$ before $P_6$ is reached (R4), although the user interface offers employees a
+``request access'' button that creates such delegations; and an employee whose assignment includes \emph{write} may
+write (LP, 864 worlds), because the PAP accepts any action list.
+
+\answer{1}{Yes: G holds and $W$ realises every satisfiable observation vector, so the L1 check is complete. The PDP
+matches its model on all 368{,}640 worlds and satisfies R1--R3 and R7, but the risk rule never decides (R6), a read
+delegation unlocks writes (R5), delegations are shadowed (R4), and our least-privilege theorem is false for the code.}
+
+\subsection{RQ2: The State Level}
+\label{sec:l2}
+
+\paragraph{Cold cache.} On all 420 lifecycle worlds (five assignment and seven delegation states) the PDP's queries
+agree with $\Gasg_t$ and $\Gdel_t$, so every temporal problem below comes from the cache.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.86\textwidth]{figs/fig_l2.pdf}
+\caption{L2 results. (a) Every v1 staleness trial ($n=10$ per setting) against the prediction $\tau_g-\delta$ of
+Theorem~\ref{thm:stale} (dashed: $\tau=60$\,s; dotted: $\tau=120$\,s); race points use one injected concurrent
+decision. (b) OpenFGA, every trial ($n=10$ per setting): check cache, with the cache controller, with
+\texttt{HIGHER\_CONSISTENCY}, and default configuration. (c) Revocations followed by an allow from a re-cached grant
+under a two-worker server (200 trials per version).}
+\label{fig:l2}
+\end{figure*}
+
+\paragraph{Measurements.} Revoking a \emph{delegation} never touches the cache: windows were 60.1, 45.2, 30.2 and
+14.8\,s at $\delta=0,15,30,45$\,s (Figure~\ref{fig:l2}a). Revoking an \emph{assignment} invalidates, and closed
+within 0.22\,s. \emph{Expiry} is never checked against cached entries: delegations stayed usable 50.3, 30.2 and
+10.3\,s after $t_e$, assignments 100.3, 60.2 and 20.2\,s after $t_u$. Across all 100 trials the windows differ from
+$\tau_g-\delta$ by $-0.43$ to $+0.63$\,s, consistent with the 0.25\,s polling pause and concurrent trials (the
+$\epsilon$ of Theorem~\ref{thm:stale}).
+
+\paragraph{The race.} Assignment revocation invalidates \emph{before} the request commits. With one decision
+injected in between, a revoked assignment stayed usable for 120.1--120.3\,s ($n=10$). The race is not rare: under a two-worker server, \textbf{98 of 200} revocations (49\,\%; 95\,\% Wilson interval
+42--56\,\%) were followed, \emph{after} the revoking request returned, by an allow from a re-cached grant
+(Figure~\ref{fig:l2}c). With one worker we counted 174 of 400 and 315 of 600 in two campaigns: the race needs
+concurrent requests, not a second process. This is class A3: an insider who keeps requesting during a revocation
+wins about half the time.
+
+\paragraph{Mixed views and sessions.} We ran the run of Proposition~\ref{prop:mixed} through the API (assignment, warming decision,
+expiry, delegation request and approval, write decision 63\,s later): in 10 of 10 trials v1 allowed the write by
+$P_4$ and \texttt{/pep/access?action=write} returned the file, although every committed state of the run denies it.
+No staleness tolerance excuses this: G1 holds for every $\Delta^\ast$. Removing a document collaborator invalidates
+nothing, and an open collaboration session is never re-checked: with the real collaboration server, a removed
+collaborator's session was still open with write permission 30\,s later in 10 of 10 trials (F8), the absence of
+ongoing authorization in usage-control terms \cite{park2004ucon}.
+
+\answer{2}{With a cold cache, decisions match stored state. The cache keeps ended grants usable for $\tau_g-\delta$,
+within 0.63\,s of Theorem~\ref{thm:stale} over 100 trials; invalidating before the commit lets concurrent requests
+re-admit revoked grants (98 of 200 with two workers); sessions are never re-checked; and mixed cached views allowed,
+in 10 of 10 trials, a write that no committed state allows.}
+
+\subsection{RQ3: The Enforcement Level}
+\label{sec:l3}
+
+Reading the code, we found four procedures that decide reads: the PDP, the document service's rules, the
+collaboration server's connect-time check, and a rule copy that only decides whether to show a ``request access''
+button; the generated inventory later showed a fifth. Only the decision API and the file endpoints call the PDP. Our
+L3 probe has 57 checks (34 safety, 23 liveness); v1 fails 31 safety checks.
+
+\paragraph{Lost denials.} The file endpoints write the decision, raise HTTP 403, and let the request transaction roll
+back: every denial disappears with its audit entry (0 of 20 rows), while the error message says the denial ``is
+permanently logged''. Class A6 relies on this. Nor is the ledger append-only: deleting a subject cascades into it.
+
+\paragraph{Paths around the PDP\@.} The document API lets any employee read any published document of her
+department in full, without an assignment or the classification test, violating R2 and R3, which the PDP provably
+satisfies: a TOP\_SECRET document reaches an employee with \emph{normal} clearance while the file endpoint on the
+linked object returns 403, also after the director deletes the object. Collaborators with \emph{normal} clearance
+read TOP\_SECRET drafts. The owner bypass grants every action before the PDP runs (\texttt{/access?action=delete}
+returns 200 on another department's object the requester owns), with no obligations or risk check, and survives a
+move to another department, breaking R1. A director without MFA is refused by \texttt{/access} on a TOP\_SECRET
+object but served by \texttt{preview} and \texttt{download}; the download endpoint evaluates the action the client
+sends, so with an assignment of $\{\mathit{read}\}$ it returns the file when no action is sent. The PDP never reads
+a policy's status, so the PAP can show an enforced rule as inactive, and any authenticated user can revoke anyone's
+grants.
+
+\paragraph{Routes we had not listed.} All of the above came from an inventory built by reading the code. Generated
+from the routing table, it has 152 API routes; 100 are in scope, and for v1 six of them reach no decision procedure.
+Four are known or deliberate; the other two, comment resolution and signing, are new. Because reaching a procedure
+does not mean applying it to the right object, the sweeps then sent 48 GET routes and 52 state-changing routes as
+subjects who must be refused. They found four more failures (F15--F18 in Table~\ref{tab:findings}): comment
+resolution and signing decide nothing; the document list is a fifth decision procedure, a query that returns every
+published document of the department with its content and ignores $\Pc$; any subject reads any delegation; and
+directors and division managers publish, escalate and remove other departments' documents and folders. The state
+sweep flags ten routes on v1 and one on v2 (a folder creation that no requirement covers). Names of unreadable objects appear on six routes of v1 and five of v2; $R$ constrains
+actions, not names, so we do not count these. Ten creation routes were not exercised (minimal bodies rejected, or an
+upload needed).
+
+\begin{table}[t]
+\caption{Findings on v1, by level, adversary class and evidence (P proof; X exhaustive count; R reproduced on the
+running system; C code inspection). All are fixed in v2. F15--F18 appeared only once the inventory was generated.}
+\label{tab:findings}
+\small
+\begin{tabularx}{\columnwidth}{@{}l@{\;}l@{\;}l@{\;}X@{\;}l@{}}
+\toprule
+ID & Lvl & Cl. & Finding & Ev. \\
+\midrule
+F1 & L1 & A1 & Risk rule $\Px$ never decides (Prop.~\ref{prop:inert}) & P,X \\
+F2 & L1 & A1 & $P_5$ shadows employee delegations (R4) & P,X \\
+F3 & L1 & A1 & Read delegation unlocks cross-department writes & P,X,R \\
+F4 & L1 & A1 & Spec drift D1--D3; least-privilege theorem false & P,X \\
+F5 & L2 & A2 & Delegation revocation, collaborator removal never invalidate & R,C \\
+F6 & L2 & A2 & Validity bounds ignored for cached grants & R \\
+F7 & L2 & A3 & Invalidation before commit re-admits revoked grants & R \\
+F8 & L2 & A2 & Collaboration sessions authorized only at connect & R,C \\
+F9 & L2 & A2 & Mixed cached views allow what no committed state allows & P,R \\
+F10 & L3 & A6 & Denials rolled back; ledger not append-only & R,C \\
+F11 & L3 & A4 & Document API and collaboration server bypass the PDP & R,C \\
+F12 & L3 & A5 & Owner bypass: every action, no risk, survives a move & R \\
+F13 & L3 & A4 & Obligations on one endpoint; client chooses the action & R \\
+F14 & L3 & A7 & PAP status ignored; revocation needs no authority & R,C \\
+F15 & L3 & A4 & Comment resolution and signing decide nothing & R,C \\
+F16 & L3 & A4 & Document list: own query, full content, no $\Pc$ & R \\
+F17 & L3 & A4 & Any subject reads any delegation & R \\
+F18 & L3 & A4 & Publishing, escalation, folder removal across departments & R \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\answer{3}{Five procedures decide reads; only the decision API and the file endpoints ask the PDP. Other paths
+bypass or skip it, obligations hold
+on one of three file endpoints, the client chooses the action, denials are never recorded, and anyone can revoke
+grants. Fourteen of 18 findings lie outside the decision function; four appeared only once the inventory was
+generated from the routing table.}
+
+\subsection{RQ4: Which Oracle Sees Which Fault?}
+\label{sec:adequacy}
+
+Our repository has 140 tests (22 unit, 42 ``conformance'', 76 integration). As committed, 59 integration tests fail
+together on a login limit and a CSRF header they predate; a pytest plugin lifts both without changing the
+application, and then 138 pass and 2 are skipped. Coverage is 95\,\% for the PDP but 25\,\% for the PEP
+and 28\,\% for the delegation workflow, which predicts the mutation results (Table~\ref{tab:mut}).
+
+\paragraph{Decision logic.} Of 96 mutants of the v1 PDP, 13 are equivalent on valid inputs, 3 differ only at the
+instant a validity bound is reached, and 1 needs inconsistent administrator flags, leaving 79. (The 3 boundary
+mutants are not harmless: a frozen-clock oracle kills all three, and two allow a request at the instant its grant
+ends.) The 11 that escape the L1 oracle all change the database queries on the cache-miss path; the L2 cold-cache
+oracle kills every one. Of the 7 that escape our whole suite, 4 are state-level mutants only the cold-cache oracle detects (honouring
+not-yet-valid assignments, others' delegations, delegations for other objects, unapproved delegations).
+
+\paragraph{Enforcement and cache code.} We mutated the code we wrote for v2 (the PEP gate, the document decision,
+revocation handlers, the versioned cache, the invalidation hooks, the address middleware): 157 mutants after
+dropping 2 in the cost-ablation switch. The repository suite kills 21; the final 57-check probe kills 116, and only 2
+are killed by the suite alone. The probe grew with the analysis (Table~\ref{tab:mut}), so we inspected all 39 survivors by
+hand. 36 cannot change a decision, effect or record in an API-reachable state (11 only bypass the cache, 7
+equivalent, 6 metadata or notice, 5 shift a lifetime by 0.1\,\% or a cut-off by 1\,ms, 2 masked by a redundant
+defence, 2 fail closed, 2 need a state no route creates, 1 adds cache misses). Three can change a decision: one makes the document route's risk test
+strict, which matters only for unpublished documents at $\rho=\theta$; one makes an owner lose access to her own
+draft; one lets the address-change term refuse a collaborator's session. The probe's fixtures do not vary these inputs. The bounded document check E1c (\S\ref{sec:rq5}) kills the first two (97{,}524 and 11{,}016 violating worlds)
+and both unreachable-state mutants, and agrees with the three equivalent ones; nothing we have kills the third.
+
+\paragraph{Held-out operators.} We froze the 57-check probe and applied three operators not used while building it
+(statement deletion, \texttt{raise} turned into a silent return, swapped call arguments) to the same functions: 109
+mutants. The probe kills 76 (69.7\,\%), close to its 73.9\,\% on the original operators; the suite kills 34, all also
+killed by the probe. Of the 33 survivors, 30 cannot change a decision, effect or record (7 bypass the cache, 6
+equivalent, 6 masked by redundant keys, 6 change an error response, 5 metadata or notices); 3 can change a record and
+none can grant access: two drop the audit row of an administrative revocation, and one lets an authorised revoker
+revoke an unapproved delegation. The probe counts records of access requests, not of administrative changes.
+
+\begin{table}[t]
+\caption{Mutation scores per oracle. Top: v1 PDP (79 non-equivalent mutants). Bottom: v2 enforcement and cache code.
+$^{*}$On an earlier v2 (158 mutants).}
+\label{tab:mut}
+\small
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Oracle & killed & score \\
+\midrule
+Repository unit + conformance suites & 61 / 79 & 77.2\,\% \\
+Repository, all 140 tests & 72 / 79 & 91.1\,\% \\
+L1 differential oracle & 68 / 79 & 86.1\,\% \\
+L1 $\cup$ L2 cold-cache oracle & 79 / 79 & 100\,\% \\
+\midrule
+Repository suite on v2 enforcement code & 21 / 157 & 13.4\,\% \\
+L3 probe, first version (11 + 6 checks)$^{*}$ & 72 / 158 & 45.6\,\% \\
+L3 probe, 29 checks$^{*}$ & 105 / 158 & 66.5\,\% \\
+L3 probe, final (34 + 23 checks) & 116 / 157 & 73.9\,\% \\
+Repository suite $\cup$ final L3 probe & 118 / 157 & 75.2\,\% \\
+Held-out operators: repository suite & 34 / 109 & 31.2\,\% \\
+Held-out operators: frozen L3 probe & 76 / 109 & 69.7\,\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\answer{4}{Our tests catch decision-logic faults (72 of 79 mutants) but few enforcement faults (21 of 157). L1 and L2
+kill all 79 decision mutants and the L3 probe 116 of 157 enforcement mutants; of the three survivors that can change a
+decision, a bounded check of the document procedure kills two. On held-out operators the frozen probe kills 76 of 109,
+and no survivor can grant access.}
+
+\subsection{RQ5: Repair, Cost and Comparison}
+\label{sec:rq5}
+
+\paragraph{Design rules and the repaired chain.} The findings suggest six rules. \textbf{DR1}: put risk denies before
+every allow, or use deny-overrides. \textbf{DR2}: test grants as $a\in G$, keep the scope condition in every allow
+rule, and let a delegation reach its allow rule. \textbf{DR3}: make cached grants validity-aware and versioned, and
+invalidate \emph{after} the commit, much as Zanzibar uses consistency tokens \cite{pang2019zanzibar}. \textbf{DR4}: one
+decision procedure for every protected path, with the action chosen by the endpoint. \textbf{DR5}: record decisions in
+their own transaction. \textbf{DR6}: test each property at the level where it lives. The repaired chain $\mathcal{F}$
+is: Admin, $\Px$, $P_1$, $\Pc$ (exempting $\ow$), $P_2$, $P_3$, $\Po$ (guard $\ow$), $P_4$ (with $\sameDept$, read
+only), $P_6$, $P_5$, $P_7$, using $\sameDiv$ throughout. z3 proves R1--R7 and LP for $\mathcal{F}$ over unbounded
+domains (Table~\ref{tab:verdict}).
+
+\paragraph{\sysname v2.} We implemented DR1--DR5 as v2 (15 files, $+$579/$-$289 lines, a separate history whose first
+commit is v1). One gate serves all file endpoints and decides every request, owners included, with the PDP. Document
+reads are decided by the PDP on the linked object with the gate's request context, and every route that lists
+documents or touches their parts applies the same decision; workflow routes act only within the actor's department.
+Decisions are recorded in their own transactions, revocation requires authority, built-in rules cannot be shown as
+inactive, and the collaboration server re-checks open sessions every 5\,s. The grant cache keys every entry by three
+generation counters (global, per subject, per object); a fill uses the counters read \emph{before} its database
+query, an SQLAlchemy \texttt{after\_commit} hook increments them for every committed grant change, and entries expire
+no later than their grant.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[font=\scriptsize, >={Stealth[length=1.4mm]}]
+  \draw[->] (0,0) -- (6.9,0) node[right]{$t$};
+  \node[anchor=east] at (0,0.8) {revoke};
+  \node[anchor=east] at (0,-0.8) {decision};
+  \draw[thick, blue!60] (0.2,0.8) -- (3.8,0.8) node[midway, above]{revoking transaction};
+  \draw[fill=blue!60] (3.8,0.8) circle (1.4pt) node[below=1pt]{commit};
+  \draw[fill=red!70] (5.0,0.8) circle (1.4pt) node[above=1pt]{$\mathit{gen}_u\gets k{+}1$};
+  \draw[thick, teal] (1.4,-0.8) -- (6.3,-0.8);
+  \draw[fill=teal] (1.4,-0.8) circle (1.4pt) node[below=1pt]{read gens: $k$};
+  \draw[fill=teal] (3.1,-0.8) circle (1.4pt) node[below=1pt]{DB read (old state)};
+  \draw[fill=teal] (6.3,-0.8) circle (1.4pt) node[below=1pt]{fill under $k$};
+  \draw[dashed, gray] (5.0,0.65) -- (5.0,-1.15);
+  \node[align=center, text width=64mm] at (3.4,-1.6) {every lookup after the bump uses generation $k{+}1$, so the stale fill is never served};
+\end{tikzpicture}
+\caption{Why the v2 cache closes the race: a fill that read the database before the commit is stored under the
+old generation, which no lookup after the commit can reach. In v1, the same fill was served for $\tau_{\mathrm{asg}}$.}
+\label{fig:cache}
+\end{figure}
+
+\begin{proposition}[Freshness of the v2 cache]\label{prop:fresh}
+Assume (i) every committed grant change of $(u,o)$ increments $\mathit{gen}_u$ and $\mathit{gen}_o$ (or the global
+counter, for bulk statements) within $\epsilon_b$ of its commit; (ii) a fill stores the set read under generations
+observed before the read; (iii) no entry is served at or after its grant's end; (iv) a lookup reads generations and
+entry atomically; (v) counters never decrease. If a lookup at $t$ returns $B$ for $(u,o,g)$, then $B=G^g_{t'}(u,o)$
+for some $t'\in[t-\epsilon_b,t]$ (up to grants starting later without a commit, which only make the cache deny).
+\end{proposition}
+(Proof in Appendix~\ref{app:proofs}.)
+\noindent Figure~\ref{fig:cache} shows why this closes the race of RQ2. Both grant kinds share the counters, and $\mathcal{F}$ meets the premise of
+Prop.~\ref{prop:witness}; hence v2 is L2$^+_{\epsilon_b}$ when attributes do not change in that interval.
+Under load (16 clients; 200 assignment creations and revocations with one and with two workers), $\epsilon_b$ had a median of 0.70--0.79\,ms and a maximum of
+4.8\,ms, and the counters always moved before the revocation's response. When the hook's Redis connection failed (refused or timed out,
+ten trials), the increment was lost and the grant kept working for 118--120\,s, as Theorem~\ref{thm:stale} predicts;
+the synchronous timeout also made an unrelated request take 1.8\,s instead of 12--21\,ms.
+
+\smallskip\noindent\fbox{\parbox{\dimexpr\columnwidth-2\fboxsep-2\fboxrule\relax}{\small
+\textbf{What the end-to-end guarantee for v2 assumes.} By Theorem~\ref{thm:compose}, every effect is justified by a
+committed state at most $\epsilon_b+d$ old, and every decision is recorded, if:
+\begin{enumerate}[leftmargin=*,nosep]
+\item runs are well-formed (W1--W3), and an effect follows its decision within $d$;
+\item every committed grant change increments its counters within $\epsilon_b$ (measured: at most 4.8\,ms);
+\item the subject's and object's attributes do not change between cache fill and decision (they are read from
+PostgreSQL at each decision, under \texttt{READ COMMITTED});
+\item the trusted base of \S\ref{sec:threat} is not compromised;
+\item every path to a protected object is in the L3 inventory and its checks pass.
+\end{enumerate}
+If (2) fails because Redis is unreachable, only the TTL bound $\Delta=\tau$ holds (measured: 120\,s). The guarantee
+is never one of current-state authorization.}}
+
+\paragraph{The method found holes in our own fix.} Three times v2 looked finished and was not. The first v2 kept the
+owner rule in the gate, \emph{before} the PDP and so before $\Px$: a high-risk owner was allowed where $\mathcal{F}$
+denies. No probe had a high-risk owner; the owner rule is now $\Po$ inside the PDP, covered by five safety and two
+liveness checks. Second, the session re-check loop for F8 looked up
+sessions under a property the collaboration library does not have, so it re-checked nothing (0 of 5 sessions closed);
+after a one-line fix, 10 of 10 closed within 1.9--4.8\,s. Third, E1c, an L1 check of the document procedure against a
+transcribed reference $\mathcal{M}_{\mathrm{doc}}$ over 604{,}800 worlds, showed that soft-deleting a published
+document's object let its reads fall through to the workflow rules, violating R1, R2 and R3 in 1{,}344, 480 and 384
+worlds; the linked object now decides through the PDP whether active or not. Finally, the generated inventory found
+F15--F18 in v2 too, inherited from v1; seven safety and five liveness checks now cover them, and the v2 before these
+fixes fails all seven safety checks.
+
+\paragraph{Does it work?} The v2 PDP equals $\mathcal{F}$ on all 737{,}280 worlds (with and without ownership),
+violates no requirement, and still satisfies G (96 occurrences; all ten seeded violations flagged); with its two
+extra atoms, coverage finds 4{,}320 satisfiable vectors, all realised, so Theorem~\ref{thm:complete} applies. Its cold
+cache agrees on all 420 lifecycle worlds; E1c reports no violation; all 57 probe checks pass and denials leave 20 of
+20 rows. Staleness windows shrink to the harness resolution (0.03--0.05\,s after delegation revocation,
+0.02--0.14\,s after expiry), with no stale allow in 200 two-worker races (upper 95\,\% bound 1.9\,\%) or in 600
+one-worker races (0.6\,\%), and the mixed-view write is denied in 10 of 10 trials. Of our 140 tests, 137 pass, 2 are
+skipped and 1 fails: it asserts that $P_7$, not $P_5$, denies a request both deny; in $\mathcal{F}$, $P_5$ decides
+first.
+
+\paragraph{Cost.} With 16 closed-loop clients on one server worker, three interleaved runs per version and 3{,}000
+requests per workload and run, runs of one version differed by up to 42\,\% in their median, so we report a difference
+only where every run of one version lies on the same side of every run of the other. Three pass: denied file requests, now recorded in their own transaction, are 32\,\% slower (median 104 to 136\,ms); document
+reads, which now pay a full PDP decision and an unindexed lookup of the linked object, are 47\,\% slower (110 to
+162\,ms; 99th percentile 224 to 326\,ms); assignment creation is 35\,\% faster (169 to 110\,ms). For decisions and
+allowed file requests, pooled medians of v2 are 2--9\,\% higher, within the spread between runs. No request failed
+with a server error.
+
+\paragraph{Cedar.} A first-applicable chain compiles exactly into Cedar's forbid-overrides semantics: rule $i$
+becomes a \texttt{permit} or \texttt{forbid} with condition
+$\gamma_i\wedge\bigwedge_{j<i,\,e_j\neq e_i}\neg\gamma_j$, so the first applicable rule decides. The compiled policies for $\mathcal{M}$ (36) and $\mathcal{F}$ (40) pass Cedar's validator, and Cedar's authorizer
+agrees with our reference on all 368{,}640 and 737{,}280 requests, as does a hand-written 12-policy version of
+$\mathcal{F}$. The translation makes F1 visible: the $\Px$ forbid is guarded by the negation of every allow scope.
+
+\paragraph{Other authorization systems.} To see whether our findings are specific to our code, we applied parts of
+the method, without modifying the systems, to OpenFGA 1.22.1 \cite{openfga}, Cedar's TinyTodo sample
+\cite{cedarexamples} and the Backstage RBAC plugin 8.1.6 \cite{backstagerbac}. This is a \emph{preliminary transfer}: sampled L1 checks, targeted L2 experiments and a few
+L3 probes, without criterion G, coverage or a route inventory (Table~\ref{tab:compare}). At L1 all three agreed
+with a reference on every sampled case, so v1's L1 failures are failures of our chain. The state level is where
+systems differ: failures appear wherever a decision consults a \emph{copy} whose lifetime is not tied to its source,
+the premise of Theorem~\ref{thm:stale}. With OpenFGA's check cache (TTL 10\,s), a deleted tuple kept authorizing for
+10.0 and 5.0\,s at $\delta=0$ and 5\,s, within 0.05\,s of $\tau-\delta$ (Figure~\ref{fig:l2}b); OpenFGA documents this
+trade-off, and the theorem lets the window be predicted, and chosen. At L3, part of enforcement lies outside each authorizer,
+so no rule-level check, even of a verified authorizer, can see it.
+
+\begin{table}[t]
+\caption{\sysname and other authorization systems, by level. All measured by us on unmodified systems. Bold: a failure found by our method. External results are a
+preliminary transfer.}
+\label{tab:compare}
+\footnotesize
+\begin{tabularx}{\columnwidth}{@{}>{\raggedright\arraybackslash}p{1.25cm}@{\;}>{\raggedright\arraybackslash}X@{\;}>{\raggedright\arraybackslash}X@{\;}>{\raggedright\arraybackslash}p{1.6cm}@{}}
+\toprule
+System & L1 (rules) & L2 (state) & L3 (paths) \\
+\midrule
+\sysname v1 & \textbf{risk rule inert; read delegation unlocks writes} & \textbf{$\tau-\delta$, up to 60\,s; race 98/200} & \textbf{five procedures; denials lost} \\
+\sysname v2 & PDP $=\mathcal{F}$; R1--R7, LP proved & $\le$0.14\,s; race 0/200 & one gate; 57/57 checks \\
+OpenFGA 1.22.1 & 5{,}120/5{,}120 checks & 2\,ms; check cache: \textbf{$\tau-\delta$} (10.0/5.0\,s) & PDP only, no PEP \\
+TinyTodo & 0/200 mismatches & \textbf{invalid policy file: new \texttt{forbid} never enforced} (20/20) & 8/8 mediated; \textbf{principal client-asserted} \\
+Backstage RBAC 8.1.6 & 81/81 configurations & \textbf{token claims until reissue} (default up to 1\,h \cite{backstageauth}) & enforced by each plugin \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\answer{5}{Yes. v2 passes every oracle, at a median cost of 32\,\% on denied file requests and 47\,\% on document
+reads; for decisions the difference stays within the spread between runs. The chain compiles exactly to Cedar. The
+three external systems agreed with their rules on every sampled case, and each showed a state-level behaviour by
+which a permission change takes effect late or not at all.}
+
+% =====================================================================================
+\section{Discussion}
+\label{sec:discussion}
+% =====================================================================================
+
+\paragraph{Why our proofs did not catch this.} Our paper proofs of isolation and default deny are correct, as the
+L1 check confirms; but least privilege was proved about $\mathcal{S}_{\mathrm{doc}}$, delegation safety for $P_6$ alone
+(Proposition~\ref{prop:unlock} needs $P_1$ and $P_4$), non-repudiation assumed an append-only ledger we never built, and
+no proof mentioned the cache or the other paths: a proof about $\decide$ discharges only the first premise of
+Theorem~\ref{thm:compose}.
+
+\paragraph{Generality.} The L1 findings belong to \chain; the method does not. Criterion G and coverage apply to
+loop-free decision code that compares open attributes only by equality and membership and has finitely many closed
+attributes; role hierarchies, numeric policies and loops would need their own observations and checker rules.
+Theorem~\ref{thm:stale} applies to any copy of authorization state whose lifetime is not tied to its source, and
+Theorem~\ref{thm:compose} and Proposition~\ref{prop:indep} need only the event model of runs.
+
+\paragraph{Limitations.} We audited our own system; to limit the bias,
+requirements predate the study, both readings of each conflict are reported, and every oracle is automated. Completeness depends on G being checked over the right
+functions and on Python's semantics of equality and membership. L3 is only as complete as the
+inventory and its fixtures: the inventory records the procedures a handler can reach, not the object they are applied
+to; the sweeps send one fixture per route; non-HTTP paths are listed by hand; and the probe checks only the inputs it
+varies. L2 and L3 results rest on targeted
+experiments ($n=10$ per staleness setting, 200 race trials) with 4\,Hz polling; the cost study used one 2-vCPU machine
+and one worker. Backstage ran in its test backend with a fake catalog, and TinyTodo is a demo. Disclosed harness
+interventions: the plugin used only to run our tests, the injected race decision, and four probe checks that lower
+$\theta$.
+
+% =====================================================================================
+\section{Conclusion}
+% =====================================================================================
+
+We set out to check that \sysname did what we had proved it does. The decision point did; the system around it
+re-admitted revoked grants, lost its denials, and served protected content without asking. Layered conformance made
+each failure checkable, and together the three levels bound how stale the justification of an effect can be; none can
+stand in for another.
+
+The broader lesson concerns what a zero-trust deployment should be asked to show. Zero-trust guidance standardises
+decision and enforcement points \cite{rose2020zta}, and verification has made the decision point itself trustworthy
+\cite{cutler2024cedar}; the contract between them remains implicit. Our results suggest stating it per deployment,
+in three parts: a rule-level proof or complete check, a declared staleness bound $\Delta$ with its measurement, and a
+generated inventory of every path with its probes. Some systems already expose part of this contract, such as
+OpenFGA's cache lifetime as a setting and Zanzibar's consistency tokens as an interface, but we know of none that
+states all three parts or checks them together. Making $\Delta$ and the inventory first-class artefacts would let
+operators and auditors ask every zero-trust deployment for the same evidence. Next steps are a typed call graph that
+ties each route to the object it decides on, fixtures that vary every context signal, complete studies of the
+external systems, and the L2 and L3 oracles as regression tests and run-time monitors.
+
+% Camera-ready only (ACM policy on generative AI requires disclosure):
+% \begin{acks}
+% We used an AI assistant to help run experiments, draft and edit text; the authors reviewed every claim,
+% number and line of code and take full responsibility for the content.
+% \end{acks}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+\appendix
+\section{Where the Requirements Come From}
+\label{app:prov}
+\sloppy
+All sources are files of \sysname~v1 written before this study. G: developer guide, ``Hard invariants'' unless stated
+otherwise; S: policy descriptions seeded into the PAP; M: design document. Brackets mark the one word we changed: our
+earlier documents name the employee role differently.
+\begin{itemize}[leftmargin=*,nosep]
+\item R1: G ``cross-dept = deny unless delegated''; S ($P_1$) ``Denies all cross-department access''.
+\item R2: S ($\Pc$) ``Blocks access when subject clearance rank is below resource sensitivity rank \ldots{} PUBLIC
+resources are exempt''.
+\item R3: G ``[employee] access $\leftrightarrow$ assigned or delegated'' ($\Rightarrow$); S ($P_4$) ``only for actions
+included in the assignment''; S ($P_6$) ``scoped to the approved action list''.
+\item R4: G, same invariant ($\Leftarrow$). Conflicts (C1) with S ($P_5$): ``role=[Employee] $\wedge$ Assigned(u,o)=0
+$\Rightarrow$\allowbreak{} deny''.
+\item R5: G ``cross-dept = deny unless delegated'' and ``delegation = read-only''.
+\item R6: S ($\Px$) ``Denies access when the computed risk score for the request meets or exceeds the configured
+threshold''. Conflicts (C2) with M ``evaluated after all structural allow/deny rules''.
+\item R7: S ($P_7$) ``Denies everything not explicitly allowed''.
+\item $\ow$: G, resource portal section, which ``mirrors [the] P1--P7 chain: Admin $\to$ Owner $\to$
+Cross-dept+no-delegation $\to$ \ldots''. Conflicts (C3) with G's employee invariant and S ($\Pc$), which name no owner.
+\item LP: M, Theorem ``[Employee] Least-Privilege'', and M ``assignments grant read access only, never write''; G, rule
+table: $P_4$ ``\ldots{} $\wedge$ action=read $\Rightarrow$ allow'', and ``[Employee] $\to$ read-only on assigned resources
+within their division''. Conflicts (C4) with S ($P_4$) ``only for actions included in the assignment''.
+\end{itemize}
+
+\section{Proofs}
+\label{app:proofs}
+\begin{proof}[Proof of Lemma~\ref{lem:di}]
+Run $\mathcal{I}$ in lockstep on $w_1,w_2$ with $\obs(w_1)=\obs(w_2)$. By induction on executed statements, both
+runs execute the same statements and agree on every closed-sort variable. Control flow changes only at branch
+conditions; by G each atomic sub-expression of a condition is a closed value, equal by hypothesis, or an
+observation of the request's own subject, object and action or of the grant sets looked up for them, hence an atom
+of $\obs$, equal in both runs. Sinks are never read by a condition, and an entity-receiving helper reads only
+closed attributes, so its result, compared only with $\theta$, is an atom. The runs therefore return the same
+decision and rule; the code is loop-free, so the induction is finite. This is the classical data-independence
+argument \cite{wolper1986,lazic2003semantic}, specialised to one decision.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:stale}]
+A live entry was read at $t_r\ge t_w-\epsilon>t-\tau_g-\epsilon$; on a miss $t_g=t$. An entry holding an ended grant
+was read before $t_{\mathrm{end}}$ and, untouched, lives until $t_w+\tau_g=t_{\mathrm{end}}+\tau_g-\delta$. A read
+that falls between an invalidation and the commit stores the old state again, for a full $\tau_g$. For tightness,
+take a read just before $t_{\mathrm{end}}$.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:witness}]
+Let $r_i$ decide the view with allow. In $\sigma_{t_g}$ the attributes and the grant set $r_i$ reads are as in the
+view, so $\gamma_i$ holds; every earlier deny rule reads no grant set (so is false, as in the view) or is false
+because $\gamma_i$ holds. So the first applicable rule in $\sigma_{t_g}$ is an allow. In $\mathcal{F}$, $\Px$ and $\Pc$
+read no grant set; $P_1$ is false when $P_2$, $P_3$, $\Po$ or $P_4$ applies ($\sameDept$) and when $P_6$ applies
+($\Gdel\neq\emptyset$); Admin, $P_2$, $P_3$, $\Po$ read no grant set.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:indep}]
+\emph{Not L1:} a PDP with no cache, one PEP that mediates every route, records written in their own transaction,
+and \chain as its model; \chain violates R6 (Proposition~\ref{prop:inert}). \emph{Not L2:} the same with
+$\mathcal{F}$ and a grant cache with lifetime $\tau>0$ that is not invalidated on revocation; take an entry of age
+$\delta<\tau$ at the revocation and a decision $s$ seconds later with $\Delta<s<\tau-\delta$: it still allows, from
+a state more than $\Delta$ old. \emph{Not L3:} the same with $\mathcal{F}$ and no cache, plus one route that returns
+content after evaluating its own rule; L1 and L2 constrain only PDP events and cannot see it.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:pos}]
+Let $\role(u)\neq\mathrm{adm}$. \emph{R1:} its premise is the guard of $P_1$, the first rule that can fire.
+\emph{R2:} managers have a division, so $\sameDiv^\circ=\sameDiv$ wherever $\Pc$ applies, and no allow rule comes
+before $\Pc$. \emph{R3:} for an employee, $P_4$ needs $a\in\Gasg_t$ and $P_6$ needs $a\in\Gdel_t$. \emph{R7:} each of
+the guards of $P_2$, $P_3$, $P_4$ and $P_6$ implies one disjunct. z3 confirms all four with uninterpreted sorts,
+including the custom role, in under 10\,ms each.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:fresh}]
+Let the entry have been filled from a read of $\sigma_{t_r}$ under generations $\vec{n}$ observed at $t_n\le t_r$; so
+$B=G^g_{t_r}(u,o)$, up to grants that ended after $t_r$, which (iii) excludes. If $t_r\ge t-\epsilon_b$, take
+$t'=t_r$. Otherwise suppose a commit at $t_c\in(t_r,t-\epsilon_b]$ changed a grant of $(u,o)$. By (i) a generation in
+$\vec{n}$ was incremented by $t_c+\epsilon_b\le t$; by (v) the lookup at $t$ read a vector different from $\vec{n}$
+and, by (iv), could not have found the entry, a contradiction. So no grant of $(u,o)$ changed in
+$(t_r,t-\epsilon_b]$, and $B=G^g_{t-\epsilon_b}(u,o)$.
+\end{proof}
+
+\section{Artifact}
+\label{app:artifact}
+The anonymised artifact is available at
+\url{https://anonymous.4open.science/r/sacmat2027-artifacts-4DCC/}. It identifies v1 by
+the SHA-256 prefix \texttt{fb7f20d137add710} of its frozen snapshot and v2 by thirteen patches against it, and contains
+the reference semantics, every oracle, the raw results, the hand classification of every surviving mutant, the
+generated route inventory and both sweeps, \texttt{layercheck} (a reusable core with the three chain interpreters,
+criterion G, the coverage check, staleness measurement and an L3 probe registry), a step-by-step guide with expected
+numbers, and one script that recomputes every number in the paper. The code and artifact call the employee role
+\texttt{analyst}.
+
+\end{document}
