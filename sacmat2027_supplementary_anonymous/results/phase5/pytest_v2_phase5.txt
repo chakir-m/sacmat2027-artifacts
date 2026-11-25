@@ -1,9 +1,0 @@
-# fork HEAD 6a26954, 2026-11-19T20:20:20Z
-
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-=========================== short test summary info ============================
-FAILED tests/test_conformance.py::TestP4NeedToKnow::test_phi_minus_assigned_analyst_write_not_in_actions
-=========== 1 failed, 137 passed, 2 skipped, 103 warnings in 24.50s ============
-Exception ignored in: <function AbstractConnection.__del__ at 0x7f8499851080>
-Traceback (most recent call last):
-RuntimeError: Event loop is closed

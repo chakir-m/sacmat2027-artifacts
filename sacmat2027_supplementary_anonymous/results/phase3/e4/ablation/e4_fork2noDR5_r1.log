@@ -1,8 +1,0 @@
-pg_ctl: another server might be running; trying to start server anyway
-[fork2noDR5_r1] decide_hit   n=3000 median=141.21ms p95=249.93ms thr=103.7/s status={200: 3000}
-[fork2noDR5_r1] decide_miss  n=3000 median=175.66ms p95=290.63ms thr=85.8/s status={200: 3000}
-[fork2noDR5_r1] pep_allow    n=3000 median=192.94ms p95=313.31ms thr=76.6/s status={200: 3000}
-[fork2noDR5_r1] pep_deny     n=3000 median=166.52ms p95=292.64ms thr=87.9/s status={403: 3000}
-[fork2noDR5_r1] doc_read     n=3000 median=270.63ms p95=533.80ms thr=52.0/s status={200: 3000}
-[fork2noDR5_r1] asg_create   n=3000 median=180.51ms p95=305.24ms thr=81.4/s status={201: 3000}
-[fork2noDR5_r1] race {'trials': 1, 'concurrent_decisions': 8, 'workers': 2, 'stale_entry_after_commit': 0, 'allow_after_commit': 0}

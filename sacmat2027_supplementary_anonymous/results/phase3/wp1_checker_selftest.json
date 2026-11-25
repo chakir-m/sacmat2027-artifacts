@@ -1,9 +1,0 @@
-{"original_pdp": "criterion G holds (exit 0)",
- "seeded_violations": {
-  "ordering_on_dept": "flagged (exit 1)",
-  "string_op_on_action": "flagged (exit 1)",
-  "cardinality_of_grants": "flagged (exit 1)",
-  "sink_in_condition": "flagged (exit 1)",
-  "hash_of_division": "flagged (exit 1)",
-  "risk_reads_dept (helper reads an open-sort attribute)": "flagged (exit 1)"},
- "generator": "artifact/wp1_checker_selftest_gen.py"}

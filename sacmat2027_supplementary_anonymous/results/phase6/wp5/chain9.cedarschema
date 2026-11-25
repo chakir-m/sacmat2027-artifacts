@@ -1,5 +1,0 @@
-
-entity User = { "role": String, "dept": String, "div"?: String, "clr": Long };
-entity Res  = { "dept": String, "div"?: String, "sens": Long };
-type Ctx = { "asg": Set<String>, "del": Set<String>, "risk": Long, "own": Bool };
-action "read", "write", "download", "delete" appliesTo { principal: User, resource: Res, context: Ctx };

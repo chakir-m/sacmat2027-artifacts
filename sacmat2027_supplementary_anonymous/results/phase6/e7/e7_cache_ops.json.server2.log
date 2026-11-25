@@ -1,2 +1,0 @@
-SECURITY WARNING: Default/weak secrets in use for: FIRST_ADMIN_PASSWORD, HOCUSPOCUS_SECRET, MINIO_SECRET_KEY. These MUST be changed before production deployment.
-SECURITY WARNING: Default/weak secrets in use for: FIRST_ADMIN_PASSWORD, HOCUSPOCUS_SECRET, MINIO_SECRET_KEY. These MUST be changed before production deployment.

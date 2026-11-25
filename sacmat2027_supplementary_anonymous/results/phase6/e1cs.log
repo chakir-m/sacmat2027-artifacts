@@ -1,8 +1,0 @@
-None original None 604800 604800 {}
-4 ROR 424 507276 604800 {'R6|linked=none|status=draft': 5382, 'R6|linked=active|status=draft': 5382, 'R6|linked=inactive|status=draft': 5382, 'R6|linked=none|status=review': 5490, 'R6|linked=active|status=review': 5490, 'R6|linked=inactive|status=review': 5490, 'R6|linked=none|status=pending_approval': 5490, 'R6|linked=active|status=pending_approval': 5490, 'R6|linked=inactive|status=pending_approval': 5490, 'R6|linked=none|status=approved': 5382, 'R6|linked=active|status=approved': 5382, 'R6|linked=inactive|status=approved': 5382, 'R6|linked=none|status=archived': 5382, 'R6|linked=active|status=archived': 5382, 'R6|linked=inactive|status=archived': 5382, 'R6|linked=none|status=rejected': 5382, 'R6|linked=active|status=rejected': 5382, 'R6|linked=inactive|status=rejected': 5382}
-12 RET 434 593280 604800 {'R1|linked=none|status=published': 2304, 'R2|linked=none|status=published': 1764, 'R3|linked=none|status=published': 672}
-13 CRPb 434 593280 604800 {'R1|linked=none|status=published': 2304, 'R2|linked=none|status=published': 1764, 'R3|linked=none|status=published': 672}
-18 ROR 442 593784 604800 {}
-30 ROR 446 604800 604800 {}
-31 CRP+ 446 604800 604800 {}
-32 CRP- 446 604800 604800 {}
